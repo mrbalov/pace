@@ -10,8 +10,6 @@ Guardrails are part of the system specification.
 Any behavior not allowed by this document is considered undefined
 and must be prevented or safely handled by the implementation.
 
----
-
 ## Scope
 
 These guardrails apply to:
@@ -20,8 +18,6 @@ These guardrails apply to:
 - Image generation
 - Output validation
 - Failure and fallback behavior
-
----
 
 ## 1. Input Guardrails
 
@@ -69,8 +65,6 @@ If semantic validation fails:
 - Prefer graceful degradation
 - Avoid hard failure when possible
 
----
-
 ## 2. Prompt Guardrails
 
 ### 2.1 Allowed Content
@@ -99,8 +93,6 @@ If forbidden content is detected:
 - Maximum prompt length: 400 characters
 - Prompts exceeding this limit MUST be truncated or simplified
 
----
-
 ## 3. Style Guardrails
 
 ### 3.1 Allowed Styles
@@ -124,8 +116,6 @@ For the same activity classification:
 - Style selection SHOULD be deterministic
 - Random variation MUST stay within allowed style boundaries
 
----
-
 ## 4. Image Output Guardrails
 
 Generated images MUST satisfy:
@@ -138,8 +128,6 @@ Generated images MUST satisfy:
 If output validation fails:
 - A retry MAY be attempted
 - OR a fallback MUST be used
-
----
 
 ## 5. Retry and Fallback Strategy
 
@@ -160,8 +148,6 @@ The system MUST never return:
 - Corrupted files
 - Empty responses
 
----
-
 ## 6. Failure Handling
 
 Failures MUST be:
@@ -173,15 +159,11 @@ User-facing behavior MUST:
 - Avoid exposing internal errors
 - Always produce a valid outcome
 
----
-
 ## 7. Determinism and Predictability
 
 Given identical inputs:
 - Classification and style decisions SHOULD be identical
 - Randomness MUST be bounded and controlled
-
----
 
 ## 8. Guardrails as Contract
 
