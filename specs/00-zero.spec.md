@@ -1,14 +1,15 @@
+---
+id: zero
+version: 0.0.1
+status: canonical
+scope: all system specifications
+---
+
 # Zero Specification
-
-## Multi‑Level Specification Architecture
-
-**Version:** 0.1.0  
-**Status:** Canonical  
-**Scope:** All system specifications  
 
 ## Purpose
 
-This document defines the **zero‑level specification** of the system.
+This document defines the **zero‑level specification** of the system. It describes a multi-level specification architecture.
 
 The Zero Specification establishes a **strict, deterministic, multi‑level architecture** for all other specifications.  
 Its goal is to eliminate duplication, ambiguity, and semantic drift between specs by enforcing a clear hierarchy of responsibilities.
