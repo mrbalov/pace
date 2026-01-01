@@ -1,3 +1,8 @@
+---
+id: prompt-generation
+version: 0.0.1
+---
+
 # Prompt Generation Specification
 
 ## Purpose
@@ -216,8 +221,6 @@ Fallback example:
 A simple abstract illustration inspired by outdoor endurance activity,
 minimal style, calm atmosphere
 ```
-
----
 
 ## Versioning
 
