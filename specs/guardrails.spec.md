@@ -1,3 +1,8 @@
+---
+id: guardrails
+version: 0.0.1
+---
+
 # Guardrails Specification
 
 ## Purpose
