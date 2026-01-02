@@ -3,8 +3,8 @@ id: zero
 version: 0.0.1
 level: 0
 status: canonical
-scope: all system specifications
-dependencies: N/A
+scope: global
+dependencies: none
 ---
 
 # Zero Specification
@@ -232,11 +232,11 @@ Examples:
 ## Mandatory Front Matter
 
 - id: string
-- version: string following semver
-- level: number, following this specification
-- status: canonical, regular
-- scope: global, 
-- dependencies: list of dependencies
+- version: string (following semver)
+- level: number (following this specification)
+- status: canonical | regular | draft | deprecated
+- scope: global | domain | integration | meta
+- dependencies: none | string[] (references specifications on what the current specification depend)
 
 ## Summary
 
