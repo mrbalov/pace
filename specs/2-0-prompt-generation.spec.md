@@ -35,6 +35,7 @@ This specification applies to:
 
 Prompt generation **MUST** receive:
 - `type: string` - The activity type (run, ride, trail, walk, hike, yoga, etc.)
+- `sport_type: string` - Descriptor of the sport type
 
 If required fields are missing:
 - Prompt generation **MUST NOT** proceed
@@ -45,7 +46,6 @@ If required fields are missing:
 The following fields **MAY** be used if present:
 - `name?: string` - Activity name
 - `description?: string` - Activity description
-- `sport_type?: string` - Descriptor of the sport type
 - `tags?: string[]` - Activity tags
 - `gear.name?: string` - Name of the gear
 - `device_name?: string` - Name of the device used for recording the activity
