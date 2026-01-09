@@ -40,33 +40,44 @@ Service dependencies graph:
 
 ```mermaid
 graph TD
-    ADS[Activity Data Service] --> CS[Configuration Service]
-    ADS --> CacheS[Cache Service]
-    ADS --> DVS[Data Validation Service]
+    %% External Systems
+    StravaAPI[Strava API]
+    ImageGenAPI[Image Generation API]
     
-    SES[Signal Extraction Service] --> GS[Guardrails Service]
-    SES --> TPS[Text Processing Service]
+    %% Core Services
+    ConfigService[Configuration Service]
+    GuardrailsService[Guardrails Service]
+    ActivityService[Activity Service]
+    DataValidationService[Data Validation Service]
+    ActivitySignalsService[Activity Signals Service]
+    TextProcessingService[Text Processing Service]
+    PromptGenerationService[Prompt Generation Service]
+    ImageGenerationService[Image Generation Service]
     
-    PGS[Prompt Generation Service] --> SES
-    PGS --> GS
-    PGS --> SSS[Style Selection Service]
-    PGS --> MMS[Mood Mapping Service]
+    %% Dependencies
+    GuardrailsService --> ConfigService
     
-    IGS[Image Generation Service] --> PGS
-    IGS --> CacheS
-    IGS --> CS
-    IGS --> RS[Retry Service]
+    ActivityService --> ConfigService
+    ActivityService --> DataValidationService
+    ActivityService --> StravaAPI
     
-    GS --> CS
-    SSS --> CS
-    MMS --> CS
-    TPS --> GS
+    ActivitySignalsService --> GuardrailsService
+    ActivitySignalsService --> TextProcessingService
     
-    CacheS --> CS
-    LS[Logging Service] --> CS
-    RS --> LS
-    MS[Monitoring Service] --> LS
-    MS --> CS
+    PromptGenerationService --> ActivitySignalsService
+    PromptGenerationService --> GuardrailsService
+    
+    ImageGenerationService --> PromptGenerationService
+    ImageGenerationService --> ImageGenAPI
+    
+    %% Styling
+    classDef external fill:#f9f,stroke:#333,stroke-width:2px,color:black
+    classDef core fill:#bbf,stroke:#333,stroke-width:2px,color:black
+    classDef support fill:#bfb,stroke:#333,stroke-width:2px,color:black
+    
+    class StravaAPI,ImageGenAPI external
+    class GuardrailsService,ActivityService,ActivitySignalsService,PromptGenerationService,ImageGenerationService core
+    class ConfigService,DataValidationService,TextProcessingService support
 ```
 
 ### 1. Guardrails Service
@@ -101,8 +112,7 @@ interface GuardrailsService {
 - Transform API responses to internal format.
 
 **Dependencies**:
-- Configuration Service
-- Data Validation Service
+- Guardrails Service
 
 **Interface**:
 ```typescript
@@ -121,7 +131,6 @@ interface ActivityService {
 
 **Dependencies**:
 - Guardrails Service
-- Text Processing Service
 
 **Interface**:
 ```typescript

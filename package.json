@@ -1,0 +1,51 @@
+{
+  "name": "strava-activity-image-generator",
+  "version": "1.0.0",
+  "description": "Generates AI images based on Strava activity data.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrbalov/strava-activity-image-generator.git"
+  },
+  "keywords": [
+    "strava",
+    "ai",
+    "image-generation"
+  ],
+  "author": {
+    "name": "Bohdan Balov",
+    "email": "balovbohdan@gmail.com",
+    "url": "https://balov.dev"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mrbalov/strava-activity-image-generator/issues"
+  },
+  "homepage": "https://github.com/mrbalov/strava-activity-image-generator#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
+    "joi": "^18.0.2",
+    "winston": "^3.19.0"
+  }
+}
