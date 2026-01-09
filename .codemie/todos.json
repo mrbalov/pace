@@ -1,0 +1,83 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "projectPath": "/Users/balovb/Documents/strava-activity-image-generator",
+    "projectHash": "769262be2f0a",
+    "lastModified": "2026-01-08T15:09:18.219Z",
+    "sessionId": "1767884707056-lgcgdo"
+  },
+  "todos": [
+    {
+      "content": "✅ Updated input-generation.spec.md to comply with zero specification format",
+      "status": "pending",
+      "index": 0,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Renamed file to follow proper naming convention: 2-0-prompt-generation.spec.md",
+      "status": "pending",
+      "index": 1,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Added complete front matter with all required fields (id, version, level, status, dependencies)",
+      "status": "pending",
+      "index": 2,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Set specification as Level 2 (Domain Specification) with dependency on Level 1 guardrails",
+      "status": "pending",
+      "index": 3,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Updated version to 1.0.0 to reflect the structural changes",
+      "status": "pending",
+      "index": 4,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Enhanced content with explicit MUST/MAY/MUST NOT language throughout",
+      "status": "pending",
+      "index": 5,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Added detailed contracts for Input and Output",
+      "status": "pending",
+      "index": 6,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Expanded classification rules with tables and clear mappings",
+      "status": "pending",
+      "index": 7,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Added explicit determinism requirements section",
+      "status": "pending",
+      "index": 8,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Ensured no duplication of Level 1 guardrail rules",
+      "status": "pending",
+      "index": 9,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Removed implementation details, keeping focus on behavior",
+      "status": "pending",
+      "index": 10,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    },
+    {
+      "content": "✅ Added proper compliance section referencing Level 1 dependencies",
+      "status": "pending",
+      "index": 11,
+      "timestamp": "2026-01-08T15:09:18.219Z"
+    }
+  ]
+}

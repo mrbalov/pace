@@ -29,7 +29,8 @@ The specification system **MUST** follow these principles:
 4. Explicit contracts between layers  
 5. No implicit inheritance  
 6. No duplication of rules  
-7. Predictable evolution through versioning  
+7. Predictable evolution through versioning
+8. Make use of RFC 2119 keywords: **MUST**, **MUST NOT**, **MAY**, **SHOULD**, etc.
 
 Any specification that violates these principles is **invalid**.
 
@@ -39,7 +40,7 @@ All specifications **MUST** belong to exactly one level.
 
 Cross‑level rule duplication is **forbidden**.
 
-### Level 0 — Meta Specification
+### _Level 0_ — Meta Specification
 
 #### Purpose
 
@@ -55,15 +56,15 @@ Defines how specifications are structured and how they interact.
 
 #### Examples
 
-- 0-0-zero.spec.md
+- `0-0-zero.spec.md`
 
 #### Constraints
 
-- MUST NOT define domain behavior  
-- MUST NOT define runtime logic  
-- MUST NOT reference implementation details  
+- **MUST NOT** define domain behavior  
+- **MUST NOT** define runtime logic  
+- **MUST NOT** reference implementation details  
 
-### Level 1 — Global Guardrails
+### _Level 1_ — Global Guardrails
 
 #### Purpose
 
@@ -79,15 +80,15 @@ Define global, cross‑cutting constraints that apply to the entire system.
 
 #### Examples
 
-- 1-0-guardrails.spec.md
+- `1-0-guardrails.spec.md`
 
 #### Constraints
 
-- Level 1 specifications MAY restrict lower‑level behavior.
-- Level 1 specifications MUST NOT describe implementation details.
-- Level 2+ specifications MUST explicitly declare dependency on at least one Level 1 specification in their front matter.
+- _Level 1_ specifications **MAY** restrict lower‑level behavior.
+- _Level 1_ specifications **MUST NOT** describe implementation details.
+- _Level 2+_ specifications **MUST** explicitly declare dependency on at least one _Level 1_ specification in their front matter.
 
-### Level 2 — Domain Specifications
+### _Level 2_ — Domain Specifications
 
 #### Purpose
 
@@ -102,17 +103,17 @@ Define domain‑specific behavior within global constraints.
 
 #### Examples
 
-- input-generation.spec.md  
-- prompt-generation.spec.md  
-- signal-processing.spec.md  
+- `2-0-prompt-generation.spec.md`
+- `2-1-input-generation.spec.md`
+- `2-2-signal-processing.spec.md`
 
 #### Constraints
 
-- MUST comply with Level 1 guardrails  
-- MUST NOT redefine guardrails  
-- MUST NOT define UI or infrastructure behavior  
+- **MUST** comply with _Level 1_ guardrails  
+- **MUST NOT** redefine guardrails  
+- **MUST NOT** define UI or infrastructure behavior  
 
-### Level 3 — Integration Specifications
+### _Level 3_ — Integration Specifications
 
 #### Purpose
 
@@ -126,15 +127,15 @@ Define how domains interact with each other.
 
 #### Examples
 
-- pipeline.spec.md  
-- orchestration.spec.md  
+- `3-0-pipeline.spec.md`
+- `3-1-orchestration.spec.md`
 
 #### Constraints
 
-- MUST NOT redefine domain logic  
-- MUST describe interaction contracts explicitly  
+- **MUST NOT** redefine domain logic  
+- **MUST** describe interaction contracts explicitly  
 
-### Level 4 — Implementation Notes (Optional)
+### _Level 4_ — Implementation Notes (Optional)
 
 #### Purpose
 
@@ -157,26 +158,26 @@ Provide non‑binding guidance for implementers.
 Every rule **MUST** have a single owning specification.
 
 Rules:
-- MUST NOT be duplicated across specs  
-- MUST be referenced, not copied  
-- MUST live at the lowest valid level  
+- **MUST NOT** be duplicated across specs  
+- **MUST** be referenced, not copied  
+- **MUST** live at the lowest valid level  
 
 Ownership rules:
-- Global rule → Level 1  
-- Domain rule → Level 2  
-- Orchestration rule → Level 3  
+- Global rule → _Level 1_  
+- Domain rule → _Level 2_  
+- Orchestration rule → _Level 3_  
 
 ## Dependency Rules
 
 Specifications **MAY** depend only on lower‑numbered levels.
 
 ### Allowed
-- Level 2 → Level 1  
-- Level 3 → Level 2, Level 1  
+- _Level 2_ → _Level 1_  
+- _Level 3_ → _Level 2_, _Level 1_  
 
 ### Forbidden
 
-- Level 1 → Level 2  
+- _Level 1_ → _Level 2_  
 - Circular dependencies  
 - Implicit dependencies  
 
@@ -223,18 +224,18 @@ No exceptions are allowed.
 
 ## Specification File Naming Conventions
 
-<level>-<number>-<name>.spec.md
+`<level>-<number>-<name>.spec.md`
 
 Examples:
-- 0-0-zero.spec.md
+- `0-0-zero.spec.md`
 
 ## Mandatory Front Matter
 
-- id: string
-- version: string (following semver)
-- level: number (following this specification)
-- status: canonical | regular | draft | deprecated
-- dependencies: none | string[] (references specifications on what the current specification depends on)
+- `id: string`
+- `version: string` (following semver)
+- `level: number` (following this specification)
+- `status: 'canonical' | 'regular' | 'draft' | 'deprecated'`
+- `dependencies: 'none' | string[]` (references specifications on what the current specification depends on)
 
 ## Summary
 
