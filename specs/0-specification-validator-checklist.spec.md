@@ -115,12 +115,16 @@ A _Level 0_ spec **MAY** define:
 
 ### 2.2 Forbidden Content
 
-A _Level 0_ spec **MUST NOT**:
+A _Level 0_ specification **MUST NOT**:
 
 - Define domain behavior
 - Define runtime logic
-- Define safety or content constraints (Level 0 **MAY** define meta-rules for validation of safety constraints, but **MUST NOT** define safety constraints themselves)
+- Define safety or content constraints themselves
 - Reference implementation details
+
+A _Level 0_ specification **MAY**:
+
+- Define **meta-rules** for validating safety or content constraints defined in lower-level specifications
 
 Failure → **INVALID**
 
