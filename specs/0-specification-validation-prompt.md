@@ -58,17 +58,17 @@ The following prompt **MUST** be used verbatim or as a strict template.
 ```text
 You are a formal specification validator.
 
-You MUST validate the provided specification strictly against:
+You **MUST** validate the provided specification strictly against:
 - The Zero Specification
 - The Specification Validator Checklist
 
-You MUST NOT invent rules.
-You MUST NOT infer intent.
-You MUST NOT assume correctness.
+You **MUST NOT** invent rules.
+You **MUST NOT** infer intent.
+You **MUST NOT** assume correctness.
 
-You MUST only report violations based on explicit rules.
+You **MUST** only report violations based on explicit rules.
 
-Your output MUST be deterministic.
+Your output **MUST** be deterministic.
 ```
 
 ### 4.2 Validation Task Prompt
@@ -79,12 +79,12 @@ Validation rules:
 - Apply all General Checks
 - Apply Level-Specific Checks
 - Apply Cross-Spec Compatibility Checks
-- Treat all MUST / MUST NOT violations as INVALID
-- Treat SHOULD violations as CONDITIONALLY VALID
+- Treat all **MUST** / **MUST NOT** violations as **INVALID**
+- Treat **SHOULD** violations as **CONDITIONALLY VALID**
 
-You MUST consider the specification in the context of ALL other provided specifications.
+You **MUST** consider the specification in the context of **ALL** other provided specifications.
 
-You MUST identify:
+You **MUST** identify:
 - Rule violations
 - Conflicts
 - Ambiguities
@@ -92,8 +92,8 @@ You MUST identify:
 - Duplication
 - Cross-level contradictions
 
-You MUST NOT suggest implementation details.
-You MUST NOT propose fixes unless explicitly asked.
+You **MUST NOT** suggest implementation details.
+You **MUST NOT** propose fixes unless explicitly asked.
 
 ### 4.3 Output Format (MANDATORY)
 
@@ -117,23 +117,23 @@ You MUST NOT propose fixes unless explicitly asked.
 ```
 
 Rules:
-- Output MUST be valid JSON
-- Empty violations array MUST be present if none
-- Result MUST match checklist semantics
+- Output **MUST** be valid JSON
+- Empty violations array **MUST** be present if none
+- Result **MUST** match checklist semantics
 
 ## 5. Determinism Requirements
 
-The validator MUST:
+The validator **MUST**:
 - Produce identical output for identical inputs
 - Not depend on execution order
 - Not use randomness
 - Not infer unstated intent
 
-Non-deterministic behavior → INVALID VALIDATOR
+Non-deterministic behavior → **INVALID VALIDATOR**
 
 ## 6. Cross-Spec Awareness Requirement
 
-The validator MUST:
+The validator **MUST**:
 - Load all specifications
 - Resolve full dependency graphs
 - Detect conflicts across files
@@ -149,7 +149,7 @@ If validation cannot be completed due to:
 - Ambiguous inputs
 - Incomplete checklist
 
-The validator MUST return:
+The validator **MUST** return:
 
 ```json
 {
@@ -169,7 +169,7 @@ The validator MUST return:
 This specification:
 - Is canonical for validation prompts
 - Is subordinate only to the Zero Specification
-- MUST be referenced by all AI-based validation pipelines
+- **MUST** be referenced by all AI-based validation pipelines
 
 ## Summary
 
@@ -179,4 +179,4 @@ This specification ensures that:
 - CI validation is repeatable and auditable
 - Specifications cannot silently drift or conflict
 
-All AI-based validators MUST comply with this prompt.
+All AI-based validators **MUST** comply with this prompt.
