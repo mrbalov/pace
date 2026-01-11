@@ -1,5 +1,5 @@
 ---
-id: specification-validator-checklist
+id: specification-validation-pipeline
 version: 1.0.0
 level: 0
 status: canonical
@@ -7,7 +7,7 @@ dependencies:
   - 0-0-zero.spec.md
 ---
 
-# Specification Validator Checklist Specification
+# Specification Validation Pipeline Specification
 
 This document defines a **formal, deterministic checklist** for validating any system specification against the Zero Specification.
 
