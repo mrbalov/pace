@@ -56,7 +56,7 @@ Defines how specifications are structured and how they interact.
 
 #### Examples
 
-- `0-0-zero.spec.md`
+- `0-zero.spec.md`
 
 #### Constraints
 
@@ -80,7 +80,7 @@ Define global, cross‑cutting constraints that apply to the entire system.
 
 #### Examples
 
-- `1-0-guardrails.spec.md`
+- `1-guardrails.spec.md`
 
 #### Constraints
 
@@ -103,9 +103,9 @@ Define domain‑specific behavior within global constraints.
 
 #### Examples
 
-- `2-0-prompt-generation.spec.md`
-- `2-1-input-generation.spec.md`
-- `2-2-signal-processing.spec.md`
+- `2-prompt-generation.spec.md`
+- `2-input-generation.spec.md`
+- `2-signal-processing.spec.md`
 
 #### Constraints
 
@@ -127,8 +127,8 @@ Define how domains interact with each other.
 
 #### Examples
 
-- `3-0-pipeline.spec.md`
-- `3-1-orchestration.spec.md`
+- `3-pipeline.spec.md`
+- `3-orchestration.spec.md`
 
 #### Constraints
 
@@ -224,10 +224,10 @@ No exceptions are allowed.
 
 ## Specification File Naming Conventions
 
-`<level>-<number>-<name>.spec.md`
+`<level>-<name>.spec.md`
 
 Examples:
-- `0-0-zero.spec.md`
+- `0-zero.spec.md`
 
 ## Mandatory Front Matter
 
