@@ -46,7 +46,7 @@ The specification **MUST** contain front matter with:
 
 Validation rules:
 
-- id **MUST** be unique across all specs
+- id **MUST** be unique across all specs and follow this pattern: `<level>-<name>`
 - version **MUST** follow semantic versioning
 - level **MUST** be an integer
 - status **MUST** be one of:
