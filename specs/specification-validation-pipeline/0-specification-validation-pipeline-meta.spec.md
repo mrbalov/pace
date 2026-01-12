@@ -7,7 +7,7 @@ dependencies:
   - 0-zero.spec.md
 ---
 
-# Specification Validation Pipeline (Validation Rules) Specification
+# Specification Validation Pipeline (Meta) Specification
 
 This document defines a **formal, deterministic checklist** for validating any system specification against the Zero Specification.
 
