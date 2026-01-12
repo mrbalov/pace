@@ -169,7 +169,7 @@ Ownership rules:
 
 ## Dependency Rules
 
-Specifications **MAY** depend only on lower‑numbered levels.
+Specifications **MAY** depend only on lower‑numbered or same-numbered levels.
 
 ### Allowed
 - _Level 2_ → _Level 1_  

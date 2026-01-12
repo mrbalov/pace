@@ -22,8 +22,7 @@ It defines:
 - Failure propagation rules
 - Execution invariants
 
-This specification **does not** define validation rules or AI behavior.
-Those are owned by lower levels.
+This specification **does not** define validation rules or AI behavior. Those are owned by lower levels.
 
 ## 1. Purpose
 

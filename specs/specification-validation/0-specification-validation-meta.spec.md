@@ -75,7 +75,7 @@ Failure → **INVALID**
 
 Dependencies **MUST** satisfy:
 
-- Only lower-level dependencies allowed
+- Only lower-level or same-level dependencies allowed
 - No circular dependencies
 - All dependencies **MUST** exist
 - Dependency filenames **MUST** be exact
