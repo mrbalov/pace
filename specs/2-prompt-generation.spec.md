@@ -1,6 +1,6 @@
 ---
 id: 2-prompt-generation
-version: 1.1.0
+version: 1.2.0
 level: 2
 status: regular
 dependencies:
@@ -17,7 +17,7 @@ This document defines how textual prompts for image generation are constructed f
 Prompt generation is a **deterministic, rule-based process** that:
 - Transforms structured activity input into visual descriptions
 - Extracts semantic signals from user-provided text
-- Enforces global guardrails
+- Enforces global guardrails defined in `1-guardrails.spec.md`
 - Produces predictable and safe prompts for AI image models
 
 This specification defines **behavior**, not implementation.
@@ -27,7 +27,7 @@ This specification defines **behavior**, not implementation.
 This specification applies to:
 - All AI-generated images based on activity data
 - All supported Strava activity types (run, ride, trail, walk, hike, yoga, etc.)
-- All visual styles allowed by the system
+- All visual styles allowed by `1-guardrails.spec.md`
 
 ## Input Contract
 
@@ -76,14 +76,15 @@ All fields **MUST** be present and non-empty.
 
 ## User-Provided Text Processing
 
+User-provided text processing **MUST** comply with `1-guardrails.spec.md`.
+
 ### Signal Extraction Rules
 
 User-provided text from `name`, `description`, or `gear`:
-- **MUST NOT** be copied verbatim into prompts
-- **MUST** be processed through semantic signal extraction
-- **MUST** comply with all _Level 1_ guardrails
+- **MUST** be processed according to `1-guardrails.spec.md`
+- **MUST** extract only normalized semantic signals
 
-Only normalized semantic signals **MAY** influence:
+Extracted signals **MAY** influence:
 - mood selection
 - intensity classification
 - environment determination
@@ -93,15 +94,7 @@ Only normalized semantic signals **MAY** influence:
 
 ### Brand Name Handling
 
-Brand names **MAY** be included when:
-- They originate from gear metadata or activity text
-- They are contextually relevant
-- They do not dominate the prompt
-
-Brand names **MUST NOT**:
-- Be inferred or hallucinated
-- Violate content guardrails
-- Receive excessive emphasis
+Brand names **MUST** be handled according to `1-guardrails.spec.md`.
 
 ## Activity Classification
 
@@ -122,10 +115,7 @@ Brand names **MUST NOT**:
 
 For activity types not in the above table:
 
-1. **Safety Review**: The activity type **MUST** be evaluated for safety:
-  - Check against forbidden content list from _Level 1_ guardrails
-  - Verify it represents a legitimate physical activity
-  - Ensure it doesn't imply violence, combat, or dangerous behavior
+1. **Safety Review**: The activity type **MUST** be evaluated against `1-guardrails.spec.md`
 
 2. **If Safe**: Unknown types that pass safety review:
   - **MUST** use generic subject: "athlete" or "person exercising"
@@ -220,6 +210,8 @@ Weather conditions **MUST** influence scene composition through:
 
 ## Tag Processing
 
+Tags **MUST** be processed according to `1-guardrails.spec.md`.
+
 ### Recognized Tags
 
 The system **MUST** recognize these Strava tags:
@@ -239,7 +231,7 @@ The system **MUST** recognize these Strava tags:
 
 Unrecognized tags **MUST** be processed as follows:
 
-1. **Safety Check**: Verify the tag doesn't contain forbidden content
+1. **Safety Check**: Verify the tag complies with `1-guardrails.spec.md`
 2. **Signal Extraction**: Extract safe semantic signals if possible:
   - Emotional indicators → mood influence
   - Location hints → scene modifiers
@@ -249,15 +241,9 @@ Unrecognized tags **MUST** be processed as follows:
 
 ## Style Selection
 
-### Allowed Styles
+### Style Selection Rules
 
-Only these styles **MAY** be used:
-- `cartoon` - colorful, friendly illustration
-- `minimal` - simple, clean design
-- `abstract` - artistic, non-literal
-- `illustrated` - detailed, artistic rendering
-
-### Selection Rules
+Style selection **MUST** use only styles allowed by `1-guardrails.spec.md`.
 
 Style selection **MUST** be deterministic:
 
@@ -310,16 +296,13 @@ Scene **MUST** include:
 ### Composition Rules
 
 Scenes **MUST**:
-- Feature 1-3 primary visual subjects
+- Feature 1-3 primary visual subjects (per `1-guardrails.spec.md`)
 - Avoid cluttered backgrounds
 - Maintain focus on the activity
 - Be appropriate for the selected style
 - Incorporate weather effects when specified
 
-Scenes **MUST NOT**:
-- Include text or typography
-- Show identifiable locations
-- Contain forbidden content per _Level 1_ guardrails
+Scenes **MUST NOT** include any content forbidden by `1-guardrails.spec.md`.
 
 ### Scene Building Priority
 
@@ -345,19 +328,20 @@ Scene: [environment] with [scene_details].
 
 ### Length Constraints
 
-- Maximum total length: 400 characters
-- If exceeded, **MUST** truncate scene details first
+Prompts **MUST** comply with the length limit defined in `1-guardrails.spec.md`.
+
+If the limit is exceeded:
+- **MUST** truncate scene details first
 - Core subject and style **MUST** always be preserved
 
 ## Validation Rules
 
 Before returning, the system **MUST** validate:
 
-1. Prompt length ≤ 400 characters
-2. Style ∈ allowed styles
-3. No forbidden content present
-4. All required fields populated
-5. Brand usage complies with guardrails
+1. Prompt complies with `1-guardrails.spec.md`
+2. Style is allowed per `1-guardrails.spec.md`
+3. All required output fields are populated
+4. Brand usage complies with `1-guardrails.spec.md`
 
 If validation fails:
 - **MUST** sanitize and retry once
@@ -376,7 +360,7 @@ If a valid prompt cannot be generated, the fallback **MUST** always be valid and
 This fallback **MUST**:
 - Be used for any unrecoverable error
 - Be used for unsafe or ambiguous activity types
-- Never violate guardrails
+- Comply with all `1-guardrails.spec.md`
 - Always produce a valid image
 
 ## Determinism Requirements
@@ -397,14 +381,18 @@ The system **MUST NOT**:
 - Produce empty prompts
 - Generate unsafe content
 
-All errors **MUST** result in fallback behavior.
+All errors **MUST** result in fallback behavior per `1-guardrails.spec.md`.
 
 ## Compliance
 
-This specification **MUST** comply with:
-- All _Level 1_ guardrails
-- Content restrictions
-- Safety boundaries
-- Determinism requirements
+This specification **MUST** comply with `1-guardrails.spec.md`, specifically:
+- Input guardrails (section 1)
+- User-provided text guardrails (section 2)
+- Tag guardrails (section 3)
+- Prompt guardrails (section 4)
+- Style guardrails (section 5)
+- Image output guardrails (section 6)
+- Retry and fallback strategy (section 7)
+- Failure handling (section 8)
 
 Any violation makes the implementation invalid.
