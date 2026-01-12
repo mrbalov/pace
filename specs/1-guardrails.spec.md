@@ -1,6 +1,6 @@
 ---
 id: 1-guardrails
-version: 0.0.3
+version: 1.0.0
 level: 1
 status: canonical
 dependencies:
