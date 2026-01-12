@@ -1,5 +1,5 @@
 ---
-id: specification-validation-pipeline-validation-rules
+id: 0-specification-validation-pipeline-meta
 version: 1.0.0
 level: 0
 status: canonical
