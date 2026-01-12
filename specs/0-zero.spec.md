@@ -1,5 +1,5 @@
 ---
-id: zero
+id: 0-zero
 version: 1.0.0
 level: 0
 status: canonical
@@ -149,9 +149,9 @@ Provide non‑binding guidance for implementers.
 
 #### Constraints
 
-- MUST NOT introduce new rules  
-- MUST NOT contradict higher‑level specs  
-- MAY be omitted entirely  
+- **MUST NOT** introduce new rules  
+- **MUST NOT** contradict higher‑level specs  
+- **MAY** be omitted entirely  
 
 ## Rule Ownership
 
@@ -231,7 +231,7 @@ Examples:
 
 ## Mandatory Front Matter
 
-- `id: string`
+- `id: string` (pattern: `<level>-<name>`)
 - `version: string` (following semver)
 - `level: number` (following this specification)
 - `status: 'canonical' | 'regular' | 'draft' | 'deprecated'`
