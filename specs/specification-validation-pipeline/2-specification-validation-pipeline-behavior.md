@@ -32,7 +32,7 @@ The pipeline **MUST** receive:
 
 1. Target specification
 2. Full set of all specifications
-3. Specification Validator Checklist
+3. Specification Validation Pipeline (Meta)
 4. Zero Specification
 
 Missing input → **INVALID**
@@ -47,14 +47,14 @@ Missing input → **INVALID**
 
 Failure → **INVALID**
 
-### 3.2 Structural Validation Stage
+### 3.2 Structural Validation 
 
 Validate:
 - Front matter
 - File naming
 - Dependencies
 
-Rules are taken **only** from the checklist.
+Rules are taken **only** from the Specification Validation Pipeline (Meta).
 
 ### 3.3 Semantic Validation Stage
 
@@ -89,7 +89,7 @@ You **MUST** comply with AI Validation Guardrails.
 
 You **MUST** validate the provided specification strictly against:
 - The Zero Specification
-- The Specification Validator Checklist
+- The Specification Validation Pipeline (Meta)
 
 You **MUST NOT** invent rules.
 You **MUST NOT** infer intent.
