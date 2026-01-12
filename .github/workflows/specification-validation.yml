@@ -1,0 +1,55 @@
+name: Specification Validation
+
+on:
+  pull_request:
+    paths:
+      - "**/*.spec.md"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.spec.md"
+
+jobs:
+  validate-specifications:
+    name: Validate Specifications
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Collect specification files
+        id: collect
+        run: |
+          mkdir -p .specification-validation/input
+          find . -name "*.spec.md" -print > .specification-validation/input/spec-list.txt
+
+      - name: Prepare validation bundle
+        run: |
+          mkdir -p .specification-validation/bundle
+          cp $(cat .specification-validation/input/spec-list.txt) .specification-validation/bundle/
+
+      - name: Run AI specification validation
+        run: node ./tools/validate-specifications.js
+        env:
+          DIAL_KEY: ${{ secrets.DIAL_KEY }}
+
+      - name: Check validation result
+        run: |
+          RESULT=$(jq -r '.result' .specification-validation/result.json)
+          echo "Validation result: $RESULT"
+
+          if [ "$RESULT" = "INVALID" ]; then
+            echo "❌ Specification validation failed"
+            jq '.' .specification-validation/result.json
+            exit 1
+          fi
+
+          if [ "$RESULT" = "CONDITIONALLY_VALID" ]; then
+            echo "⚠️ Specification validation conditionally valid"
+            jq '.' .specificationvalidation/result.json
+          fi

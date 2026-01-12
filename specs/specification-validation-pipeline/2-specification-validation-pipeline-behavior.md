@@ -37,46 +37,19 @@ The pipeline **MUST** receive:
 
 Missing input → **INVALID**
 
-## 3. Pipeline Stages
+## 3. Validation Domains
 
-### 3.1 Load Stage
+The validation process covers the following domains:
 
-- Load all spec files
-- Parse front matter
-- Build dependency graph
+- Structural validation
+- Semantic validation
+- Cross-spec validation
 
-Failure → **INVALID**
+Each domain applies the rules defined in:
+- Zero Specification
+- Specification Validation Pipeline (Meta)
 
-### 3.2 Structural Validation 
-
-Validate:
-- Front matter
-- File naming
-- Dependencies
-
-Rules are taken **only** from the Specification Validation Pipeline (Meta).
-
-### 3.3 Semantic Validation Stage
-
-Validate:
-- Level compliance
-- Allowed / forbidden content
-- Rule ownership
-- RFC 2119 language usage
-
-Ambiguities → **CONDITIONALLY VALID**
-
-### 3.4 Cross-Spec Validation Stage
-
-Validate:
-- Dependency closure
-- Rule conflicts
-- Shadowing
-- Duplication
-- Constraint tightening
-- Global determinism
-
-Any violation → **INVALID**
+The order of execution is NOT defined at this level.
 
 ## 4. Canonical AI Prompts
 
