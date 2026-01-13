@@ -107,6 +107,9 @@ jobs:
     if: needs.validate-specs.outputs.validation-status == 'INVALID'
     uses: ./.github/workflows/fix-specs.yml
     secrets: inherit
+    permissions:
+      contents: write
+      pull-requests: write
     with:
       summary: ${{ needs.validate-specs.outputs.validation-summary-json }}
 
