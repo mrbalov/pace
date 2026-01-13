@@ -93,7 +93,7 @@ jobs:
 
       - name: Initiate spec fix pipeline on failed validation
         # if: steps.validation.outputs.result == 'INVALID'
-        uses: mrbalov/pace/blob/main/.github/workflows/fix-specs.yml@master
+        uses: mrbalov/pace/.github/workflows/fix-specs.yml@main
         with:
           summary: $GITHUB_STEP_SUMMARY
 
