@@ -166,10 +166,10 @@ If validation cannot be completed:
 
 ## 7. Authority
 
-This specification is the sole owner of:
-- Validation pipeline behavior
-- AI prompts for validation
+This specification defines the implementation-level behavior for the validation pipeline, including AI prompts and output contracts.
 
-No other specification may redefine this pipeline behavior.
+The validation rules and checklist are owned by:
+- `0-zero.spec.md` (for specification system rules)
+- `0-specification-validation-meta.spec.md` (for validation checklist)
 
 Note: Execution order and orchestration are owned by Level 3 (3-specification-validation-orchestration.spec.md).
