@@ -91,7 +91,7 @@ jobs:
             "| \(.spec_id // "global") | \(.rule) | **\(.severity)** | \(.description) |"
           ' .specs-validation/result.json >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Initiate spec fix pipeline
+      - name: Initiate spec fix pipeline on failed validation
         # if: steps.validation.outputs.result == 'INVALID'
         uses: ./.github/workflows/fix-specs.yml
         with:
