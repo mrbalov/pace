@@ -32,15 +32,16 @@ jobs:
           codemie profile status
           codemie profile login
 
+      - name: Prepare task
+        run: |
+          cat ./prompts/fix-specs.md > /tmp/task.txt
+          echo -e "\n---- VALIDATION SUMMARY START ----" >> /tmp/task.txt
+          echo -e "${{ inputs.summary }}" >> /tmp/task.txt
+          echo -e "\n---- VALIDATION SUMMARY END ----" >> /tmp/task.txt
+
       - name: Run CodeMie to address the specs validation summary
         run: |
-          TASK="$(cat ./prompts/fix-specs.md)
-
-          ---- VALIDATION SUMMARY START ----
-          ${{ inputs.summary }}
-          ---- VALIDATION SUMMARY END ----
-          "
-          codemie-code --model claude-4-1-opus --task "$TASK"
+          codemie-code --model claude-4-1-opus --task "$(cat /tmp/task.txt)"
           echo "There are changes in the following files after the agent run:"
           git status
 
