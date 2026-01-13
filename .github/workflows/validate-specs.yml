@@ -92,7 +92,7 @@ jobs:
           ' .specs-validation/result.json >> "$GITHUB_STEP_SUMMARY"
 
       - name: Initiate spec fix pipeline
-        if: steps.validation.outputs.result == 'INVALID'
+        # if: steps.validation.outputs.result == 'INVALID'
         uses: ./.github/workflows/fix-specs.yml
         with:
           summary: $GITHUB_STEP_SUMMARY

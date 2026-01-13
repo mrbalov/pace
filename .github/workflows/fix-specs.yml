@@ -1,8 +1,6 @@
 name: Fix Specs
 
 on:
-  push:
-    branches: [ main ]
   workflow_call:
     inputs:
       summary:
@@ -27,6 +25,7 @@ jobs:
 
       - name: Run codemie-code basic command
         run: |
+          codemie auth status
           echo ${{ inputs.summary }}
           codemie profile login
           codemie-code --model claude-4-1-opus --task "Install concurrently dev dependency in package.json"
