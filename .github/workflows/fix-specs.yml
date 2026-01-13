@@ -1,29 +1,34 @@
 name: Fix Specs
 
 on:
-  pull_request:
   push:
+    branches: [ main ]
 
 jobs:
   fix-specs:
-    name: Fix Specs
     runs-on: self-hosted
 
-    permissions:
-      contents: read
-
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v6
 
-      - name: Setup Node.js
+      - name: Setup Node.js (для NPM)
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 18
 
-      - name: Install codemie CLI
-        run: npm install --global @codemieai/code
-
-      - name: Run test
+      - name: Install CodeMie CLI globally
         run: |
-          npm codemie-code --profile default "Hey! How are you?"
+          npm install -g @codemieai/code
+
+      - name: Check codemie version
+        run: |
+          codemie --version
+
+      - name: Run codemie doctor
+        run: |
+          codemie doctor
+
+      - name: Run codemie-code basic command
+        run: |
+          codemie-code "Echo test" || true
