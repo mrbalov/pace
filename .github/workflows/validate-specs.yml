@@ -5,11 +5,13 @@ on:
     paths:
       - "specs/**/*.spec.md"
       - "packages/validate-specs/**"
+      - ".github/workflows/validate-specs.yml"
   push:
     branches: [ main ]
     paths:
       - "specs/**/*.spec.md"
       - "packages/validate-specs/**"
+      - ".github/workflows/validate-specs.yml"
 
 jobs:
   validate-specs:
@@ -25,6 +27,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
       - name: Setup bun
         uses: oven-sh/setup-bun@v1
