@@ -2,7 +2,7 @@
 id: 0-specification-validation-meta
 version: 1.0.7
 level: 0
-status: regular
+status: canonical
 dependencies:
   - 0-zero.spec.md
 ---

@@ -23,7 +23,7 @@ It defines:
 
 ## 1. Purpose
 
-The purpose of this specification is to define a **single, authoritative validation pipeline** used in CI and automated environments.
+The purpose of this specification is to define a **validation pipeline** used in CI and automated environments, as authorized by the canonical specification validation meta specification.
 
 ## 2. Pipeline Inputs
 
@@ -166,10 +166,6 @@ If validation cannot be completed:
 
 ## 7. Authority
 
-This specification is the sole owner of:
-- Validation pipeline behavior
-- AI prompts for validation
+This specification defers to the canonical specification validation meta specification for all authority over validation rules and procedures.
 
-No other specification may redefine this pipeline behavior.
-
-Note: Execution order and orchestration are owned by Level 3 (3-specification-validation-orchestration.spec.md).
+Note: Execution order and orchestration are defined by Level 3 (3-specification-validation-orchestration.spec.md).

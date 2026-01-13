@@ -22,7 +22,7 @@ It defines:
 - Failure propagation rules
 - Execution invariants
 
-This specification **does not** define validation rules or AI behavior. Those are owned by lower levels.
+This specification **does not** define validation rules or AI behavior. Those are defined by the canonical specification validation meta specification and supporting specifications.
 
 ## 1. Purpose
 
@@ -116,20 +116,14 @@ This specification **MUST NOT**:
 
 Ownership is strictly divided:
 
-- Rules → Level 0 (Meta)
+- Rules → Level 0 (Meta - canonical)
 - AI constraints → Level 1 (Guardrails)
 - Validation behavior → Level 2 (Behavior)
 - Execution order → Level 3 (this specification)
 
 ## 9. Authority
 
-This specification is the **sole owner** of:
-
-- Validation pipeline orchestration
-- Stage ordering
-- Failure propagation semantics
-
-No other specification may redefine pipeline execution order.
+This specification defines the orchestration of the validation pipeline as authorized by the canonical specification validation meta specification.
 
 ## Summary
 

@@ -59,6 +59,6 @@ Violation → **INVALID**
 
 ## 5. Authority
 
-This specification is **canonical** for AI behavior during validation.
+This specification defines guardrails for AI behavior during validation as authorized by the canonical specification validation meta specification.
 
 All AI-based validation **MUST** comply with these guardrails.
