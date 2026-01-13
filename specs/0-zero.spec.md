@@ -1,6 +1,6 @@
 ---
 id: 0-zero
-version: 1.0.1
+version: 1.0.2
 level: 0
 status: canonical
 dependencies: none
