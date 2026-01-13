@@ -21,11 +21,11 @@ jobs:
         with:
           node-version: 24
 
-      - name: Ensure codemie-code is available
-        run: |
-          if ! command -v codemie-code >/dev/null 2>&1; then
-            bun add --global --dev @codemieai/code
-          fi
+      # - name: Ensure codemie-code is available
+      #   run: |
+      #     if ! command -v codemie-code >/dev/null 2>&1; then
+      #       bun add --global --dev @codemieai/code
+      #     fi
 
       - name: Run test
         run: |
