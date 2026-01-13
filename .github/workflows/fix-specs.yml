@@ -17,18 +17,9 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install CodeMie CLI globally
-        run: |
-          npm install -g @codemieai/code
-
-      - name: Check codemie version
-        run: |
-          codemie --version
-
-      - name: Run codemie doctor
-        run: |
-          codemie doctor
+      - name: Install CodeMie CLI
+        run: npm install -g @codemieai/code
 
       - name: Run codemie-code basic command
         run: |
-          codemie-code "Echo test" || true
+          codemie-code "Hey! How are you?"
