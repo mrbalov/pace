@@ -63,9 +63,8 @@ jobs:
       - name: Expose validation result JSON
         id: expose-validation-summary-json
         run: |
-          echo "validation_summary_json<<EOF" >> $GITHUB_OUTPUT
-          cat .specs-validation/result.json >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          SUMMARY_B64=$(base64 -w 0 .specs-validation/result.json)
+          echo "validation_summary_json=$SUMMARY_B64" >> "$GITHUB_OUTPUT"
 
       - name: Parse validation result
         id: validation

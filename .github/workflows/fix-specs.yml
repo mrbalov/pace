@@ -35,9 +35,10 @@ jobs:
       - name: Prepare task
         run: |
           cat ./prompts/fix-specs.md > /tmp/task.txt
-          echo -e "\n---- VALIDATION SUMMARY START ----" >> /tmp/task.txt
-          echo -e "${{ inputs.summary }}" >> /tmp/task.txt
-          echo -e "\n---- VALIDATION SUMMARY END ----" >> /tmp/task.txt
+          echo "" >> /tmp/task.txt
+          echo "---- VALIDATION SUMMARY START ----" >> /tmp/task.txt
+          echo "${{ inputs.summary }}" | base64 --decode >> /tmp/task.txt
+          echo "---- VALIDATION SUMMARY END ----" >> /tmp/task.txt
 
       - name: Run CodeMie to address the specs validation summary
         run: |
