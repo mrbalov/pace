@@ -51,7 +51,6 @@ jobs:
       - name: Run specs validation
         run: |
           mkdir -p .specs-validation
-          touch .specs-validation/result.json
           npm run validate-specs > .specs-validation/result.json
           cat .specs-validation/result.json
 
