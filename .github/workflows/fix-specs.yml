@@ -23,11 +23,11 @@ jobs:
       - name: Install CodeMie CLI
         run: npm install -g @codemieai/code
 
+      - name: Check CodeMie auth status
+        run: codemie profile status
+
       - name: Run codemie-code basic command
         run: |
           codemie profile login
           codemie-code --model claude-4-1-opus --task "$(cat ./prompts/fix-specs.md)\n---- VALIDATION SUMMARY START ----\n${{ inputs.summary }}\n---- VALIDATION SUMMARY END ----"
           git status
-
-      - name: Check CodeMie auth status
-        run: codemie profile status
