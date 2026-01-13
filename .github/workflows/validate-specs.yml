@@ -108,22 +108,9 @@ jobs:
           echo "❌ Specs validation failed"
           exit 1
 
-  test-outputs:
-    needs: validate-specs
-    runs-on: self-hosted
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Check validation outputs
-        run: |
-          echo "Validation Status: ${{ needs.validate-specs.outputs.validation-status }}"
-          echo "Validation Summary JSON: ${{ needs.validate-specs.outputs.validation-summary-json }}"
-
   fix-specs:
     needs: validate-specs
-    if: needs.validate-specs.outputs.validation-status == 'INVALID'
+    # if: needs.validate-specs.outputs.validation-status == 'INVALID'
     uses: ./.github/workflows/fix-specs.yml
     secrets: inherit
     with:
