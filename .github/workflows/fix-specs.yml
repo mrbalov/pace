@@ -25,9 +25,8 @@ jobs:
 
       - name: Run codemie-code basic command
         run: |
-          echo ${{ inputs.summary }}
           codemie profile login
-          codemie-code --model claude-4-1-opus --task "Install concurrently dev dependency in package.json"
+          codemie-code --model claude-4-1-opus --task "Review the specs validation summary and address the recommendations. ${{ inputs.summary }}"
           git status
 
       - name: Check CodeMie auth status
