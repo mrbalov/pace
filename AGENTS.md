@@ -20,18 +20,6 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 
 This system is an **AI-powered image generator for Strava activities** that creates personalized, artistic visualizations based on activity data. The system transforms structured Strava activity metadata into safe, deterministic, and aesthetically pleasing images that capture the essence of athletic achievements.
 
-## Guardrails
-
-Guardrails are explicit constraints that ensure predictable, safe, and consistent behavior of AI-driven components. Guardrails are part of the system specification. Any behavior not allowed by guardrails is considered undefined and must be prevented or safely handled by the implementation.
-
-These guardrails apply to the whole system. Code that violates these guardrails is considered incorrect, even if it appears to work.
-
-The complete guardrails specification is maintained in OpenSpec format:
-
-- **[Input Guardrails](openspec/specs/guardrails-input/spec.md)**: Activity data validation, user-provided text processing, and tag handling
-- **[Image Generation Prompt Guardrails](openspec/specs/guardrails-image-generation-prompt/spec.md)**: Image generation prompt content rules and size limits
-- **[Image Guardrails](openspec/specs/guardrails-image/spec.md)**: Image style, output characteristics, retry/fallback strategies, failure handling, and determinism
-
 ## System Architecture
 
 ### Core Principles
