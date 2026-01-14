@@ -2,7 +2,7 @@
 
 Architectural requirements for the PACE system's service-oriented architecture.
 
-## Requirement: Core Functionality Pipeline
+### Requirement: Core Functionality Pipeline
 
 The system SHALL operate as a rule-based, deterministic pipeline that ingests Strava activity data via the Strava API, extracts semantic signals from activity metadata, generates text prompts following strict safety and content guardrails, creates artistic images using AI image generation models, and validates outputs to ensure compliance with all system constraints.
 
@@ -16,7 +16,7 @@ The system SHALL operate as a rule-based, deterministic pipeline that ingests St
 - **WHEN** the system processes the activities
 - **THEN** the pipeline SHALL produce deterministic results
 
-## Requirement: Primary Data Flow
+### Requirement: Primary Data Flow
 
 The system SHALL process activities through the following sequence: Activity Service fetches data from Strava API, Guardrails Service validates raw activity data, Activity Signals Service extracts semantic signals, Prompt Generation Service creates image prompts, Guardrails Service validates prompts, and Image Generation Service produces final output.
 
@@ -35,7 +35,7 @@ The system SHALL process activities through the following sequence: Activity Ser
 - **WHEN** an error occurs
 - **THEN** error logging SHALL be triggered, fallback mechanisms SHALL activate, and the system SHALL return a safe default output
 
-## Requirement: Service Orchestration
+### Requirement: Service Orchestration
 
 The system SHALL consist of five core services: Guardrails Service, Activity Service, Activity Signals Service, Prompt Generation Service, and Image Generation Service. Each service SHALL have a single responsibility and communicate through well-defined interfaces.
 
@@ -64,7 +64,7 @@ The system SHALL consist of five core services: Guardrails Service, Activity Ser
 - **WHEN** generating images
 - **THEN** the service SHALL depend on Prompt Generation Service for prompts and SHALL submit requests to external AI image generation API
 
-## Requirement: Supported Activity Types
+### Requirement: Supported Activity Types
 
 The system SHALL support all Strava activity types including but not limited to: Running (Run, Trail Run, Virtual Run), Cycling (Ride, Virtual Ride, E-Bike Ride), Water activities (Swim, Surfing, Canoeing, Kayaking), Winter activities (Alpine Ski, Backcountry Ski, Nordic Ski, Snowboard), Fitness activities (Workout, Yoga, Weight Training, CrossFit), Walking activities (Walk, Hike), and other activities (Rock Climbing, Golf, Soccer, Tennis, and more).
 
@@ -98,7 +98,7 @@ The system SHALL support all Strava activity types including but not limited to:
 - **WHEN** the system processes the activity
 - **THEN** the system SHALL successfully extract signals and generate appropriate images
 
-## Requirement: Activity Signal Processing
+### Requirement: Activity Signal Processing
 
 The system SHALL process multiple data points to create contextually appropriate images. User text (activity names, descriptions, tags) SHALL undergo semantic extraction. Only normalized, safe signals SHALL influence image generation. Brand names MAY be used contextually when originating from activity data.
 
@@ -132,7 +132,7 @@ The system SHALL process multiple data points to create contextually appropriate
 - **WHEN** processing tags
 - **THEN** tags SHALL influence mood and scene composition (e.g., recovery → calm mood, race → competitive energy, with kid → playful atmosphere)
 
-## Requirement: Prompt Generation Pipeline
+### Requirement: Prompt Generation Pipeline
 
 The system SHALL generate prompts through the following steps: Input Validation (ensure required fields present), Signal Extraction (process user text safely), Classification (determine activity type, intensity, environment), Style Selection (choose appropriate visual style deterministically), Mood Mapping (align emotional tone with activity characteristics), Scene Composition (build environment and atmosphere), Prompt Assembly (construct text prompt ≤400 characters), Validation (ensure compliance with guardrails), and Fallback (use safe defaults if validation fails).
 
@@ -156,7 +156,7 @@ The system SHALL generate prompts through the following steps: Input Validation 
 - **WHEN** validation fails
 - **THEN** the system SHALL use safe default prompts
 
-## Requirement: Service Interface Contracts
+### Requirement: Service Interface Contracts
 
 Each service SHALL expose a well-defined TypeScript interface. Services SHALL communicate only through these interfaces. Dependencies SHALL be explicit and injected.
 
@@ -185,7 +185,7 @@ Each service SHALL expose a well-defined TypeScript interface. Services SHALL co
 - **WHEN** accessing the service
 - **THEN** the service SHALL expose `generateImage` and `regenerateWithFallback` methods
 
-## Requirement: Strava API Integration
+### Requirement: Strava API Integration
 
 The system SHALL integrate with the Strava API to fetch activity data. The system SHALL authenticate with Strava API using OAuth2. The system SHALL fetch complete activity details via the Get Activity API endpoint. The system SHALL handle API responses and transform them to internal format.
 
@@ -204,7 +204,7 @@ The system SHALL integrate with the Strava API to fetch activity data. The syste
 - **WHEN** making API calls
 - **THEN** the system SHALL authenticate using OAuth2 and include required permissions (activity:read or activity:read_all)
 
-## Requirement: Error Handling and Resilience
+### Requirement: Error Handling and Resilience
 
 The system SHALL implement multiple layers of resilience. Retry logic SHALL allow maximum 2 retries with prompt simplification. Fallback prompts SHALL provide safe, minimal defaults when generation fails. The system SHALL prefer graceful degradation over complete failure. User-facing errors SHALL be handled gracefully. The system SHALL never return empty or corrupted results.
 
@@ -228,7 +228,7 @@ The system SHALL implement multiple layers of resilience. Retry logic SHALL allo
 - **WHEN** returning results
 - **THEN** the system SHALL never return empty, corrupted, or invalid results
 
-## Requirement: Determinism and Predictability
+### Requirement: Determinism and Predictability
 
 Given identical inputs, the system SHALL produce identical classification and style decisions. Randomness SHALL be bounded and controlled. Behavior SHALL be predictable and reproducible.
 
