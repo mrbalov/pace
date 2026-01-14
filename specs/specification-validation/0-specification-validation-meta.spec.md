@@ -18,6 +18,19 @@ A specification is considered **invalid** if any mandatory check fails.
 
 This document defines **validation procedures**, not the specification system itself (which is defined in `0-zero.spec.md`).
 
+## Specification Principles
+
+The specification system follows these principles:
+1. Based on the OpenSpec
+2. Single source of truth  
+3. Strict separation of concerns  
+4. Deterministic behavior  
+5. Explicit contracts between layers  
+6. No implicit inheritance  
+7. No duplication of rules  
+8. Predictable evolution through versioning
+9. Use of RFC 2119 keywords: **MUST**, **MUST NOT**, **MAY**, **SHOULD**, etc.
+
 ## How to Use This Checklist
 
 For every specification file:

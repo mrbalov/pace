@@ -1,15 +1,15 @@
-# Strava Activity Image Generator
+# PACE: Personal Activity Canvas Engine (Strava Activity Image Generator)
 
 ## OpenSpec Instructions
 
 These instructions are for AI assistants working in this project.
 
-Always open `@/openspec/AGENTS.md` when the request:
+Always open `/openspec/AGENTS.md` when the request:
 - Mentions planning or proposals (words like proposal, spec, change, plan)
 - Introduces new capabilities, breaking changes, architecture shifts, or big performance/security work
 - Sounds ambiguous and you need the authoritative spec before coding
 
-Use `@/openspec/AGENTS.md` to learn:
+Use `/openspec/AGENTS.md` to learn:
 - How to create and apply change proposals
 - Spec format and conventions
 - Project structure and guidelines
@@ -19,19 +19,6 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 ## System Purpose
 
 This system is an **AI-powered image generator for Strava activities** that creates personalized, artistic visualizations based on activity data. The system transforms structured Strava activity metadata into safe, deterministic, and aesthetically pleasing images that capture the essence of athletic achievements.
-
-## Specification Principles
-
-The specification system follows these principles:
-1. Based on the OpenSpec
-2. Single source of truth  
-3. Strict separation of concerns  
-4. Deterministic behavior  
-5. Explicit contracts between layers  
-6. No implicit inheritance  
-7. No duplication of rules  
-8. Predictable evolution through versioning
-9. Use of RFC 2119 keywords: **MUST**, **MUST NOT**, **MAY**, **SHOULD**, etc.
 
 ## Guardrails
 
