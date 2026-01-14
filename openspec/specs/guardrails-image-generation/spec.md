@@ -1,4 +1,4 @@
-# Image Guardrails
+# Image Generation Guardrails
 
 Guardrails for image style, output characteristics, retry/fallback strategies, failure handling, and determinism.
 
