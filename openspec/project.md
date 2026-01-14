@@ -34,7 +34,7 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
 - **Import Style**: ES modules with explicit extensions where needed
 - **Async/Await**: Preferred over callbacks and raw promises
 
-### Architecture Patterns
+### Architectual Patterns
 - **Service-Oriented Architecture**: Modular services with clear boundaries
 - **Dependency Injection**: Explicit dependencies injected into services
 - **Single Responsibility Principle**: Each module has one clear purpose
@@ -124,3 +124,15 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
 - Multiple AI model providers for image generation
 - User preference management system
 - Batch processing capabilities
+
+## Guardrails
+
+Guardrails are explicit constraints that ensure predictable, safe, and consistent behavior of AI-driven components. Guardrails are part of the system specification. Any behavior not allowed by guardrails is considered undefined and must be prevented or safely handled by the implementation.
+
+These guardrails apply to the whole system. Code that violates these guardrails is considered incorrect, even if it appears to work.
+
+The complete guardrails specification is availablehere:
+
+- **[Input Guardrails](openspec/specs/guardrails-input/spec.md)**: Activity data validation, user-provided text processing, tag handling, and so on
+- **[Image Generation Prompt Guardrails](openspec/specs/guardrails-image-generation-prompt/spec.md)**: Image generation prompt content rules and limits
+- **[Image Generation Guardrails](openspec/specs/guardrails-image-generation/spec.md)**: Image style, output characteristics, retry/fallback strategies, failure handling, and determinism
