@@ -33,6 +33,231 @@ The specification system follows these principles:
 8. Predictable evolution through versioning
 9. Use of RFC 2119 keywords: **MUST**, **MUST NOT**, **MAY**, **SHOULD**, etc.
 
+## Guardrails
+
+Guardrails are explicit constraints that ensure predictable, safe, and consistent behavior of AI-driven components. Guardrails are part of the system specification. Any behavior not allowed by guardrails is considered undefined and must be prevented or safely handled by the implementation.
+
+These guardrails apply to the whole system. Code that violates these guardrails is considered incorrect, even if it appears to work.
+
+### Input Guardrails
+
+#### Required Fields
+
+An activity input **MUST** contain:
+- `type: string`
+- `sport_type: string`
+
+Optional fields **MAY** include:
+- `distance`
+- `avg_hr`
+- `pace`
+- `elevation_gain`
+- `time_of_day`
+- `weather`
+- `name`
+- `description`
+- `tags`
+- `gear`
+- And others coming from the Strava API
+
+If required fields are missing:
+- The activity **MUST** be rejected
+- OR handled via a predefined fallback
+
+#### Value Constraints
+
+Input values **MUST** satisfy the following constraints when present:
+
+- `distance > 0`
+- `avg_hr ∈ [40, 220]`
+- `pace > 0`
+- `elevation_gain ≥ 0`
+
+Values outside allowed ranges **MUST** be:
+- clamped
+- normalized
+- or replaced with `unknown`
+
+Absence of optional fields **MUST** NOT be treated as an error.
+
+#### Semantic Validation
+
+Inputs **MUST** be semantically consistent.
+
+Examples of invalid combinations:
+- Running pace faster than realistic human limits
+- Cycling cadence outside realistic bounds
+- Elevation gain is inconsistent with athe ctivity type
+
+If semantic validation fails:
+- Prefer graceful degradation
+- Avoid hard failure when possible
+
+### User-Provided Text Guardrails
+
+#### Supported Text Sources
+
+The system MAY ingest user-provided text from the following activity data:
+- `name`
+- `description`
+- `tags`
+- `gear`
+
+These fields MUST be treated as untrusted input.
+
+#### Text Usage Rules
+
+User-provided text:
+- **MUST NOT** be copied verbatim into prompts
+- **MUST** be processed through signal extraction
+- **MUST** comply with all prompt and content guardrails
+
+Only normalized semantic signals **MAY** influence prompt generation.
+
+#### Brands
+
+Brand names **MAY** be used in prompts under the following constraints:
+
+- Brands **MUST** originate from:
+  - gear metadata
+  - activity name or description
+- Brands **MUST NOT** be inferred or hallucinated
+- Brand usage **MUST** be contextual (e.g., equipment reference)
+- Excessive brand emphasis **MUST** be avoided
+
+Brand names **MUST** still comply with all other content guardrails.
+
+### Tag Guardrails
+
+#### Supported Tag Types
+
+The system MAY process built-in Strava tags, including but not limited to:
+- `long run`
+- `recovery`
+- `race`
+- `commute`
+- `with kid`
+- `easy`
+- `workout`
+
+Tags MAY be represented as:
+- structured fields
+- normalized enums
+- keywords extracted from metadata
+
+#### Tag Handling Rules
+
+- Tags **MUST** be normalized before use
+- Tags **MUST** influence mood, intensity, and scene
+- Tags **MUST NOT** be rendered as literal text in images
+- Conflicting tags **SHOULD** be resolved deterministically
+
+Examples:
+- `recovery` → calm mood, low intensity
+- `with kid` → playful or warm atmosphere
+- `long run` → endurance-oriented scene
+
+### Image Generation Prompt Guardrails
+
+#### Allowed Content
+
+Prompts **MAY** include:
+- Generic human figures
+- Nature, gym, home, urban, and abstract environments
+- Emotional tone (e.g., calm, intense, focused)
+- Artistic and stylistic descriptors
+- Contextual brand references (when allowed)
+
+#### Forbidden Content
+
+Prompts **MUST NOT** include:
+- Real persons or identifiable individuals
+- Political or ideological symbols
+- Explicit violence or sexual content
+- Military or combat scenes
+- Text, captions, or typography instructions
+
+If forbidden content is detected:
+- It **MUST** be removed or replaced
+- Generation **MUST NOT** proceed without sanitization
+
+#### Prompt Size Limits
+
+- Maximum prompt length: 400 characters
+- Prompts exceeding this limit **MUST** be truncated or simplified
+
+### Image Style Guardrails
+
+#### Allowed Styles
+
+Only the following visual styles and their variations are allowed:
+- `cartoon`
+- `minimal`
+- `abstract`
+- `illustrated`
+
+#### Forbidden Styles
+
+The system **MUST NOT** generate:
+- Photorealistic images
+- Hyper-detailed or ultra-realistic art
+- Faces with high realism
+
+#### Consistency
+
+For the same activity classification:
+- Style selection **SHOULD** be deterministic
+- Random variation **MUST** stay within allowed style boundaries
+
+### Image Output Guardrails
+
+Generated images **MUST** satisfy:
+- Aspect ratio: `1:1` or `16:9`
+- No text elements
+- 1–3 primary visual subjects
+- Neutral, non-distracting background
+- Safe content only
+
+If output validation fails:
+- A retry **MAY** be attempted
+- OR a fallback **MUST** be used
+
+### Retry and Fallback Strategy
+
+#### Retry Limits
+
+- Maximum retries per image generation: 2
+- Each retry **MUST** simplify the prompt
+
+#### Fallback Behavior
+
+If all retries fail:
+- Switch to `minimal` or `abstract` style
+- Use a predefined safe prompt
+- Always return a valid image
+
+The system **MUST** never return:
+- Partial results
+- Corrupted files
+- Empty responses
+
+### Failure Handling
+
+Failures **MUST** be:
+- Logged with reason and context
+- Classified (input, prompt, generation, validation)
+
+User-facing behavior **MUST**:
+- Be silent or graceful
+- Avoid exposing internal errors
+- Always produce a valid outcome
+
+### Determinism and Predictability
+
+Given identical inputs:
+- Classification and style decisions **SHOULD** be identical
+- Randomness **MUST** be bounded and controlled
+
 ## System Architecture
 
 ### Core Principles
@@ -314,7 +539,7 @@ GET /activities/{activityId}
 
 #### Parameters
 
-- `id: string` - The identifier of the activity. Required.
+- `id: string` - The identifier of the  Required.
 
 #### Sample Response
 
