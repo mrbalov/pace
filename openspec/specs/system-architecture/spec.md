@@ -1,14 +1,3 @@
----
-id: 3-system-architecture
-version: 1.0.1
-level: 3
-status: draft
-dependencies:
-  - 0-zero.spec.md
-  - 1-guardrails.spec.md
-  - 2-prompt-generation.spec.md
----
-
 # System Architecture Specification
 
 ## Purpose
