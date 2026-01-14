@@ -13,7 +13,3 @@ Use `/openspec/AGENTS.md` to learn:
 - Project structure and guidelines
 
 Keep this managed block so 'openspec update' can refresh the instructions.
-
-## Summary
-
-This AI image generator transforms Strava activities into artistic visualizations through a **deterministic, safe, and extensible pipeline**. By combining strict guardrails with semantic signal processing, the system creates personalized images that celebrate athletic achievements while maintaining predictable behavior and content safety.
