@@ -1,6 +1,6 @@
 # Image Generation Guardrails
 
-## Purpose
+## Purpose of the Document
 
 Define guardrails for image style, output characteristics, retry/fallback strategies, failure handling, and determinism in image generation.
 
