@@ -185,11 +185,13 @@ jobs:
         run: |
           echo "## ❌ Violations" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Spec | Rule | Description |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Spec ID | Rule | Description |" >> "$GITHUB_STEP_SUMMARY"
           echo "|------|------|-------------|" >> "$GITHUB_STEP_SUMMARY"
 
-          jq -r '.violations[]? |
-            "| \(.spec_id // "global") | \(.rule // "unknown") | \(.description // "No description") |"
+          jq -r '.violations[]? as $violation |
+            ($violation.spec_id // "global") as $id |
+            ($id | if test("^/") then sub("^.*/openspec/"; "openspec/") else . end) as $display |
+            "| \($display) | \($violation.rule // "unknown") | \($violation.description // "No description") |"
           ' .specs-validation/ai/result.json >> "$GITHUB_STEP_SUMMARY"
 
   fix-specs-with-ai-approval:
