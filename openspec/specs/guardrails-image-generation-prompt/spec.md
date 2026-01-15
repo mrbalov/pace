@@ -1,6 +1,10 @@
 # Image Generation Prompt Guardrails
 
-Guardrails for image generation prompt content, size limits, and safety validation.
+## Purpose
+
+Define guardrails for image generation prompt content, size limits, and safety validation to ensure appropriate and safe image generation.
+
+## Requirements
 
 ### Requirement: Allowed Prompt Content
 
