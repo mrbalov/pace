@@ -84,7 +84,7 @@ jobs:
           
           if [ "${{ steps.changed-specs.outputs.has_changed_specs }}" = "true" ]; then
             echo "Validating only changed spec files..."
-            bun run --filter @pace/validate-specs validate-specs-with-ai -- --specFilePaths "${{ steps.changed-specs.outputs.spec_paths }}" --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/result.json 2>&1 || {
+            bun run --filter @pace/validate-specs validate-specs:ai -- --specFilePaths "${{ steps.changed-specs.outputs.spec_paths }}" --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/result.json 2>&1 || {
               echo "Validation script failed. Output:"
               cat .specs-validation/ai/result.json
               # Create a valid error JSON response
@@ -92,7 +92,7 @@ jobs:
             }
           else
             echo "No changed spec files detected, validating all specs..."
-            bun run --filter @pace/validate-specs validate-specs-with-ai -- --rootDir $(pwd) --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/result.json 2>&1 || {
+            bun run --filter @pace/validate-specs validate-specs:ai -- --rootDir $(pwd) --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/result.json 2>&1 || {
               echo "Validation script failed. Output:"
               cat .specs-validation/ai/result.json
               # Create a valid error JSON response
