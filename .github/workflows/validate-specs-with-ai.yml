@@ -4,10 +4,9 @@ on:
   push:
     branches: [todo]
     paths:
-      - "specs/**/*.spec.md"
-      - "packages/validate-specs/**"
-      - ".github/workflows/validate-specs.yml"
-      - ".github/workflows/fix-specs.yml"
+      - "openspec/**"
+      - "packages/validate-specs/validate-specs-with-ai"
+      - ".github/workflows/validate-specs-with-ai.yml"
 
 jobs:
   validate-specs-with-ai:
@@ -52,7 +51,7 @@ jobs:
         run: |
           mkdir -p .specs-validation
           touch .specs-validation/result.json
-          bun run validate-specs > .specs-validation/result.json
+          bun run validate-specs:ai > .specs-validation/result.json
 
       - name: Expose validation result JSON (as base64)
         id: expose-validation-summary-json
@@ -63,13 +62,11 @@ jobs:
       - name: Parse validation result
         id: validation
         run: |
-          RESULT=$(jq -r '.result' .specs-validation/result.json)
-          INVALID_COUNT=$(jq '[.violations[] | select(.severity=="INVALID")] | length' .specs-validation/result.json)
-          CONDITIONAL_COUNT=$(jq '[.violations[] | select(.severity=="CONDITIONAL")] | length' .specs-validation/result.json)
+          RESULT=$(jq -r '.result // "INVALID"' .specs-validation/result.json)
+          VIOLATION_COUNT=$(jq '[.violations[]?] | length' .specs-validation/result.json)
 
           echo "result=$RESULT" >> "$GITHUB_OUTPUT"
-          echo "invalid_count=$INVALID_COUNT" >> "$GITHUB_OUTPUT"
-          echo "conditional_count=$CONDITIONAL_COUNT" >> "$GITHUB_OUTPUT"
+          echo "violation_count=$VIOLATION_COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Render validation summary
         if: always()
@@ -80,8 +77,7 @@ jobs:
             echo "| Metric | Value |"
             echo "|-------|-------|"
             echo "| Result | **${{ steps.validation.outputs.result }}** |"
-            echo "| Critical violations | ${{ steps.validation.outputs.invalid_count }} |"
-            echo "| Conditional violations | ${{ steps.validation.outputs.conditional_count }} |"
+            echo "| Violations | ${{ steps.validation.outputs.violation_count }} |"
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -90,11 +86,11 @@ jobs:
         run: |
           echo "## ❌ Violations" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Spec | Rule | Severity | Description |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|------|------|----------|-------------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Spec | Rule | Description |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|------|------|-------------|" >> "$GITHUB_STEP_SUMMARY"
 
-          jq -r '.violations[] |
-            "| \(.spec_id // "global") | \(.rule) | **\(.severity)** | \(.description) |"
+          jq -r '.violations[]? |
+            "| \(.spec_id // "global") | \(.rule // "unknown") | \(.description // "No description") |"
           ' .specs-validation/result.json >> "$GITHUB_STEP_SUMMARY"
 
   fix-specs-with-ai:
@@ -119,5 +115,5 @@ jobs:
         if: needs.validate-specs-with-ai.outputs.validation-status == 'INVALID'
         run: |
           echo "❌ Specs validation failed! Please review the validation summary above and address the issues."
-          echo "🤖 Or realy on the agent which already tries to fix the issues."
+          echo "🤖 Or rely on the agent which already tries to fix the issues."
           exit 1
