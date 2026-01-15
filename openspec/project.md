@@ -35,6 +35,7 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
   - Files: kebab-case for specs, lowercase for configs
 - **Import Style**: ES modules with explicit extensions where needed
 - **Async/Await**: Preferred over callbacks and raw promises
+- **Function Organization**: Each function should have its own dedicated folder with the function file and an `index.ts` that exports the function as `export { default } from './function-name';`. This pattern applies to all functions across the codebase.
 
 ### Architectual Patterns
 - **Service-Oriented Architecture**: Modular services with clear boundaries
@@ -44,7 +45,10 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
 - **Specification-Driven Development**: Formal specs guide implementation
 - **Guardrails Pattern**: Centralized validation service for all content safety
 
-### Testing Strategy
+### Testing
+
+#### Main Principles
+
 - **Test Runner**: Bun test (not Jest, despite jest.config.js presence)
 - **Coverage Requirements**: 
   - Minimum 80% coverage for all metrics (branches, functions, lines, statements)
@@ -53,8 +57,21 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
   - Unit tests for each service in isolation
   - Integration tests for service interactions
   - End-to-end tests for complete flows
-- **Test Location**: Tests alongside source files or in `__tests__` directories
+- **Test Location**: Tests alongside source files
 - **Mocking**: Dependency injection for easy mocking
+
+#### Test File Rules
+
+- Arrange test case type as `type Case = [...]` at the test file root.
+- Use `test.each<Case>([...])(...)` test style.
+- Provide a code-agnostic and business-user-friendly test case name.
+- Always split arrays and objects to be multiline for better readability.
+- Use the test function according to the following approach: `(_name, ...) => {...}`.
+- Use the following test case name template: `%#. %s`.
+- For verifying object responses, use `.toStrictEqual(...)` instead of `.toBe(...)`.
+- Use business-friendly names for test cases and avoid using complex technical words and variable names.
+- Use names for test cases based on behavior rather than implementation details.
+- When possible, avoid using mocks to make sure system components interact correctly.
 
 ### Git Workflow
 - **Repository**: GitHub (github.com/mrbalov/pace)

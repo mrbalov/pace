@@ -7,7 +7,7 @@ import validateSpecsWithAI from './validate-specs-with-ai';
  * CLI entry point.
  */
 if (import.meta.main) {
-  const { default: getCliArgs } = await import('./get-cli-args.js');
+  const { default: getCliArgs } = await import('./get-cli-args');
   const { rootDir, specFilePaths, systemPromptPath, userPromptPath } = getCliArgs();
   
   if (!systemPromptPath) {

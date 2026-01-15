@@ -122,7 +122,7 @@ jobs:
     name: Fix Specs with AI
     needs: [validate-specs-with-openspec, fix-specs-with-ai-approval]
     if: always() && needs.validate-specs-with-openspec.outputs.validation-status == 'false' && needs.fix-specs-with-ai-approval.result == 'success'
-    uses: ./.github/workflows/fix-specs-with-ai.yml
+    uses: ./.github/workflows/specs-fix-with-ai.yml
     secrets: inherit
     permissions:
       contents: write

@@ -2,7 +2,11 @@ const getCliArg = (name: string): string | undefined => {
   const args = process.argv.slice(2);
   const index = args.indexOf(name);
 
-  return index !== -1 ? String(args[index + 1]) : undefined;
+  if (index === -1 || args[index + 1] === undefined) {
+    return undefined;
+  } else {
+    return String(args[index + 1]);
+  }
 };
 
 const getCliArgs = () => {

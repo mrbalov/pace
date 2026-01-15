@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist",
+    "test": "bun run --filter '@pace/*' test",
     "validate-specs:ai": "bun run --filter @pace/validate-specs validate-specs:ai -- --rootDir $(pwd) --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md",
     "validate-specs:openspec": "bun run --filter @pace/validate-specs validate-specs:openspec -- --rootDir $(pwd)"
   },

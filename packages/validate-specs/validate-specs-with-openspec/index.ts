@@ -6,7 +6,7 @@ import validateSpecsWithOpenspec from './validate-specs-with-openspec';
  * CLI entry point.
  */
 if (import.meta.main) {
-  const { default: getCliArgs } = await import('./get-cli-args.js');
+  const { default: getCliArgs } = await import('./get-cli-args');
   const { rootDir } = getCliArgs();
   const result = await validateSpecsWithOpenspec(rootDir);
 

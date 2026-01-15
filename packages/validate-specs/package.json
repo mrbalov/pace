@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test": "bun test",
     "validate-specs:ai": "bun run validate-specs-with-ai",
     "validate-specs:openspec": "bun run validate-specs-with-openspec"
   }
