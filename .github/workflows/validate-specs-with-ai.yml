@@ -199,7 +199,12 @@ jobs:
 
           jq -r '.violations[]? as $violation |
             ($violation.spec_id // "global") as $id |
-            ($id | if test("^/") then sub("^.*/openspec/"; "openspec/") else . end) as $display |
+            (if $id == "global" or $id == null or $id == "" then "global"
+              elif ($id | test(".*/openspec/specs/([^/]+)/spec\\.md")) then
+                ($id | capture(".*/openspec/specs/(?<spec_id>[^/]+)/spec\\.md") | .spec_id)
+              elif ($id | test("/spec\\.md$")) then
+                ($id | split("/") | .[length - 2])
+              else $id end) as $display |
             "| \($display) | \($violation.rule // "unknown") | \($violation.description // "No description") |"
           ' .specs-validation/ai/result.json >> "$GITHUB_STEP_SUMMARY"
 
