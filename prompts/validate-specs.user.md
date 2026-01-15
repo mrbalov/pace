@@ -25,3 +25,6 @@ Return a **SINGLE** validation result using this contract:
 }
 
 Now validate the following specifications:
+
+Notes:
+- Each specification chunk is preceded by a `PATH:` header that shows the absolute path to the spec file. When recording a violation for a specific document, set `spec_id` to exactly that path (e.g., `openspec/specs/test-invalid-spec/spec.md`). If the violation applies globally, use `null`.
