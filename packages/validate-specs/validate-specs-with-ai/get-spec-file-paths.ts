@@ -13,7 +13,7 @@ const getSpecFilePaths = async (rootDir: string): Promise<string[]> => {
 
       if (entry.isDirectory()) {
         await walk(fullPath);
-      } else if (entry.isFile() && entry.name.endsWith('.spec.md')) {
+      } else if (entry.isFile() && entry.name.endsWith('spec.md')) {
         result.push(fullPath);
       }
     }
