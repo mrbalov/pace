@@ -49,21 +49,21 @@ jobs:
 
       - name: Run specs validation
         run: |
-          mkdir -p .specs-validation
-          touch .specs-validation/result.json
-          bun run validate-specs:ai > .specs-validation/result.json
+          mkdir -p .specs-validation/ai
+          touch .specs-validation/ai/result.json
+          bun run validate-specs:ai > .specs-validation/ai/result.json
 
       - name: Expose validation result JSON (as base64)
         id: expose-validation-summary-json
         run: |
-          SUMMARY_B64=$(base64 < .specs-validation/result.json | tr -d '\n')
+          SUMMARY_B64=$(base64 < .specs-validation/ai/result.json | tr -d '\n')
           echo "validation_summary_json=$SUMMARY_B64" >> "$GITHUB_OUTPUT"
 
       - name: Parse validation result
         id: validation
         run: |
-          RESULT=$(jq -r '.result // "INVALID"' .specs-validation/result.json)
-          VIOLATION_COUNT=$(jq '[.violations[]?] | length' .specs-validation/result.json)
+          RESULT=$(jq -r '.result // "INVALID"' .specs-validation/ai/result.json)
+          VIOLATION_COUNT=$(jq '[.violations[]?] | length' .specs-validation/ai/result.json)
 
           echo "result=$RESULT" >> "$GITHUB_OUTPUT"
           echo "violation_count=$VIOLATION_COUNT" >> "$GITHUB_OUTPUT"
@@ -91,7 +91,7 @@ jobs:
 
           jq -r '.violations[]? |
             "| \(.spec_id // "global") | \(.rule // "unknown") | \(.description // "No description") |"
-          ' .specs-validation/result.json >> "$GITHUB_STEP_SUMMARY"
+          ' .specs-validation/ai/result.json >> "$GITHUB_STEP_SUMMARY"
 
   fix-specs-with-ai:
     name: Fix Specs with AI

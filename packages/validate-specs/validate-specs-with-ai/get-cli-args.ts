@@ -5,10 +5,16 @@ const getCliArg = (name: string): string | undefined => {
   return index !== -1 ? String(args[index + 1]) : undefined;
 };
 
-const getCliArgs = () => ({
-  rootDir: getCliArg('--rootDir') ?? process.cwd(),
-  systemPromptPath: getCliArg('--systemPrompt'),
-  userPromptPath: getCliArg('--userPrompt'),
-});
+const getCliArgs = () => {
+  const rootDirArg = getCliArg('--rootDir');
+  const specFilePathsArg = getCliArg('--specFilePaths');
+  
+  return {
+    rootDir: rootDirArg ? rootDirArg : undefined,
+    specFilePaths: specFilePathsArg ? specFilePathsArg.split(',').map(path => path.trim()) : undefined,
+    systemPromptPath: getCliArg('--systemPrompt'),
+    userPromptPath: getCliArg('--userPrompt'),
+  };
+};
 
 export default getCliArgs;
