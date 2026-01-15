@@ -1,6 +1,7 @@
 # Project Context
 
 ## Purpose
+
 PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image generator that automatically transforms workout data into visually compelling, shareable images. The system analyzes Strava activity data and context to create personalized, expressive visuals for each activity, helping athletes present their performance and stories in a more engaging way.
 
 ### Key Goals
