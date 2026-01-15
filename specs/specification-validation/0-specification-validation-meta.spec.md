@@ -29,7 +29,6 @@ The specification system follows these principles:
 6. No implicit inheritance  
 7. No duplication of rules  
 8. Predictable evolution through versioning
-9. Use of RFC 2119 keywords: **MUST**, **MUST NOT**, **MAY**, **SHOULD**, etc.
 
 ## How to Use This Checklist
 
@@ -84,7 +83,6 @@ Failure → **INVALID**
 
 Verify the specification:
 
-- Uses RFC 2119 keywords correctly
 - Avoids ambiguous language
 - Avoids implementation terms where inappropriate
 
