@@ -7,6 +7,8 @@ const getCliArg = (name: string): string | undefined => {
 
 const getCliArgs = () => ({
   rootDir: getCliArg('--rootDir') ?? process.cwd(),
+  systemPromptPath: getCliArg('--systemPrompt'),
+  userPromptPath: getCliArg('--userPrompt'),
 });
 
 export default getCliArgs;

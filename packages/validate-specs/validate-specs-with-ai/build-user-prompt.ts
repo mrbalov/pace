@@ -1,8 +1,6 @@
 import { readFile } from 'node:fs/promises';
 
-import { USER_PROMPT } from './constants';
-
-const buildUserPrompt = async (specFilePaths: string[]): Promise<string> => {
+const buildUserPrompt = async (specFilePaths: string[], userPrompt: string): Promise<string> => {
   const specs = [];
 
   for (const filePath of specFilePaths) {
@@ -25,7 +23,7 @@ const buildUserPrompt = async (specFilePaths: string[]): Promise<string> => {
 
   return (
     `
-    ${USER_PROMPT}
+    ${userPrompt}
 
     --- BEGIN SPECIFICATIONS ---
 
