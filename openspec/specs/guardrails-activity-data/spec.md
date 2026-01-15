@@ -1,6 +1,10 @@
 # Activity Data Guardrails
 
-Guardrails for validating activity input data, user-provided text, and tags.
+## Purpose
+
+Define guardrails for validating activity input data, user-provided text, and tags to ensure data integrity and safe processing.
+
+## Requirements
 
 ### Requirement: Required Activity Fields
 

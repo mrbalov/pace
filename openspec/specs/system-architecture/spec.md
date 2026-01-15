@@ -1,6 +1,10 @@
 # System Architecture Requirements
 
-Architectural requirements for the PACE system's service-oriented architecture.
+## Purpose
+
+Define architectural requirements for the PACE system's service-oriented architecture to ensure robust, deterministic, and safe image generation from Strava activity data.
+
+## Requirements
 
 ### Requirement: Core Functionality Pipeline
 
