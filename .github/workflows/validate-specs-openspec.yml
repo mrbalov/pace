@@ -13,6 +13,10 @@ jobs:
     name: Validate Specs (OpenSpec)
     runs-on: ubuntu-latest
 
+    outputs:
+      validation-status: ${{ steps.parse-result.outputs.success }}
+      validation-summary-json: ${{ steps.expose-validation-summary-json.outputs.validation_summary_json }}
+
     permissions:
       contents: read
 
@@ -88,8 +92,38 @@ jobs:
             .issues[] | "| \($id) | \(.level) | \(.message | gsub("\n"; " ")) |"
           ' .specs-validation/openspec/result.json >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Expose validation result JSON (as base64)
+        id: expose-validation-summary-json
+        run: |
+          SUMMARY_B64=$(base64 < .specs-validation/openspec/result.json | tr -d '\n')
+          echo "validation_summary_json=$SUMMARY_B64" >> "$GITHUB_OUTPUT"
+
       - name: Fail pipeline on validation failure
         if: steps.parse-result.outputs.success == 'false'
         run: |
           echo "❌ OpenSpec validation failed! Please review the validation summary above and address the issues."
+          echo "🤖 You can trigger the AI fix by approving the 'Fix Specs (OpenSpec)' job below."
           exit 1
+
+  fix-specs-approval:
+    name: Fix Specs Approval (OpenSpec)
+    needs: validate-specs-openspec
+    if: needs.validate-specs-openspec.outputs.validation-status == 'false'
+    runs-on: ubuntu-latest
+    environment:
+      name: fix-specs-approval
+    steps:
+      - name: Approval granted
+        run: echo "Approval granted for fixing OpenSpec validation issues"
+
+  fix-specs:
+    name: Fix Specs (OpenSpec)
+    needs: [validate-specs-openspec, fix-specs-approval]
+    if: needs.validate-specs-openspec.outputs.validation-status == 'false'
+    uses: ./.github/workflows/fix-specs.yml
+    secrets: inherit
+    permissions:
+      contents: write
+      pull-requests: write
+    with:
+      summary: ${{ needs.validate-specs-openspec.outputs.validation-summary-json }}
