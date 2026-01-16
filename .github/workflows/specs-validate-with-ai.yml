@@ -5,8 +5,8 @@ on:
     branches: [main]
     paths:
       - "openspec/**"
-      - "packages/validate-specs/specs-validate-ai"
-      - ".github/workflows/specs-validate-ai.yml"
+      - "packages/validate-specs/specs-validate-with-ai"
+      - ".github/workflows/specs-validate-with-ai.yml"
   workflow_dispatch:
     inputs:
       specs:
@@ -16,10 +16,10 @@ on:
         default: ''
 
 jobs:
-  specs-validate-ai:
+  specs-validate-with-ai:
     name: Validate Specs with AI
     environment:
-      name: specs-validate-ai-approval
+      name: specs-validate-with-ai-approval
     runs-on: self-hosted
 
     outputs:
@@ -246,8 +246,8 @@ jobs:
 
   specs-fix-with-ai-approval:
     name: Fix Specs with AI Approval
-    needs: specs-validate-ai
-    if: always() && needs.specs-validate-ai.outputs.validation-status == 'INVALID'
+    needs: specs-validate-with-ai
+    if: always() && needs.specs-validate-with-ai.outputs.validation-status == 'INVALID'
     runs-on: ubuntu-latest
     environment:
       name: specs-fix-with-ai-approval
@@ -257,24 +257,24 @@ jobs:
 
   specs-fix-with-ai:
     name: Fix Specs with AI
-    needs: [specs-validate-ai, specs-fix-with-ai-approval]
-    if: always() && needs.specs-validate-ai.outputs.validation-status == 'INVALID' && needs.specs-fix-with-ai-approval.result == 'success'
+    needs: [specs-validate-with-ai, specs-fix-with-ai-approval]
+    if: always() && needs.specs-validate-with-ai.outputs.validation-status == 'INVALID' && needs.specs-fix-with-ai-approval.result == 'success'
     uses: ./.github/workflows/specs-fix-with-ai.yml
     secrets: inherit
     permissions:
       contents: write
       pull-requests: write
     with:
-      summary: ${{ needs.specs-validate-ai.outputs.validation-summary-json }}
+      summary: ${{ needs.specs-validate-with-ai.outputs.validation-summary-json }}
 
   finally:
     name: Finalize AI-Driven Specs Validation
-    needs: [specs-validate-ai, specs-fix-with-ai]
+    needs: [specs-validate-with-ai, specs-fix-with-ai]
     runs-on: self-hosted
 
     steps:
       - name: Fail pipeline on failed validation
-        if: needs.specs-validate-ai.outputs.validation-status == 'INVALID'
+        if: needs.specs-validate-with-ai.outputs.validation-status == 'INVALID'
         run: |
           echo "❌ Specs validation failed! Please review the validation summary above and address the issues."
           echo "🤖 Or rely on the agent which already tries to fix the issues."
