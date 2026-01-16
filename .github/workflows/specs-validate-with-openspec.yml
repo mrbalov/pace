@@ -1,4 +1,4 @@
-name: Validate Specs with OpenSpec
+name: Validate All Specs with OpenSpec (Static Validation)
 
 on:
   push:
