@@ -195,12 +195,11 @@ jobs:
             # Extract spec paths from comma-separated list (already absolute paths)
             echo "${{ steps.changed-specs.outputs.spec_paths }}" | tr ',' '\n' | jq -R . | jq -s . > .specs-validation/ai/validated-specs.json
           else
-            # Find all spec.md files from root directory (matching what the validation script does)
-            # Use the same logic as getSpecFilePaths - recursively find all files ending with spec.md
-            # Exclude .git directory but include everything else (including node_modules if validation script includes them)
+            # Find all spec.md files from openspec directory only
+            # Recursively find all files ending with spec.md within ./openspec
             # Convert to absolute paths to match violation spec_ids format
             ROOT_DIR=$(pwd)
-            find . -name "spec.md" -type f -not -path "*/.git/*" | while read -r file; do
+            find ./openspec -name "*spec.md" -type f | while read -r file; do
               # Convert relative path to absolute path
               if [[ "$file" == ./* ]]; then
                 echo "$ROOT_DIR${file#.}"
