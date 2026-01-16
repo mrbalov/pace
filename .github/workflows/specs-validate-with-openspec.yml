@@ -81,16 +81,20 @@ jobs:
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Render validation failures
-        if: steps.parse-result.outputs.failed != '0'
+      - name: Render validation results
+        if: always()
         run: |
-          echo "## ❌ Validation Issues" >> "$GITHUB_STEP_SUMMARY"
+          echo "## 📋 All Validated Specs" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Spec ID | Level | Message |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Spec ID | Status | Message |" >> "$GITHUB_STEP_SUMMARY"
           echo "|---------|-------|---------|" >> "$GITHUB_STEP_SUMMARY"
 
-          jq -r '.items[] | select(.valid == false) | .id as $id |
-            .issues[] | "| \($id) | \(.level) | \(.message | gsub("\n"; " ")) |"
+          jq -r '.items[] | 
+            if .valid then 
+              "| \(.id) | ✅ Valid | No issues found |"
+            else 
+              .id as $id | .issues[] | "| \($id) | \(.level) | \(.message | gsub("\n"; " ")) |"
+            end
           ' .specs-validation/openspec/result.json >> "$GITHUB_STEP_SUMMARY"
 
       - name: Expose validation result JSON (as base64)
