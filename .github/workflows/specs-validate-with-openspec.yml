@@ -5,12 +5,12 @@ on:
     branches: [main]
     paths:
       - "openspec/**"
-      - "packages/validate-specs/validate-specs-with-openspec/**"
-      - ".github/workflows/validate-specs-with-openspec.yml"
+      - "packages/validate-specs/specs-validate-openspec/**"
+      - ".github/workflows/specs-validate-openspec.yml"
   workflow_dispatch:
 
 jobs:
-  validate-specs-with-openspec:
+  specs-validate-openspec:
     name: Validate Specs with OpenSpec (Static Validation)
     runs-on: ubuntu-latest
 
@@ -49,7 +49,7 @@ jobs:
         id: validation
         run: |
           mkdir -p .specs-validation/openspec
-          bun packages/validate-specs/validate-specs-with-openspec/index.ts --rootDir $(pwd) > .specs-validation/openspec/result.json || true
+          bun packages/validate-specs/specs-validate-openspec/index.ts --rootDir $(pwd) > .specs-validation/openspec/result.json || true
 
       - name: Parse validation result
         id: parse-result
@@ -107,25 +107,25 @@ jobs:
           echo "🤖 You can trigger the AI fix by approving the 'Fix Specs Approval (OpenSpec)' job below."
           exit 1
 
-  fix-specs-with-ai-approval:
+  specs-fix-with-ai-approval:
     name: Fix Specs with AI Approval
-    needs: validate-specs-with-openspec
-    if: always() && needs.validate-specs-with-openspec.outputs.validation-status == 'false'
+    needs: specs-validate-openspec
+    if: always() && needs.specs-validate-openspec.outputs.validation-status == 'false'
     runs-on: ubuntu-latest
     environment:
-      name: fix-specs-with-ai-approval
+      name: specs-fix-with-ai-approval
     steps:
       - name: Approval granted
         run: echo "Approval granted for fixing OpenSpec validation issues with AI"
 
-  fix-specs-with-ai:
+  specs-fix-with-ai:
     name: Fix Specs with AI
-    needs: [validate-specs-with-openspec, fix-specs-with-ai-approval]
-    if: always() && needs.validate-specs-with-openspec.outputs.validation-status == 'false' && needs.fix-specs-with-ai-approval.result == 'success'
+    needs: [specs-validate-openspec, specs-fix-with-ai-approval]
+    if: always() && needs.specs-validate-openspec.outputs.validation-status == 'false' && needs.specs-fix-with-ai-approval.result == 'success'
     uses: ./.github/workflows/specs-fix-with-ai.yml
     secrets: inherit
     permissions:
       contents: write
       pull-requests: write
     with:
-      summary: ${{ needs.validate-specs-with-openspec.outputs.validation-summary-json }}
+      summary: ${{ needs.specs-validate-openspec.outputs.validation-summary-json }}
