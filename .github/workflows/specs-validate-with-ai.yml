@@ -300,18 +300,18 @@ jobs:
             extract_display_id($spec_path) as $display_id |
             
             # Try to find violations for this spec (check both exact match and normalized match)
-    (if $violations_by_spec[$spec_path] then $violations_by_spec[$spec_path]
-     elif $violations_by_spec[$normalized_spec_path] then $violations_by_spec[$normalized_spec_path]
-     else [] end) as $spec_violations |
+            (if $violations_by_spec[$spec_path] then $violations_by_spec[$spec_path]
+             elif $violations_by_spec[$normalized_spec_path] then $violations_by_spec[$normalized_spec_path]
+             else [] end) as $spec_violations |
             
-    if ($spec_violations | length) > 0 then
-      # Spec has violations - show each violation
-      $spec_violations[] |
-      "| \($display_id) | ❌ Invalid | \(.rule // "unknown") | \(.description // "No description") |"
-    else
-      # Spec is valid
-      "| \($display_id) | ✅ Valid | - | No issues found |"
-    end
+            if ($spec_violations | length) > 0 then
+              # Spec has violations - show each violation
+              $spec_violations[] |
+              "| \($display_id) | ❌ Invalid | \(.rule // "unknown") | \(.description // "No description") |"
+            else
+              # Spec is valid
+              "| \($display_id) | ✅ Valid | - | No issues found |"
+            end
           ' .specs-validation/ai/result.json >> "$GITHUB_STEP_SUMMARY"
 
           # Handle global violations (violations without spec_id)
