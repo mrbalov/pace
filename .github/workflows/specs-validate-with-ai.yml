@@ -197,9 +197,10 @@ jobs:
           else
             # Find all spec.md files from openspec directory only
             # Recursively find all files ending with spec.md within ./openspec
+            # Exclude templates directory (schemas/spec-driven/templates)
             # Convert to absolute paths to match violation spec_ids format
             ROOT_DIR=$(pwd)
-            find ./openspec -name "*spec.md" -type f | while read -r file; do
+            find ./openspec -name "*spec.md" -type f -not -path "*/schemas/spec-driven/templates/*" | while read -r file; do
               # Convert relative path to absolute path
               if [[ "$file" == ./* ]]; then
                 echo "$ROOT_DIR${file#.}"
