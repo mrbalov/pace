@@ -189,7 +189,12 @@ describe('fetch-activity', () => {
           return async () => {
             callCount++;
             if (callCount === 1) {
-              return new Response('Rate Limited', { status: 429 });
+              return new Response('Rate Limited', {
+                status: 429,
+                headers: {
+                  'Retry-After': '0.1',
+                },
+              });
             }
             return new Response(
               JSON.stringify({

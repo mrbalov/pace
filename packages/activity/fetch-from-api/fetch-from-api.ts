@@ -101,11 +101,14 @@ const fetchFromApi = async (
   }
 
   if (response.status === 429) {
-    throw createActivityError(
+    const error = createActivityError(
       'RATE_LIMITED',
       'Rate limit exceeded. Please try again later.',
       true
     );
+    // Store cloned response in error for rate limit handling (clone to preserve headers)
+    (error as any).response = response.clone();
+    throw error;
   }
 
   if (response.status >= 500) {

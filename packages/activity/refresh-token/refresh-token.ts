@@ -80,15 +80,17 @@ const refreshToken = async (config: ActivityConfig): Promise<string> => {
     throw createActivityError('UNAUTHORIZED', 'Token refresh failed');
   }
 
+  // Clone response to avoid consuming the body stream
+  const clonedResponse = response.clone();
   let jsonData: { access_token?: string; refresh_token?: string };
 
   try {
-    jsonData = (await response.json()) as { access_token?: string; refresh_token?: string };
+    jsonData = (await clonedResponse.json()) as { access_token?: string; refresh_token?: string };
   } catch (error) {
     throw createActivityError('MALFORMED_RESPONSE', 'Invalid response format from token refresh endpoint');
   }
 
-  if (jsonData.access_token === undefined) {
+  if (jsonData.access_token === undefined || jsonData.access_token === null) {
     throw createActivityError('MALFORMED_RESPONSE', 'Access token not found in refresh response');
   }
 

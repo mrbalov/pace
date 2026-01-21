@@ -32,10 +32,10 @@ const handleRateLimit = async (response: Response): Promise<void> => {
   const retryAfterHeader = response.headers.get('Retry-After');
 
   if (retryAfterHeader !== null) {
-    const retryAfterSeconds = Number.parseInt(retryAfterHeader, 10);
+    const retryAfterSeconds = Number.parseFloat(retryAfterHeader);
 
     if (!Number.isNaN(retryAfterSeconds) && Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0) {
-      const waitMs = retryAfterSeconds * 1000;
+      const waitMs = Math.ceil(retryAfterSeconds * 1000);
       await Bun.sleep(waitMs);
       return;
     }

@@ -85,8 +85,12 @@ const fetchActivity = async (activityId: string, config: ActivityConfig): Promis
       const activityError = parseError(error as Error);
 
       if (activityError !== null && activityError.code === 'RATE_LIMITED') {
-        const mockResponse = new Response('Rate Limited', { status: 429 });
-        await handleRateLimit(mockResponse);
+        // Use the actual response if available, otherwise create a mock with default wait
+        const rateLimitResponse = (error as any).response ?? new Response('Rate Limited', {
+          status: 429,
+          headers: { 'Retry-After': '60' },
+        });
+        await handleRateLimit(rateLimitResponse);
         throw error;
       }
 
