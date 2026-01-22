@@ -2,11 +2,14 @@
   # Note: publish directory should be set in Netlify dashboard, not here
   # because paths in netlify.toml are resolved relative to repo root,
   # not the base directory. Set it to "public" in dashboard.
+  command = "bun run build"
+  # If Bun is not available, Netlify will fall back to npm/yarn
+  # Make sure to set build command in dashboard: "bun run build" or "npm run build"
 
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-  included_files = ["packages/**/*.ts", "packages/**/*.js"]
+  included_files = ["packages/ui/server/**/*.ts", "packages/ui/browser/**/*.ts", "packages/ui/types.ts", "packages/**/*.ts", "packages/**/*.js"]
 
 [[redirects]]
   from = "/strava/auth"
@@ -18,7 +21,11 @@
   to = "/.netlify/functions/strava-auth-callback"
   status = 200
 
+# Serve static files before redirecting to functions
+# Static files in /js/ are served automatically from public/js/
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/root"
   status = 200
+  # Exclude static assets - they're served automatically from public/
+  force = false

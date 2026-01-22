@@ -1,4 +1,4 @@
-export { default as getConfig } from './config';
-export * from './cookies';
-export * from './routes';
+export { default as getConfig } from './server/config';
+export * from './server/cookies';
+export * from './server/routes';
 export * from './types';

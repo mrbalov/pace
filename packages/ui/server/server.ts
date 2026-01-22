@@ -6,12 +6,12 @@
  * Provides web endpoints for Strava OAuth authorization and token management.
  */
 
-import getConfig from '../config';
+import getConfig from './config';
 import {
   handleStravaAuth,
   handleStravaAuthCallback,
   handleRoot,
-} from '../routes';
+} from './routes';
 
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';

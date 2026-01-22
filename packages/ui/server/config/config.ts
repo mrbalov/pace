@@ -1,4 +1,4 @@
-import type { ServerConfig } from '../types';
+import type { ServerConfig } from '../../types';
 
 /**
  * Gets the server hostname from environment variables.

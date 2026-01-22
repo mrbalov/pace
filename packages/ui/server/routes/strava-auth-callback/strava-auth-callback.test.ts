@@ -1,7 +1,7 @@
 import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
 import handleStravaAuthCallback from './strava-auth-callback';
-import type { ServerConfig } from '../../types';
-import { COOKIE_NAMES } from '../../types';
+import type { ServerConfig } from '../../../types';
+import { COOKIE_NAMES } from '../../../types';
 
 describe('handleStravaAuthCallback', () => {
   const mockConfig: ServerConfig = {

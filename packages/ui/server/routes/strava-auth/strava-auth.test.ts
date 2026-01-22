@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeEach } from 'bun:test';
 import handleStravaAuth from './strava-auth';
-import type { ServerConfig } from '../../types';
+import type { ServerConfig } from '../../../types';
 
 describe('handleStravaAuth', () => {
   const mockConfig: ServerConfig = {

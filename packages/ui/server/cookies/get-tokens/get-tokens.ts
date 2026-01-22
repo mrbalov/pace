@@ -1,4 +1,4 @@
-import { COOKIE_NAMES } from '../../types';
+import { COOKIE_NAMES } from '../../../types';
 
 /**
  * Parses cookies from cookie header string.

@@ -1,6 +1,6 @@
 import { exchangeToken } from '@pace/strava-auth';
-import { setTokens } from '../../cookies';
-import type { ServerConfig } from '../../types';
+import { setTokens } from '../cookies';
+import type { ServerConfig } from '../../../types';
 
 /**
  * Handles GET /strava/auth/callback - OAuth callback handler.

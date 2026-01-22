@@ -2,8 +2,8 @@
  * Netlify Function wrapper for root (/) endpoint
  */
 
-import { handleRoot } from '../../routes';
-import getConfig from '../../config';
+import { handleRoot } from '../../server/routes';
+import getConfig from '../../server/config';
 
 export const handler = async (event: any) => {
   try {

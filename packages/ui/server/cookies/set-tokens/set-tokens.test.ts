@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'bun:test';
 import setTokens from './set-tokens';
-import type { ServerConfig } from '../../types';
-import { COOKIE_NAMES } from '../../types';
+import type { ServerConfig } from '../../../types';
+import { COOKIE_NAMES } from '../../../types';
 
 describe('setTokens', () => {
   const cookieConfig: ServerConfig['cookies'] = {

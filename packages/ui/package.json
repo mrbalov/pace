@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun run src/server.ts",
-    "start": "bun run src/server.ts"
+    "build": "bun build browser/index.ts --outfile public/js/components.js --target browser --format iife --minify && bun build browser/app.ts --outfile public/js/app.js --target browser --format esm --minify",
+    "dev": "bun run build && bun run server/server.ts",
+    "start": "bun run build && bun run server/server.ts"
   },
   "dependencies": {
     "@pace/strava-auth": "workspace:*"

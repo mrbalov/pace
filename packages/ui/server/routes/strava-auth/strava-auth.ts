@@ -1,5 +1,5 @@
 import { getAuthorizationUrl } from '@pace/strava-auth';
-import type { ServerConfig } from '../../types';
+import type { ServerConfig } from '../../../types';
 
 /**
  * Handles GET /strava/auth - Initiates Strava OAuth flow.

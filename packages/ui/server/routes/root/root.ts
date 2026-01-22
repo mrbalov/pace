@@ -1,5 +1,5 @@
-import rootTemplate from '../../src/templates/root.html';
-import type { ServerConfig } from '../../types';
+import rootTemplate from '../templates/root.html';
+import type { ServerConfig } from '../../../types';
 
 /**
  * Handles GET / - Root path handler.

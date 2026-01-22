@@ -2,8 +2,8 @@
  * Netlify Function wrapper for /strava/auth/callback endpoint
  */
 
-import { handleStravaAuthCallback } from '../../routes';
-import getConfig from '../../config';
+import { handleStravaAuthCallback } from '../../server/routes';
+import getConfig from '../../server/config';
 
 export const handler = async (event: any) => {
   try {

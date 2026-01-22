@@ -324,10 +324,16 @@ In Netlify dashboard:
 
 1. Go to **Site settings** → **Build & deploy**
 2. Set **Base directory** to: `packages/ui`
-3. Set **Build command** to: (leave empty - netlify.toml handles it)
+3. Set **Build command** to: (default from `netlify.toml` is recommended)
+   - Default: `curl -fsSL https://bun.sh/install | bash && export PATH="$HOME/.bun/bin:$PATH" && bun run build`
+   - This installs Bun if needed, then builds browser code from `browser/` to `public/js/`
+   - If Bun is already available in your build environment, you can use: `bun run build`
 4. Set **Publish directory** to: `public` (relative to base directory)
 
-**Important**: The `publish` directory must be set in the Netlify dashboard, not in `netlify.toml`, because Netlify resolves paths in `netlify.toml` relative to the repo root, not the base directory.
+**Important**: 
+- The `publish` directory must be set in the Netlify dashboard, not in `netlify.toml`, because Netlify resolves paths in `netlify.toml` relative to the repo root, not the base directory.
+- The build command is required to bundle browser components from TypeScript to JavaScript.
+- Static files in `public/js/` (like `components.js` and `app.js`) are served automatically by Netlify before redirects are processed.
 
 ### Step 4: Deploy
 
@@ -338,7 +344,7 @@ In Netlify dashboard:
 3. Connect your Git repository
 4. Configure:
    - **Base directory**: `packages/ui`
-   - **Build command**: (leave empty or use `echo 'No build step needed'`)
+   - **Build command**: `bun run build` (or `npm run build` if Bun is not available)
    - **Publish directory**: `public`
 5. Add environment variables (see Step 1)
 6. Click **Deploy site**
@@ -431,6 +437,21 @@ If you see the error: `Deploy directory 'public' does not exist`
 - Ensure all dependencies are listed in `package.json`
 - Check that TypeScript files are being transpiled correctly
 - Verify that `node_bundler = "esbuild"` is set in `netlify.toml`
+- Ensure the build command runs successfully (check build logs)
+
+#### Build Command Fails
+
+If `bun run build` fails in Netlify:
+
+1. **Install Bun in build environment**: Add a build command that installs Bun first:
+   ```
+   curl -fsSL https://bun.sh/install | bash && export PATH="$HOME/.bun/bin:$PATH" && bun run build
+   ```
+   Or set it in Netlify dashboard: **Build & deploy** → **Build command**
+
+2. **Alternative**: Commit the built files (`public/js/components.js` and `public/js/app.js`) to the repository so the build step isn't required (not recommended for production)
+
+3. **Check build logs**: Look for errors in the Netlify build logs to see what's failing
 
 ### Netlify File Structure
 
@@ -442,11 +463,22 @@ packages/ui/
 │       ├── strava-auth.ts
 │       ├── strava-auth-callback.ts
 │       └── root.ts
-├── public/                   # Static files
-│   └── index.html
-├── routes/                   # Route handlers (shared with Bun server)
-├── config/                   # Configuration
-└── cookies/                  # Cookie utilities
+├── server/                   # Server-side code
+│   ├── server.ts             # Bun server entry point
+│   ├── routes/               # Route handlers
+│   ├── templates/            # HTML template generators
+│   ├── config/               # Server configuration
+│   └── cookies/              # Cookie utilities
+├── browser/                  # Browser-side code
+│   ├── index.ts              # Components entry point
+│   ├── app.ts                # Main client app script
+│   └── components/           # Web components (TypeScript)
+├── public/                   # Static files and build output
+│   ├── index.html
+│   └── js/                   # Built browser code (generated)
+│       ├── components.js
+│       └── app.js
+└── types.ts                  # Shared types
 ```
 
 ### Important Notes

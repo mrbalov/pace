@@ -1,5 +1,5 @@
-import type { ServerConfig } from '../../types';
-import { COOKIE_NAMES } from '../../types';
+import type { ServerConfig } from '../../../types';
+import { COOKIE_NAMES } from '../../../types';
 
 /**
  * Sets Strava OAuth tokens as HTTP-only cookies in the response.
