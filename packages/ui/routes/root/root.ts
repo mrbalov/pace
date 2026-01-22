@@ -1,3 +1,4 @@
+import rootTemplate from '../../src/templates/root.html';
 import type { ServerConfig } from '../../types';
 
 /**
@@ -6,10 +7,11 @@ import type { ServerConfig } from '../../types';
  * Catches OAuth callbacks that Strava redirects to the root domain
  * (when Authorization Callback Domain is set to just the domain).
  * If OAuth parameters are present, redirects to the proper callback handler.
+ * Otherwise, returns the root page HTML.
  *
  * @param {Request} request - HTTP request
  * @param {ServerConfig} config - Server configuration
- * @returns {Response} Redirect response to callback handler or default page
+ * @returns {Response} Redirect response to callback handler or HTML page
  */
 const handleRoot = (request: Request, config: ServerConfig): Response => {
   const url = new URL(request.url);
@@ -32,20 +34,12 @@ const handleRoot = (request: Request, config: ServerConfig): Response => {
     });
   }
 
-  // Otherwise, return a simple response or redirect to a default page
-  return new Response(
-    JSON.stringify({
-      message: 'PACE UI Server',
-      endpoints: {
-        auth: '/strava/auth',
-      },
-    }),
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  // Otherwise, return the root page HTML
+  return new Response(rootTemplate(), {
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+    },
+  });
 };
 
 export default handleRoot;

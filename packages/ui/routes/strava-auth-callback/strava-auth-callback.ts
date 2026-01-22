@@ -26,10 +26,8 @@ const handleStravaAuthCallback = async (request: Request, config: ServerConfig):
         Location: config.errorRedirect || '/',
       },
     });
-  }
-
-  // Validate authorization code
-  if (!code) {
+  } else if (!code) {
+    // Validate authorization code
     console.error('Missing authorization code in callback');
     return new Response(null, {
       status: 302,
@@ -37,43 +35,43 @@ const handleStravaAuthCallback = async (request: Request, config: ServerConfig):
         Location: config.errorRedirect || '/',
       },
     });
-  }
+  } else {
+    try {
+      // Exchange authorization code for tokens
+      const tokens = await exchangeToken(code, {
+        clientId: config.strava.clientId,
+        clientSecret: config.strava.clientSecret,
+        redirectUri: config.strava.redirectUri,
+        scope: config.strava.scope,
+      });
 
-  try {
-    // Exchange authorization code for tokens
-    const tokens = await exchangeToken(code, {
-      clientId: config.strava.clientId,
-      clientSecret: config.strava.clientSecret,
-      redirectUri: config.strava.redirectUri,
-      scope: config.strava.scope,
-    });
+      // Create redirect response
+      const redirectResponse = new Response(null, {
+        status: 302,
+        headers: {
+          Location: config.successRedirect || '/',
+        },
+      });
 
-    // Create redirect response
-    const redirectResponse = new Response(null, {
-      status: 302,
-      headers: {
-        Location: config.successRedirect || '/',
-      },
-    });
+      // Set tokens as cookies
+      const responseWithCookies = setTokens(
+        redirectResponse,
+        tokens.access_token,
+        tokens.refresh_token,
+        tokens.expires_at,
+        config.cookies
+      );
 
-    // Set tokens as cookies
-    const responseWithCookies = setTokens(
-      redirectResponse,
-      tokens.access_token,
-      tokens.refresh_token,
-      tokens.expires_at,
-      config.cookies
-    );
-
-    return responseWithCookies;
-  } catch (error) {
-    console.error('Token exchange failed:', error);
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location: config.errorRedirect || '/',
-      },
-    });
+      return responseWithCookies;
+    } catch (error) {
+      console.error('Token exchange failed:', error);
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: config.errorRedirect || '/',
+        },
+      });
+    }
   }
 };
 

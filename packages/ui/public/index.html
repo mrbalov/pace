@@ -4,10 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PACE - Strava Activity Image Generator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>
 <body>
-  <h1>PACE UI Server</h1>
-  <p>Strava OAuth authorization endpoints are available.</p>
-  <p><a href="/strava/auth">Authorize with Strava</a></p>
+  <main class="container">
+    <header>
+      <h1>PACE</h1>
+      <p>Strava Activity Image Generator</p>
+    </header>
+    <section>
+      <p>Strava OAuth authorization endpoints are available.</p>
+      <a href="/strava/auth" role="button">Authorize with Strava</a>
+    </section>
+  </main>
 </body>
 </html>

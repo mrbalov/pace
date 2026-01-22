@@ -13,8 +13,11 @@ import type { ServerConfig } from '../../types';
 const handleStravaAuth = (request: Request, config: ServerConfig): Response => {
   try {
     // Log the redirect URI being used for debugging
-    console.log(`🔐 Initiating Strava OAuth with redirect URI: ${config.strava.redirectUri}`);
-    console.log(`⚠️  Make sure this matches your Strava app's "Authorization Callback Domain" setting!`);
+    console.log(`🔐 Initiating Strava OAuth`);
+    console.log(`   Client ID: ${config.strava.clientId}`);
+    console.log(`   Redirect URI: ${config.strava.redirectUri}`);
+    console.log(`   Scope: ${config.strava.scope}`);
+    console.log(`⚠️  Make sure the redirect URI matches your Strava app's registered callback URL!`);
 
     const authUrl = getAuthorizationUrl({
       clientId: config.strava.clientId,
@@ -22,6 +25,8 @@ const handleStravaAuth = (request: Request, config: ServerConfig): Response => {
       redirectUri: config.strava.redirectUri,
       scope: config.strava.scope,
     });
+
+    console.log(`   Authorization URL: ${authUrl}`);
 
     return new Response(null, {
       status: 302,

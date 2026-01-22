@@ -121,10 +121,11 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
 - Temporary variables use descriptive names: `originalArgv`, `tempDir`, `candidateBin`
 
 #### Conditional Logic
-- Avoid early returns - use explicit `if...else if...else`
+- **EARLY RETURNS ARE FORBIDDEN**: The early-return pattern is strictly forbidden. All `if` conditions must be clear, logical, and structured. Always use `if...else if...else` instead of early returns.
 - Use descriptive boolean variables for conditions: `const hasRootDir = rootDir !== undefined;`
 - Check conditions explicitly: `if (!hasRootDir && !hasSpecFilePaths) { ... }`
 - Use nullish coalescing when appropriate: `rootDir ?? process.cwd()`
+- All conditional branches must be explicit and complete - no shortcuts or guard clauses that return early
 
 #### File Operations
 - Use `node:fs/promises` for async file operations: `readFile`, `writeFile`, `mkdir`, `rm`

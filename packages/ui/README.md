@@ -307,8 +307,16 @@ COOKIE_SAME_SITE=lax
 
 1. Go to [Strava Developers](https://www.strava.com/settings/api)
 2. Edit your application
-3. Update **Authorization Callback Domain** to your Netlify domain (e.g., `your-site.netlify.app`)
-4. Save changes
+3. Set **Authorization Callback Domain** to your domain (e.g., `pace.balov.dev` or `your-site.netlify.app`)
+   - **Important**: This should be just the domain, without `https://` or any path
+4. The redirect URI in your OAuth request (e.g., `https://pace.balov.dev/strava/auth/callback`) must match a path on the registered domain
+5. Save changes
+
+**Troubleshooting**: If you see a "redirect_uri invalid" error:
+- Verify the `STRAVA_REDIRECT_URI` environment variable in Netlify matches exactly what you're using (including `https://`)
+- Check that your Authorization Callback Domain in Strava matches the domain part of your redirect URI
+- Ensure there are no trailing slashes or extra characters
+- The redirect URI must use HTTPS for production (Strava requires HTTPS for non-localhost domains)
 
 ### Step 3: Configure Build Settings
 
