@@ -161,6 +161,25 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
 - **Specification-Driven Development**: Formal specs guide implementation
 - **Guardrails Pattern**: Validation modules for activity and specs content safety
 
+### Linting
+
+#### ESLint Configuration
+
+- **Linter**: ESLint 9+ with TypeScript and JSDoc plugins (flat config format)
+- **Configuration**: `eslint.config.mjs` at project root (modern flat config)
+- **Run linting**: `bun run lint` from root directory
+- **Auto-fix issues**: `bun run lint:fix` from root directory
+- **Enforced Rules**:
+  - No `let` usage (always use `const`)
+  - No nested functions
+  - Explicit return types required
+  - JSDoc comments required for all functions
+  - Type annotations required
+  - Prefer arrow functions
+  - Node.js built-ins must use `node:` prefix
+- **Limitations**: Some rules from project.md require manual review (see `LINTING.md` for details)
+- **Code Quality Requirements**: See "Code Quality Requirements" section below for requirements about running tests and linter together after code changes
+
 ### Testing
 
 #### Main Principles
@@ -195,6 +214,18 @@ PACE (Personal Activity Canvas Engine) is an AI-powered Strava activity image ge
 - **Test command**: Use `bun run test` from the root directory to run all tests across all packages.
 - **Fix failing tests**: If any tests fail after code changes, they MUST be fixed before the changes are considered complete.
 - **Test before committing**: Ensure all tests pass before committing code changes.
+
+#### Code Quality Requirements
+
+- **MUST run tests and linter after every code change**: After making any code changes, BOTH tests and linter MUST be run, results MUST be reviewed, and issues MUST be fixed.
+- **Tests and linting MUST work in parallel**: Tests and linting MUST always pass together. Code changes are not complete until both tests pass AND linting passes.
+- **Linter commands**:
+  - Run linter: Use `bun run lint` from the root directory to check for linting errors
+  - Fix linter issues: Prefer using `bun run lint:fix` command to auto-fix linting issues where possible
+  - Manual fixes: For issues that cannot be auto-fixed, manually fix them according to the rules in `LINTING.md`
+- **Review results**: Always review both test results and linting results to ensure code quality
+- **Fix all issues**: All failing tests and linting errors MUST be fixed before the changes are considered complete
+- **Before committing**: Ensure both all tests pass AND linting passes before committing code changes
 
 ### Git Workflow
 - **Repository**: GitHub (github.com/mrbalov/pace)
