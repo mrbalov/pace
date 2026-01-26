@@ -7,5 +7,5 @@
 // This file handles any additional client-side functionality
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('PACE UI initialized');
+  console.log('PACE UI initialized!');
 });

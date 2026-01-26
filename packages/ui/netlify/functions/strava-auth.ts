@@ -3,7 +3,7 @@
  */
 
 import { handleStravaAuth } from '../../server/routes';
-import getConfig from '../../server/config';
+import getConfig from '../../server/get-config';
 
 export const handler = async (event: any) => {
   try {

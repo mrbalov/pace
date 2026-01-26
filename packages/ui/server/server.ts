@@ -6,7 +6,7 @@
  * Provides web endpoints for Strava OAuth authorization and token management.
  */
 
-import getConfig from './config';
+import getConfig from './get-config';
 import {
   handleStravaAuth,
   handleStravaAuthCallback,
@@ -120,6 +120,10 @@ const handleError = (error: Error): Response => {
   return new Response('Internal Server Error', { status: 500 });
 };
 
+/** 
+ * UI dev server instance.
+ * Allows to mimic Netlify website behavior on the local machine.
+ */
 const server = Bun.serve({
   hostname: config.hostname,
   fetch: handleRequest,
@@ -131,5 +135,5 @@ const server = Bun.serve({
 });
 
 const serverUrl = `http://${config.hostname}${server.port ? `:${server.port}` : ''}`;
-console.log(`🚀 PACE UI Server running on ${serverUrl}`);
-console.log(`📋 Strava Auth: ${serverUrl}/strava/auth`);
+
+console.log(`🚀 PACE UI Dev Server is running on ${serverUrl}.`);

@@ -1,9 +1,9 @@
 import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
-import { handleStravaAuthCallback } from './strava-auth-callback';
+import stravaAuthCallback from './strava-auth-callback';
 import type { ServerConfig } from '../../types';
 import { COOKIE_NAMES } from '../../types';
 
-describe('handleStravaAuthCallback', () => {
+describe('stravaAuthCallback', () => {
   const mockConfig: ServerConfig = {
     hostname: 'localhost',
     strava: {
@@ -46,7 +46,7 @@ describe('handleStravaAuthCallback', () => {
       });
 
     const request = new Request('http://localhost:3000/strava/auth/callback?code=auth-code-123');
-    const response = await handleStravaAuthCallback(request, mockConfig);
+    const response = await stravaAuthCallback(request, mockConfig);
 
     expect(response.status).toBe(302);
     const location = response.headers.get('Location');
@@ -66,7 +66,7 @@ describe('handleStravaAuthCallback', () => {
 
   test('redirects to error page when code is missing', async () => {
     const request = new Request('http://localhost:3000/strava/auth/callback');
-    const response = await handleStravaAuthCallback(request, mockConfig);
+    const response = await stravaAuthCallback(request, mockConfig);
 
     expect(response.status).toBe(302);
     const location = response.headers.get('Location');
@@ -75,7 +75,7 @@ describe('handleStravaAuthCallback', () => {
 
   test('redirects to error page when OAuth error is present', async () => {
     const request = new Request('http://localhost:3000/strava/auth/callback?error=access_denied');
-    const response = await handleStravaAuthCallback(request, mockConfig);
+    const response = await stravaAuthCallback(request, mockConfig);
 
     expect(response.status).toBe(302);
     const location = response.headers.get('Location');
@@ -89,7 +89,7 @@ describe('handleStravaAuthCallback', () => {
       });
 
     const request = new Request('http://localhost:3000/strava/auth/callback?code=invalid-code');
-    const response = await handleStravaAuthCallback(request, mockConfig);
+    const response = await stravaAuthCallback(request, mockConfig);
 
     expect(response.status).toBe(302);
     const location = response.headers.get('Location');

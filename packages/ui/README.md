@@ -102,7 +102,7 @@ if (tokens) {
 
 ```typescript
 import { getTokens } from '@pace/ui';
-import { fetchActivity } from '@pace/activity';
+import { fetchActivity } from '@pace/strava-activity';
 import getConfig from '@pace/ui/config';
 
 // In your route handler
@@ -207,7 +207,7 @@ bun test packages/ui
 
 ```typescript
 import { getTokens } from '@pace/ui';
-import { fetchActivity } from '@pace/activity';
+import { fetchActivity } from '@pace/strava-activity';
 import { refreshToken } from '@pace/strava-auth';
 import { setTokens } from '@pace/ui/cookies';
 import getConfig from '@pace/ui/config';
@@ -493,4 +493,4 @@ packages/ui/
 ## See Also
 
 - [@pace/strava-auth](../strava-auth/README.md) - OAuth authentication package
-- [@pace/activity](../activity/README.md) - Activity fetching module
+- [@pace/strava-activity](../strava-activity/README.md) - Activity fetching module

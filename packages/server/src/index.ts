@@ -1,12 +1,8 @@
-/**
- * Main exports for @pace/server package
- */
-
 // Standalone server
-export { default as createServer } from './index-server';
+export { default as createServer } from './server';
 
 // Route handlers
-export { handleStravaAuth, handleStravaAuthCallback } from './routes';
+export { stravaAuth, stravaAuthCallback } from './routes';
 
 // Configuration
 export { getConfig } from './config';

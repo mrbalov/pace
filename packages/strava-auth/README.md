@@ -69,7 +69,7 @@ console.log('New Access Token:', newTokens.access_token);
 
 ```typescript
 import { refreshToken } from '@pace/strava-auth';
-import { fetchActivity } from '@pace/activity';
+import { fetchActivity } from '@pace/strava-activity';
 
 const config = {
   clientId: process.env.STRAVA_CLIENT_ID!,
@@ -216,4 +216,4 @@ try {
 
 - [Strava API Documentation](https://developers.strava.com/docs/)
 - [Strava OAuth Guide](https://developers.strava.com/docs/authentication/)
-- [@pace/activity](../activity/README.md) - Activity fetching module
+- [@pace/strava-activity](../strava-activity/README.md) - Activity fetching module

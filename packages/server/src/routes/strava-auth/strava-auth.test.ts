@@ -1,8 +1,8 @@
 import { describe, test, expect } from 'bun:test';
-import { handleStravaAuth } from './strava-auth';
+import stravaAuth from './strava-auth';
 import type { ServerConfig } from '../../types';
 
-describe('handleStravaAuth', () => {
+describe('stravaAuth', () => {
   const mockConfig: ServerConfig = {
     hostname: 'localhost',
     strava: {
@@ -21,7 +21,7 @@ describe('handleStravaAuth', () => {
 
   test('redirects to Strava authorization URL', () => {
     const request = new Request('http://localhost:3000/strava/auth');
-    const response = handleStravaAuth(request, mockConfig);
+    const response = stravaAuth(request, mockConfig);
 
     expect(response.status).toBe(302);
     const location = response.headers.get('Location');
@@ -42,7 +42,7 @@ describe('handleStravaAuth', () => {
     };
 
     const request = new Request('http://localhost:3000/strava/auth');
-    const response = handleStravaAuth(request, invalidConfig);
+    const response = stravaAuth(request, invalidConfig);
 
     expect(response.status).toBe(302);
     const location = response.headers.get('Location');

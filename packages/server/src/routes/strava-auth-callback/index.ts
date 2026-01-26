@@ -1,1 +1,1 @@
-export { default as handleStravaAuthCallback } from './strava-auth-callback';
+export { default } from './strava-auth-callback';

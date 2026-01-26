@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "dist/index-server.js",
+  "main": "dist/server.js",
   "types": "src/index.ts",
   "scripts": {
-    "build": "bun build src/index-server.ts --outdir dist --target node --format esm --minify --external @pace/strava-auth",
-    "build:watch": "bun build src/index-server.ts --outdir dist --target node --format esm --watch --external @pace/strava-auth",
-    "dev": "bun --watch src/index-server.ts",
-    "start": "node dist/index-server.js",
+    "build": "bun build src/server.ts --outdir dist --target node --format esm --minify --external @pace/strava-auth",
+    "build:watch": "bun build src/server.ts --outdir dist --target node --format esm --watch --external @pace/strava-auth",
+    "dev": "bun --watch src/server.ts",
+    "start": "node dist/server.js",
     "test": "bun test"
   },
   "dependencies": {

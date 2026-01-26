@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'bun:test';
-import { getTokens } from './get-tokens';
-import { COOKIE_NAMES } from '../types';
+import getTokens from './get-tokens';
+import { COOKIE_NAMES } from '../../types';
 
 describe('getTokens', () => {
   test('extracts tokens from cookies', () => {

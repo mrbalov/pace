@@ -1,5 +1,5 @@
 {
-  "name": "@pace/activity",
+  "name": "@pace/strava-activity",
   "private": true,
   "type": "module"
 }

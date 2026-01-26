@@ -195,8 +195,8 @@ Create a test script to fetch a real activity:
 
 ```typescript
 // scripts/test-activity.ts
-import fetchActivity from '../packages/activity';
-import { ActivityConfig } from '../packages/activity/types';
+import fetchActivity from '../packages/strava-activity';
+import { ActivityConfig } from '../packages/strava-activity/types';
 
 // Load credentials from environment variables
 const config: ActivityConfig = {
@@ -304,7 +304,7 @@ You don't need to manually refresh tokens - the module handles it automatically!
 If you need to manually refresh a token:
 
 ```typescript
-import refreshToken from './packages/activity/refresh-token';
+import refreshToken from './packages/strava-activity/refresh-token';
 
 const newAccessToken = await refreshToken({
   accessToken: 'expired-token',
