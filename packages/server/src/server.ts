@@ -79,9 +79,17 @@ const webResponseToNodeResponse = async (
 ): Promise<void> => {
   nodeResponse.statusCode = webResponse.status;
 
-  // Copy headers
+  // Handle Set-Cookie headers separately to preserve multiple cookies
+  const setCookieHeaders = webResponse.headers.getSetCookie();
+  for (const cookie of setCookieHeaders) {
+    nodeResponse.appendHeader('Set-Cookie', cookie);
+  }
+
+  // Copy other headers (excluding Set-Cookie which we handled above)
   webResponse.headers.forEach((value, key) => {
-    nodeResponse.setHeader(key, value);
+    if (key.toLowerCase() !== 'set-cookie') {
+      nodeResponse.setHeader(key, value);
+    }
   });
 
   // Handle body
