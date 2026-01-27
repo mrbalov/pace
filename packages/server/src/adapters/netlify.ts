@@ -7,6 +7,7 @@
 import {
   stravaAuth,
   stravaAuthCallback,
+  stravaAuthStatus,
   stravaLogout,
   stravaActivities,
   stravaActivity,
@@ -283,6 +284,61 @@ const stravaAuthError = (error: unknown): NetlifyResponse => {
  */
 export const stravaAuthHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
   const result = await stravaAuthSuccess(event).catch((error) => stravaAuthError(error));
+  return result;
+};
+
+/**
+ * Handles successful strava auth status request.
+ *
+ * @param {NetlifyEvent} event - Netlify function event
+ * @returns {Promise<NetlifyResponse>} Netlify function response
+ * @internal
+ */
+const stravaAuthStatusSuccess = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
+  // Handle OPTIONS preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return handleOptionsRequest(event);
+  }
+
+  const config = getConfig();
+  const request = netlifyEventToRequest(event);
+  const response = stravaAuthStatus(request, config);
+  return await webResponseToNetlify(response);
+};
+
+/**
+ * Handles strava auth status error.
+ *
+ * @param {unknown} error - Error object
+ * @returns {NetlifyResponse} Error response
+ * @internal
+ */
+const stravaAuthStatusError = (error: unknown): NetlifyResponse => {
+  console.error('Error in strava-auth-status function:', error);
+  const allowedOrigin = getAllowedOrigin();
+  return {
+    statusCode: 500,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': allowedOrigin,
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+    body: JSON.stringify({ error: 'Internal server error' }),
+  };
+};
+
+/**
+ * Netlify Function handler for /strava/auth/status endpoint.
+ *
+ * @param {NetlifyEvent} event - Netlify function event
+ * @returns {Promise<NetlifyResponse>} Netlify function response
+ */
+export const stravaAuthStatusHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
+  const result = await stravaAuthStatusSuccess(event).catch((error) =>
+    stravaAuthStatusError(error)
+  );
   return result;
 };
 

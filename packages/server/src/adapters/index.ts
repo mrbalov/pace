@@ -1,6 +1,7 @@
 export {
   stravaAuthHandler,
   stravaAuthCallbackHandler,
+  stravaAuthStatusHandler,
   stravaLogoutHandler,
   stravaActivitiesHandler,
   stravaActivityHandler,

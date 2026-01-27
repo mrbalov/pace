@@ -40,6 +40,11 @@
   status = 200
 
 [[redirects]]
+  from = "/strava/auth/status"
+  to = "/.netlify/functions/strava-auth-status"
+  status = 200
+
+[[redirects]]
   from = "/strava/logout"
   to = "/.netlify/functions/strava-logout"
   status = 200

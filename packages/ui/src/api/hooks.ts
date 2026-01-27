@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchActivities, type Activity } from './strava';
+import { APIError } from './client';
 
 export interface UseActivitiesResult {
   activities: Activity[] | null;
@@ -20,20 +21,6 @@ export function useActivities(): UseActivitiesResult {
   const [refetchCount, setRefetchCount] = useState(0);
 
   useEffect(() => {
-    // Check if we're in logout state - skip API call
-    const logoutFlag = sessionStorage.getItem('logout');
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasLogoutParam = urlParams.has('logout');
-    
-    if (logoutFlag || hasLogoutParam) {
-      // Don't fetch activities - show unauthorized state
-      setLoading(false);
-      setError(null);
-      setIsUnauthorized(true);
-      setActivities(null);
-      return;
-    }
-
     let mounted = true;
 
     const loadActivities = async () => {
@@ -49,10 +36,19 @@ export function useActivities(): UseActivitiesResult {
         }
       } catch (err) {
         if (mounted) {
-          // For any error (including 401), treat as unauthorized - don't show error UI
-          setError(null);
-          setIsUnauthorized(true);
-          setActivities(null);
+          // Check if it's an APIError with 401 status
+          if (err instanceof APIError && err.status === 401) {
+            // 401 Unauthorized - treat as not logged in
+            setError(null);
+            setIsUnauthorized(true);
+            setActivities(null);
+          } else {
+            // Other errors - set error message for display
+            const errorMessage = err instanceof Error ? err.message : 'Failed to fetch activities';
+            setError(errorMessage);
+            setIsUnauthorized(false);
+            setActivities(null);
+          }
         }
       } finally {
         if (mounted) {

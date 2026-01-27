@@ -37,9 +37,11 @@ function clearLocalStorage(): void {
 }
 
 /**
- * Logs out the user by clearing all session data.
+ * Logs out the user by clearing authentication cookies.
  * Calls backend logout endpoint to clear HTTP-only cookies,
- * then clears client-side storage and refreshes the page.
+ * then redirects to home page where auth status will be checked.
+ *
+ * @returns {Promise<void>} Promise that resolves when logout is complete
  */
 export async function logout(): Promise<void> {
   // Save theme preference before clearing localStorage
@@ -57,20 +59,21 @@ export async function logout(): Promise<void> {
     });
   } catch (error) {
     console.error('Logout request failed:', error);
-    // Continue with client-side cleanup even if backend call fails
+    // Continue with redirect even if backend call fails
   }
   
-  // Clear all client-side data
+  // Clear client-side cookies (non-HTTP-only cookies)
   clearCookies();
-  clearLocalStorage();
+  
+  // Clear localStorage but preserve theme preference
+  localStorage.clear();
   
   // Restore theme preference (user preference, not auth-related)
   if (theme) {
     localStorage.setItem('theme', theme);
   }
   
-  // Force a hard refresh to ensure fresh state
-  // Use replace to prevent back button from going to logged-in state
+  // Redirect to home page - useAuthStatus hook will detect logout via auth status endpoint
   window.location.replace('/');
 }
 
