@@ -38,20 +38,24 @@ const exchangeCodeAndCreateSuccessResponse = async (
     scope: config.strava.scope,
   });
 
-  const redirectResponse = new Response(null, {
-    status: 302,
-    headers: {
-      Location: config.successRedirect || '/',
-    },
-  });
-
-  return setTokens(
-    redirectResponse,
-    tokens.access_token,
-    tokens.refresh_token,
-    tokens.expires_at,
-    config.cookies
-  );
+  if (tokens) {
+    const redirectResponse = new Response(null, {
+      status: 302,
+      headers: {
+        Location: config.successRedirect || '/',
+      },
+    });
+  
+    return setTokens(
+      redirectResponse,
+      tokens.access_token,
+      tokens.refresh_token,
+      tokens.expires_at,
+      config.cookies
+    );
+  } else {
+    throw new Error('Token exchange returned null');
+  }
 };
 
 /**
