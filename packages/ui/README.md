@@ -175,10 +175,21 @@ The UI package is a pure static site and can be deployed to any static hosting s
 
 ### Netlify
 
-1. Set **Base directory** to: `packages/ui`
-2. Set **Build command** to: `bun run build` (or `npm run build`)
-3. Set **Publish directory** to: `dist`
-4. Add environment variable: `VITE_API_URL=https://your-backend-url.com`
+The `netlify.toml` file is already configured for deployment:
+
+1. Connect your repository to Netlify
+2. Set **Base directory** to: `packages/ui` (if deploying from monorepo root)
+3. Netlify will automatically detect the build settings from `netlify.toml`:
+   - Build command: `bun install && bun run build`
+   - Publish directory: `dist`
+   - SPA redirects configured automatically
+4. Add environment variable in Netlify dashboard: `VITE_API_URL=https://your-backend-url.com`
+
+The `netlify.toml` file includes:
+- SPA routing redirects (all routes → `index.html`)
+- Security headers
+- Static asset caching
+- HTML cache control
 
 ### Vercel
 
