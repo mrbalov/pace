@@ -1,10 +1,11 @@
 [build]
-  # Build command - install dependencies (Netlify will compile TypeScript functions)
-  command = "cd ../.. && bun install"
-  # Functions directory
+  # Build command - install Bun and dependencies (Netlify will compile TypeScript functions)
+  # Note: Netlify doesn't have Bun pre-installed, so we install it first
+  command = "curl -fsSL https://bun.sh/install | bash && export PATH=\"$HOME/.bun/bin:$PATH\" && cd ../.. && bun install"
+  # Functions directory (relative to base directory)
   functions = "netlify/functions"
-  # Publish directory (not used for functions-only deployment)
-  publish = "dist"
+  # Publish directory (not used for functions-only deployment, but required by Netlify)
+  publish = "."
 
 [build.environment]
   NODE_VERSION = "20"

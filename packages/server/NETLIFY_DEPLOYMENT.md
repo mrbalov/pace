@@ -61,11 +61,16 @@ Configure these environment variables in the Netlify dashboard (Site settings â†
 In the Netlify site settings:
 
 - **Base directory**: `packages/server`
-- **Build command**: Leave empty (Netlify will use `netlify.toml`)
-- **Publish directory**: Leave empty (functions-only deployment)
+- **Build command**: Leave empty or remove it (Netlify will use `netlify.toml`)
+- **Publish directory**: Leave empty or set to `.` (functions-only deployment)
+- **Functions directory**: `netlify/functions` (or leave empty, netlify.toml will set it)
+
+**Important**: If you have a build command set in the Netlify UI, it will override `netlify.toml`. Either:
+- Remove the build command from Netlify UI settings, OR
+- Set it to match what's in `netlify.toml`: `curl -fsSL https://bun.sh/install | bash && export PATH="$HOME/.bun/bin:$PATH" && cd ../.. && bun install`
 
 The `netlify.toml` file will automatically configure:
-- Build command: `cd ../.. && bun install`
+- Build command: Installs Bun and runs `bun install` from monorepo root
 - Functions directory: `netlify/functions`
 - Node.js version: 20
 
