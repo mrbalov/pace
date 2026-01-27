@@ -19,6 +19,19 @@ export function useActivities(): UseActivitiesResult {
   const [refetchCount, setRefetchCount] = useState(0);
 
   useEffect(() => {
+    // Check if we're in logout state - skip API call
+    const logoutFlag = sessionStorage.getItem('logout');
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasLogoutParam = urlParams.has('logout');
+    
+    if (logoutFlag || hasLogoutParam) {
+      // Don't fetch activities - show unauthorized state
+      setLoading(false);
+      setError('Unauthorized');
+      setActivities(null);
+      return;
+    }
+
     let mounted = true;
 
     const loadActivities = async () => {
