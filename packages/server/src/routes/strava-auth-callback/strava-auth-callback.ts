@@ -39,10 +39,14 @@ const exchangeCodeAndCreateSuccessResponse = async (
   });
 
   if (tokens) {
+    // Ensure redirect URL is clean (no query parameters) to prevent exposing OAuth details
+    const successRedirect = config.successRedirect || '/';
+    const cleanRedirect = successRedirect.split('?')[0]; // Remove any existing query params
+    
     const redirectResponse = new Response(null, {
       status: 302,
       headers: {
-        Location: config.successRedirect || '/',
+        Location: cleanRedirect,
       },
     });
   

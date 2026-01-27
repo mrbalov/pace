@@ -17,6 +17,25 @@ const HomePage = (): JSX.Element => {
   const { isAuthenticated, loading } = useAuthStatus();
   const [showContent, setShowContent] = useState(false);
 
+  // Remove OAuth callback parameters from URL (security: don't expose internal OAuth details)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const oauthParams = ['code', 'state', 'scope'];
+    let hasOAuthParams = false;
+
+    oauthParams.forEach((param) => {
+      if (urlParams.has(param)) {
+        urlParams.delete(param);
+        hasOAuthParams = true;
+      }
+    });
+
+    if (hasOAuthParams) {
+      const cleanUrl = window.location.pathname + (urlParams.toString() ? `?${urlParams.toString()}` : '');
+      window.history.replaceState({}, '', cleanUrl);
+    }
+  }, []);
+
   // Handle smooth transition from preloader to content
   useEffect(() => {
     if (!loading) {
