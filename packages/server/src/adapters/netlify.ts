@@ -124,9 +124,16 @@ const netlifyEventToRequest = (event: NetlifyEvent): Request => {
   const url = `${protocol}://${host}${normalizedPath}${queryString}`;
   const method = event.httpMethod || 'GET';
 
+  // Normalize headers - ensure Cookie header is capitalized (Netlify may send lowercase 'cookie')
+  const normalizedHeaders: Record<string, string> = {};
+  for (const [key, value] of Object.entries(event.headers)) {
+    const normalizedKey = key.toLowerCase() === 'cookie' ? 'Cookie' : key;
+    normalizedHeaders[normalizedKey] = value;
+  }
+
   const requestInit: RequestInit = {
     method,
-    headers: event.headers,
+    headers: normalizedHeaders,
   };
 
   // Only include body for methods that support it (POST, PUT, PATCH, DELETE)

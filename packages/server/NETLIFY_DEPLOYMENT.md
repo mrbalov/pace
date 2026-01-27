@@ -31,12 +31,15 @@ Configure these environment variables in the Netlify dashboard (Site settings â†
 
 - **`NODE_ENV`** - Set to `production` for production deployments
 
-- **`COOKIE_SECURE`** - Set to `true` for HTTPS-only cookies (recommended: `true`)
+- **`COOKIE_SECURE`** - Set to `true` for HTTPS-only cookies
+  - **Required**: Must be `true` when `COOKIE_SAME_SITE=none` (browser requirement)
+  - Recommended: `true` for production
 
 - **`COOKIE_SAME_SITE`** - Cookie SameSite attribute
-  - Use `none` for cross-origin cookies (required if UI and server are on different domains)
-  - Use `lax` for same-origin cookies
-  - Default: `lax`
+  - **Required for cross-origin**: Set to `none` if UI (`pace.balov.dev`) and API (`pace-api.netlify.app`) are on different domains
+  - Use `lax` only if UI and API are on the same domain
+  - Default: `lax` (will NOT work for cross-origin!)
+  - **Important**: When set to `none`, `COOKIE_SECURE` must also be `true`
 
 - **`COOKIE_DOMAIN`** - Cookie domain (optional, defaults to current domain)
 
