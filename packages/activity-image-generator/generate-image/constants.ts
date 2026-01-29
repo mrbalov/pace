@@ -15,7 +15,7 @@ export const CONFIG = {
   /** DIAL deployment model name. */
   MODEL: 'dall-e-3',
   /** DIAL API version. */
-  API_VERSION: '2023-12-01-preview',
+  API_VERSION: '2024-12-01-preview',
   /** DIAL base URL. */
   BASE_URL: 'https://ai-proxy.lab.epam.com',
 };

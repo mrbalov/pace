@@ -12,21 +12,25 @@ import getFallbackPrompt from './get-fallback-prompt';
  * @param {StravaActivityImagePrompt} currentPrompt - Current prompt to use
  * @param {number} attemptNumber - Current attempt number (0-based)
  * @param {number} maxRetries - Maximum number of retries allowed
- * @returns {Promise<string>} Promise resolving to image URL
+ * @param {string} saveDirectory - Directory to save generated images
+ * @param {string} baseUrl - Base URL for constructing full image URL
+ * @returns {Promise<string>} Promise resolving to full image URL
  * @throws {Error} Throws error if all retries fail
  */
 const attemptGeneration = async (
   currentPrompt: StravaActivityImagePrompt,
   attemptNumber: number,
-  maxRetries: number
+  maxRetries: number,
+  saveDirectory: string,
+  baseUrl: string
 ): Promise<string> => {
   try {
-    const imageUrl = await askDialForImage(currentPrompt.text);
+    const imageUrl = await askDialForImage(currentPrompt.text, saveDirectory, baseUrl);
     return imageUrl;
   } catch (error) {
     if (attemptNumber < maxRetries) {
       const simplifiedPrompt = simplifyPrompt(currentPrompt, attemptNumber + 1);
-      return attemptGeneration(simplifiedPrompt, attemptNumber + 1, maxRetries);
+      return attemptGeneration(simplifiedPrompt, attemptNumber + 1, maxRetries, saveDirectory, baseUrl);
     } else {
       throw error;
     }
@@ -38,9 +42,12 @@ const attemptGeneration = async (
  *
  * Implements retry logic with prompt simplification and fallback mechanism.
  * Attempts image generation up to MAX_RETRIES times, simplifying the prompt
- * on each retry. If all retries fail, uses a safe fallback prompt.
+ * on each retry. If all retries fail, uses a safe fallback prompt. Images are
+ * downloaded from DIAL storage and saved to the server's file system.
  *
  * @param {GenerateImageInput} input - Image generation input with prompt
+ * @param {string} saveDirectory - Directory path where images should be saved
+ * @param {string} baseUrl - Base URL for constructing full image URL (e.g., 'http://localhost:3000')
  * @returns {Promise<GenerateImageOutput>} Promise resolving to generated image URL and metadata
  * @throws {Error} Throws error if DIAL_KEY is not set
  *
@@ -51,16 +58,17 @@ const attemptGeneration = async (
  * 3. Attempt generation with original prompt
  * 4. On failure, retry with simplified prompt (max 2 retries)
  * 5. If all retries fail, use fallback prompt
- * 6. Always returns a valid image URL
+ * 6. Images are downloaded from DIAL and saved to server
+ * 7. Always returns a valid full image URL
  *
  * @example
  * ```typescript
- * const result = await generateImage({ prompt });
+ * const result = await generateImage({ prompt }, '/path/to/images', 'http://localhost:3000');
  * console.log('Image URL:', result.imageUrl);
  * console.log('Used fallback:', result.usedFallback);
  * ```
  */
-const generateImage = async (input: GenerateImageInput): Promise<GenerateImageOutput> => {
+const generateImage = async (input: GenerateImageInput, saveDirectory: string, baseUrl: string): Promise<GenerateImageOutput> => {
   if (!process.env.DIAL_KEY) {
     throw new Error('DIAL_KEY is not set');
   }
@@ -75,7 +83,7 @@ const generateImage = async (input: GenerateImageInput): Promise<GenerateImageOu
 
   const result = (async (): Promise<GenerateImageOutput> => {
     try {
-      const imageUrl = await attemptGeneration(input.prompt, 0, maxRetries);
+      const imageUrl = await attemptGeneration(input.prompt, 0, maxRetries, saveDirectory, baseUrl);
       return {
         imageUrl,
         usedFallback: false,
@@ -83,7 +91,7 @@ const generateImage = async (input: GenerateImageInput): Promise<GenerateImageOu
       };
     } catch (error) {
       const fallbackPrompt = getFallbackPrompt(input.prompt.subject);
-      const fallbackImageUrl = await askDialForImage(fallbackPrompt.text);
+      const fallbackImageUrl = await askDialForImage(fallbackPrompt.text, saveDirectory, baseUrl);
       return {
         imageUrl: fallbackImageUrl,
         usedFallback: true,

@@ -18,6 +18,7 @@ import {
   stravaLogout,
   activityImageGenerator,
 } from './routes';
+import { join } from 'node:path';
 
 const config = getConfig();
 
@@ -164,6 +165,44 @@ const matchesActivityImageGeneratorRoute = (pathname: string): boolean => {
 };
 
 /**
+ * Serves images from the images directory.
+ *
+ * @param {Request} request - HTTP request with image filename in path
+ * @returns {Promise<Response>} Image response or 404 if not found
+ * @internal
+ */
+const serveImage = async (request: Request): Promise<Response> => {
+  const url = new URL(request.url);
+  const pathname = url.pathname;
+  const filename = pathname.split('/').pop();
+  
+  if (!filename) {
+    return new Response('Not Found', { status: 404 });
+  }
+  
+  const imagesDir = process.env.IMAGES_DIRECTORY || join(process.cwd(), 'images');
+  const filePath = join(imagesDir, filename);
+  
+  try {
+    const file = Bun.file(filePath);
+    const exists = await file.exists();
+    
+    if (!exists) {
+      return new Response('Not Found', { status: 404 });
+    }
+    
+    return new Response(file, {
+      headers: {
+        'Content-Type': file.type || 'image/png',
+      },
+    });
+  } catch (error) {
+    console.error('Error serving image:', error);
+    return new Response('Internal Server Error', { status: 500 });
+  }
+};
+
+/**
  * Handles route matching and returns appropriate response.
  *
  * @param {Request} request - Web API request
@@ -173,21 +212,23 @@ const matchesActivityImageGeneratorRoute = (pathname: string): boolean => {
 const handleRoute = async (request: Request): Promise<Response> => {
   const url = new URL(request.url);
   const pathname = url.pathname;
-  const promise = pathname === '/strava/auth'
-    ? Promise.resolve(stravaAuth(request, config))
-    : pathname === '/strava/auth/callback'
-      ? stravaAuthCallback(request, config)
-      : pathname === '/strava/auth/status'
-        ? Promise.resolve(stravaAuthStatus(request, config))
-        : pathname === '/strava/logout'
-          ? Promise.resolve(stravaLogout(request, config))
-          : pathname === '/strava/activities'
-            ? stravaActivities(request, config)
-            : matchesActivityRoute(pathname)
-              ? stravaActivity(request, config)
-              : matchesActivityImageGeneratorRoute(pathname)
-                ? activityImageGenerator(request, config)
-                : Promise.resolve(new Response('Not Found', { status: 404 }));
+  const promise = pathname.startsWith('/images/')
+    ? serveImage(request)
+    : pathname === '/strava/auth'
+      ? Promise.resolve(stravaAuth(request, config))
+      : pathname === '/strava/auth/callback'
+        ? stravaAuthCallback(request, config)
+        : pathname === '/strava/auth/status'
+          ? Promise.resolve(stravaAuthStatus(request, config))
+          : pathname === '/strava/logout'
+            ? Promise.resolve(stravaLogout(request, config))
+            : pathname === '/strava/activities'
+              ? stravaActivities(request, config)
+              : matchesActivityRoute(pathname)
+                ? stravaActivity(request, config)
+                : matchesActivityImageGeneratorRoute(pathname)
+                  ? activityImageGenerator(request, config)
+                  : Promise.resolve(new Response('Not Found', { status: 404 }));
 
   return await promise;
 };
