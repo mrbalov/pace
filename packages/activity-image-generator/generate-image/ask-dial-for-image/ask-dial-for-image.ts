@@ -4,6 +4,19 @@ import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
 /**
+ * Metadata stored with each image blob.
+ * Matches ImageBlobMetadata from @pace/server/storage.
+ */
+type ImageBlobMetadata = {
+  /** ISO 8601 timestamp when blob was created */
+  createdAt: string;
+  /** Original filename */
+  filename: string;
+  /** MIME type */
+  contentType: string;
+};
+
+/**
  * Extracts file extension from image type or URL.
  *
  * @internal
@@ -31,14 +44,15 @@ const getFileExtension = (imageType: string | undefined, imageUrl: string): stri
 };
 
 /**
- * Downloads image from DIAL storage and saves it to server directory.
+ * Downloads image from DIAL and stores in Netlify Blobs (or local filesystem).
  *
  * @internal
  * @param {string} dialImageUrl - Full URL to image in DIAL storage
  * @param {string} apiKey - DIAL API key
- * @param {string} saveDirectory - Directory to save the image
+ * @param {string} saveDirectory - Directory to save (used for local dev)
  * @param {string | undefined} imageType - MIME type of the image
  * @param {string} baseUrl - Base URL for constructing full image URL
+ * @param {Function} storeImageFn - Function to store image (for dependency injection)
  * @returns {Promise<string>} Promise resolving to full URL of saved image
  * @throws {Error} Throws error if download or save fails
  */
@@ -47,7 +61,8 @@ const downloadAndSaveImage = async (
   apiKey: string,
   saveDirectory: string,
   imageType: string | undefined,
-  baseUrl: string
+  baseUrl: string,
+  storeImageFn?: (key: string, buffer: ArrayBuffer, metadata: ImageBlobMetadata) => Promise<void>
 ): Promise<string> => {
   const downloadResponse = await fetch(dialImageUrl, {
     headers: {
@@ -60,16 +75,26 @@ const downloadAndSaveImage = async (
   }
 
   const imageBuffer = await downloadResponse.arrayBuffer();
-  
-  await mkdir(saveDirectory, { recursive: true });
-  
   const extension = getFileExtension(imageType, dialImageUrl);
   const filename = `${crypto.randomUUID()}${extension}`;
-  const filePath = join(saveDirectory, filename);
+  const key = filename.replace(/\..+$/, ''); // Remove extension for key
   
-  await Bun.write(filePath, imageBuffer);
+  // Use Netlify Blobs if store function provided, otherwise use filesystem
+  if (storeImageFn) {
+    const metadata: ImageBlobMetadata = {
+      createdAt: new Date().toISOString(),
+      filename,
+      contentType: imageType || 'image/png',
+    };
+    await storeImageFn(key, imageBuffer, metadata);
+  } else {
+    // Fallback to filesystem for local development
+    await mkdir(saveDirectory, { recursive: true });
+    const filePath = join(saveDirectory, filename);
+    await Bun.write(filePath, imageBuffer);
+  }
   
-  const relativePath = `/images/${filename}`;
+  const relativePath = `/images/${key}`;
   const fullUrl = new URL(relativePath, baseUrl).toString();
   
   return fullUrl;
@@ -82,16 +107,17 @@ const downloadAndSaveImage = async (
  * Makes a POST request to the DIAL (AI Proxy) service with an image generation
  * prompt. The service returns a JSON response containing an image URL in DIAL
  * storage. The image is then downloaded using the API key and saved to the server's
- * file system. Returns a full URL that can be used to access the image.
+ * file system or Netlify Blobs. Returns a full URL that can be used to access the image.
  *
  * @param {string} prompt - Image generation prompt text
- * @param {string} saveDirectory - Directory path where images should be saved
+ * @param {string} saveDirectory - Directory path where images should be saved (for filesystem fallback)
  * @param {string} baseUrl - Base URL for constructing full image URL (e.g., 'http://localhost:3000')
  * @param {object} [options] - Optional configuration
  * @param {'standard' | 'hd'} [options.quality] - Image quality (default: 'standard')
  * @param {'1024x1024' | '1792x1024' | '1024x1792'} [options.size] - Image size (default: '1024x1024')
  * @param {'vivid' | 'natural'} [options.style] - Image style (default: 'natural')
- * @returns {Promise<string>} Promise resolving to full image URL (e.g., 'http://localhost:3000/images/abc123.png')
+ * @param {Function} [options.storeImage] - Function to store image in Blobs (if provided, uses Blobs instead of filesystem)
+ * @returns {Promise<string>} Promise resolving to full image URL (e.g., 'http://localhost:3000/images/abc123')
  * @throws {Error} Throws error if:
  *   - DIAL_KEY environment variable is not set
  *   - API returns an error response
@@ -103,8 +129,8 @@ const downloadAndSaveImage = async (
  * The function makes a chat completion request to DIAL's DALL-E-3 deployment.
  * Configuration parameters (quality, size, style) are passed via custom_fields.configuration.
  * The image URL is extracted from the response attachments, downloaded using the API key,
- * and saved to the specified directory. Returns a full URL that can be used to access
- * the image via the server's image serving route.
+ * and saved to the specified directory or Netlify Blobs. Returns a full URL that can be used
+ * to access the image via the server's image serving route.
  *
  * @see {@link https://ai-proxy.lab.epam.com/ | DIAL AI Proxy Service}
  * @see {@link https://docs.dialx.ai/tutorials/developers/apps-development/multimodality/dial-cookbook/examples/how_to_call_dalle_3_with_configuration | DALL-E-3 Configuration}
@@ -112,7 +138,7 @@ const downloadAndSaveImage = async (
  * @example
  * ```typescript
  * const imageUrl = await askDialForImage('A cartoon runner in a park', '/path/to/images', 'http://localhost:3000');
- * // Returns: 'http://localhost:3000/images/abc123-def456-...png'
+ * // Returns: 'http://localhost:3000/images/abc123-def456-...'
  * ```
  */
 const askDialForImage = async (
@@ -123,6 +149,7 @@ const askDialForImage = async (
     quality?: 'standard' | 'hd';
     size?: '1024x1024' | '1792x1024' | '1024x1792';
     style?: 'vivid' | 'natural';
+    storeImage?: (key: string, buffer: ArrayBuffer, metadata: ImageBlobMetadata) => Promise<void>;
   }
 ): Promise<string> => {
   if (!process.env.DIAL_KEY) {
@@ -191,7 +218,8 @@ const askDialForImage = async (
     apiKey,
     saveDirectory,
     imageAttachment.type,
-    baseUrl
+    baseUrl,
+    options?.storeImage // Pass store function if provided
   );
 
   return fullImageUrl;

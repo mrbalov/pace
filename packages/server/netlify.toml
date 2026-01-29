@@ -59,3 +59,19 @@
   to = "/.netlify/functions/strava-activity/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/images/*"
+  to = "/.netlify/functions/images/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/activity-image-generator/*"
+  to = "/.netlify/functions/activity-image-generator/:splat"
+  status = 200
+  force = true
+
+# Scheduled function configuration
+[functions."cleanup-images"]
+  schedule = "@daily"

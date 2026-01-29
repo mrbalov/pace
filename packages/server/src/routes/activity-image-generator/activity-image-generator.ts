@@ -3,6 +3,7 @@ import { getActivitySignals, createActivityImageGenerationPrompt, generateImage 
 import { getTokens } from '../../cookies';
 import type { ServerConfig, ServerTokenResult } from '../../types';
 import { join, dirname } from 'node:path';
+import { storeImage } from '../../storage';
 
 /**
  * Creates StravaApiConfig from server tokens and config.
@@ -185,7 +186,17 @@ const processActivityAndCreateResponse = async (
       return null;
     }
     try {
-      return await generateImage({ prompt }, imagesDirectory, baseUrl);
+      // Try to use Netlify Blobs if available (in Netlify environment)
+      // Fallback to filesystem if Blobs context not available (local dev)
+      const useBlobs = typeof process.env.NETLIFY_BLOBS_CONTEXT !== 'undefined' || 
+                       typeof process.env.NETLIFY !== 'undefined';
+      
+      return await generateImage(
+        { prompt },
+        imagesDirectory,
+        baseUrl,
+        useBlobs ? { storeImage } : undefined
+      );
     } catch (error) {
       console.error('Image generation failed:', error);
       return null;
