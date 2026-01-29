@@ -3,6 +3,7 @@ import { Activity as ActivityIcon, Navigation, Clock, TrendingUp, Zap, ArrowLeft
 import { Link } from 'wouter';
 import { useState, useEffect } from 'react';
 import { useActivities } from '../api/hooks';
+import { apiRequest } from '../api/client';
 import Preloader from '../components/Preloader';
 
 /**
@@ -38,6 +39,21 @@ const formatActivityType = (type: string): string => {
 const ActivitiesPage = (): JSX.Element => {
   const { activities, loading, error, isUnauthorized, refetch } = useActivities();
   const [showContent, setShowContent] = useState(false);
+
+  /**
+   * Handles image generation request for an activity.
+   * Calls the activity-image-generator endpoint and logs the response.
+   *
+   * @param {number} activityId - Activity ID to generate image for
+   */
+  const handleGenerateImage = async (activityId: number) => {
+    try {
+      const response = await apiRequest(`/activity-image-generator/${activityId}`);
+      console.log('Image generation response:', response);
+    } catch (error) {
+      console.error('Failed to generate image:', error);
+    }
+  };
 
   // Handle smooth transition from preloader to content
   useEffect(() => {
@@ -187,6 +203,7 @@ const ActivitiesPage = (): JSX.Element => {
                   width="100%" 
                   scale={0.8}
                   icon={<Zap />}
+                  onClick={() => handleGenerateImage(activity.id)}
                   placeholder="Generate Image"
                   onPointerEnterCapture={() => {}}
                   onPointerLeaveCapture={() => {}}

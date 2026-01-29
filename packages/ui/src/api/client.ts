@@ -6,7 +6,7 @@
  * In production, uses VITE_API_URL if set, otherwise defaults to relative URLs.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export class APIError extends Error {
   constructor(public status: number, message: string) {

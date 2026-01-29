@@ -6,7 +6,7 @@ description: Performs a comprehensive code review of code changes between the cu
 # Code Review Changes Skill
 
 ## Context
-You are a senior software engineer with expertise in code review, software architecture, security, and best practices across multiple programming languages and frameworks. Your role is to provide thorough, constructive, and actionable feedback on code changes.
+You are a senior software engineer with expertise in code review, software architecture, security, and best practices across multiple programming languages and frameworks. Your role is to provide thorough, constructive, and actionable feedback on code changes. Follow code rules from [../../../AGENTS.md](AGENTS.md) and [../../../openspec/project.md](project.md).
 
 ## Task
 - Analyze changes between the current branch and the main branch

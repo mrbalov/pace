@@ -16,6 +16,7 @@ import {
   stravaActivity,
   stravaActivities,
   stravaLogout,
+  activityImageGenerator,
 } from './routes';
 
 const config = getConfig();
@@ -151,6 +152,18 @@ const matchesActivityRoute = (pathname: string): boolean => {
 };
 
 /**
+ * Checks if pathname matches /activity-image-generator/:id pattern.
+ *
+ * @param {string} pathname - Request pathname
+ * @returns {boolean} True if pathname matches the pattern
+ * @internal
+ */
+const matchesActivityImageGeneratorRoute = (pathname: string): boolean => {
+  const pathParts = pathname.split('/').filter((part) => part !== '');
+  return pathParts.length === 2 && pathParts[0] === 'activity-image-generator';
+};
+
+/**
  * Handles route matching and returns appropriate response.
  *
  * @param {Request} request - Web API request
@@ -172,7 +185,9 @@ const handleRoute = async (request: Request): Promise<Response> => {
             ? stravaActivities(request, config)
             : matchesActivityRoute(pathname)
               ? stravaActivity(request, config)
-              : Promise.resolve(new Response('Not Found', { status: 404 }));
+              : matchesActivityImageGeneratorRoute(pathname)
+                ? activityImageGenerator(request, config)
+                : Promise.resolve(new Response('Not Found', { status: 404 }));
 
   return await promise;
 };

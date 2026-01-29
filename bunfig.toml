@@ -1,1 +1,5 @@
 logLevel = "warn"
+
+[test]
+# Set test root to packages directory to exclude actions-runner and other non-project directories
+root = "./packages"
