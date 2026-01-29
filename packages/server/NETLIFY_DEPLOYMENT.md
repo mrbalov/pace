@@ -51,6 +51,16 @@ Configure these environment variables in the Netlify dashboard (Site settings â†
 - **`ERROR_REDIRECT`** - Redirect URL after authentication failure (default: `/`)
   - Should point to your UI error page, e.g., `https://yourapp.netlify.app/error`
 
+- **`IMAGE_PROVIDER`** - AI image generation provider (default: `pollinations`)
+  - `pollinations`: Free, unlimited Pollinations.ai (no API key required, recommended for Netlify deployment)
+  - `dial`: EPAM Dial with DALL-E-3 (requires DIAL_KEY and VPN access)
+  - Default: `pollinations` (works from Netlify without VPN)
+
+- **`DIAL_KEY`** - EPAM Dial API key (only required if IMAGE_PROVIDER=dial)
+  - Required for EPAM Dial provider
+  - Not needed for Pollinations (default)
+  - Note: EPAM Dial requires VPN access, so it won't work from Netlify Functions
+
 ## Deployment Steps
 
 ### 1. Connect Repository to Netlify

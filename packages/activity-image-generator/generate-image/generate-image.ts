@@ -1,7 +1,7 @@
 import { GenerateImageInput, GenerateImageOutput } from './types';
 import { CONFIG } from './constants';
 import { StravaActivityImagePrompt } from '../types';
-import askDialForImage from './ask-dial-for-image';
+import { getProvider, ImageGenerationOptions } from './providers';
 import simplifyPrompt from './simplify-prompt';
 import getFallbackPrompt from './get-fallback-prompt';
 
@@ -14,7 +14,7 @@ import getFallbackPrompt from './get-fallback-prompt';
  * @param {number} maxRetries - Maximum number of retries allowed
  * @param {string} saveDirectory - Directory to save generated images
  * @param {string} baseUrl - Base URL for constructing full image URL
- * @param {object} [options] - Optional configuration including storeImage function
+ * @param {ImageGenerationOptions} [options] - Optional configuration including storeImage function
  * @returns {Promise<string>} Promise resolving to full image URL
  * @throws {Error} Throws error if all retries fail
  */
@@ -24,10 +24,17 @@ const attemptGeneration = async (
   maxRetries: number,
   saveDirectory: string,
   baseUrl: string,
-  options?: Parameters<typeof askDialForImage>[3]
+  options?: ImageGenerationOptions
 ): Promise<string> => {
+  const provider = getProvider(); // Get provider based on env var
+  
   try {
-    const imageUrl = await askDialForImage(currentPrompt.text, saveDirectory, baseUrl, options);
+    const imageUrl = await provider.generateImage(
+      currentPrompt.text,
+      saveDirectory,
+      baseUrl,
+      options
+    );
     return imageUrl;
   } catch (error) {
     if (attemptNumber < maxRetries) {
@@ -40,28 +47,32 @@ const attemptGeneration = async (
 };
 
 /**
- * Generates activity image using DIAL's DALL-E-3 service.
+ * Generates activity image using configured AI provider.
+ *
+ * Provider is controlled by IMAGE_PROVIDER environment variable:
+ * - 'pollinations' (default): Free, unlimited Pollinations.ai
+ * - 'dial': EPAM Dial with DALL-E-3 (requires DIAL_KEY)
  *
  * Implements retry logic with prompt simplification and fallback mechanism.
  * Attempts image generation up to MAX_RETRIES times, simplifying the prompt
  * on each retry. If all retries fail, uses a safe fallback prompt. Images are
- * downloaded from DIAL storage and saved to the server's file system or Netlify Blobs.
+ * downloaded from the provider and saved to the server's file system or Netlify Blobs.
  *
  * @param {GenerateImageInput} input - Image generation input with prompt
  * @param {string} saveDirectory - Directory path where images should be saved (for filesystem fallback)
  * @param {string} baseUrl - Base URL for constructing full image URL (e.g., 'http://localhost:3000')
- * @param {object} [options] - Optional configuration including storeImage function for Blobs
+ * @param {ImageGenerationOptions} [options] - Optional configuration including storeImage function for Blobs
  * @returns {Promise<GenerateImageOutput>} Promise resolving to generated image URL and metadata
- * @throws {Error} Throws error if DIAL_KEY is not set
+ * @throws {Error} Throws error if provider-specific requirements are not met (e.g., DIAL_KEY for dial provider)
  *
  * @remarks
  * Generation process:
- * 1. Validate DIAL_KEY environment variable
+ * 1. Get configured provider based on IMAGE_PROVIDER env var (defaults to Pollinations)
  * 2. Validate prompt text length (max 400 characters)
  * 3. Attempt generation with original prompt
  * 4. On failure, retry with simplified prompt (max 2 retries)
  * 5. If all retries fail, use fallback prompt
- * 6. Images are downloaded from DIAL and saved to server or Blobs
+ * 6. Images are downloaded from provider and saved to server or Blobs
  * 7. Always returns a valid full image URL
  *
  * @example
@@ -75,12 +86,10 @@ const generateImage = async (
   input: GenerateImageInput,
   saveDirectory: string,
   baseUrl: string,
-  options?: Parameters<typeof askDialForImage>[3]
+  options?: ImageGenerationOptions
 ): Promise<GenerateImageOutput> => {
-  if (!process.env.DIAL_KEY) {
-    throw new Error('DIAL_KEY is not set');
-  }
-
+  const provider = getProvider();
+  
   const promptText = input.prompt.text;
   if (promptText.length > 400) {
     throw new Error(`Prompt text exceeds 400 character limit: ${promptText.length} characters`);
@@ -99,7 +108,12 @@ const generateImage = async (
       };
     } catch (error) {
       const fallbackPrompt = getFallbackPrompt(input.prompt.subject);
-      const fallbackImageUrl = await askDialForImage(fallbackPrompt.text, saveDirectory, baseUrl, options);
+      const fallbackImageUrl = await provider.generateImage(
+        fallbackPrompt.text,
+        saveDirectory,
+        baseUrl,
+        options
+      );
       return {
         imageUrl: fallbackImageUrl,
         usedFallback: true,

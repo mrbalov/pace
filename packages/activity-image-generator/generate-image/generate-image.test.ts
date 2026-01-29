@@ -22,13 +22,15 @@ type Case = [
 
 describe('generate-image', () => {
   const testState = { 
-    originalEnv: process.env.DIAL_KEY, 
+    originalEnv: process.env.DIAL_KEY,
+    originalImageProvider: process.env.IMAGE_PROVIDER,
     originalFetch: global.fetch,
     testDir: join(tmpdir(), `test-images-${Date.now()}`),
   };
 
   beforeEach(async () => {
     testState.originalEnv = process.env.DIAL_KEY;
+    testState.originalImageProvider = process.env.IMAGE_PROVIDER;
     testState.originalFetch = global.fetch;
     await mkdir(testState.testDir, { recursive: true });
   });
@@ -38,6 +40,11 @@ describe('generate-image', () => {
       process.env.DIAL_KEY = testState.originalEnv;
     } else {
       delete process.env.DIAL_KEY;
+    }
+    if (testState.originalImageProvider !== undefined) {
+      process.env.IMAGE_PROVIDER = testState.originalImageProvider;
+    } else {
+      delete process.env.IMAGE_PROVIDER;
     }
     global.fetch = testState.originalFetch;
     try {
@@ -49,7 +56,7 @@ describe('generate-image', () => {
 
   test.each<Case>([
     [
-      'throws error when DIAL_KEY is not set',
+      'throws error when DIAL_KEY is not set for dial provider',
       {
         prompt: {
           style: 'cartoon',
@@ -219,9 +226,13 @@ describe('generate-image', () => {
         expectedRetriesPerformed,
       }
     ) => {
+      // Set provider based on test case
       if (dialKey) {
+        process.env.IMAGE_PROVIDER = 'dial';
         process.env.DIAL_KEY = dialKey;
       } else {
+        // Default to pollinations if no dialKey
+        delete process.env.IMAGE_PROVIDER;
         delete process.env.DIAL_KEY;
       }
 
@@ -230,6 +241,8 @@ describe('generate-image', () => {
         const response = fetchResponses[callCount] ?? fetchResponses[fetchResponses.length - 1];
         callCount++;
         const urlString = typeof url === 'string' ? url : url.toString();
+        
+        // Handle DIAL provider responses
         if (urlString.includes('ai-proxy.lab.epam.com') && !urlString.includes('chat/completions')) {
           return Promise.resolve({
             ok: true,
@@ -237,6 +250,17 @@ describe('generate-image', () => {
             statusText: 'OK',
           } as Response);
         }
+        
+        // Handle Pollinations provider responses (default)
+        if (urlString.includes('pollinations.ai')) {
+          return Promise.resolve({
+            ok: true,
+            arrayBuffer: async () => new TextEncoder().encode('fake-image').buffer,
+            statusText: 'OK',
+          } as Response);
+        }
+        
+        // Handle DIAL API JSON responses
         return Promise.resolve({
           json: async () => response,
         } as Response);
@@ -250,13 +274,13 @@ describe('generate-image', () => {
         expect(result.retriesPerformed).toBe(expectedRetriesPerformed);
         expect(result.imageUrl).toBeTruthy();
         expect(typeof result.imageUrl).toBe('string');
-        expect(result.imageUrl).toMatch(new RegExp(`^${baseUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/images/[a-f0-9-]+\\.png$`));
+        expect(result.imageUrl).toMatch(new RegExp(`^${baseUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/images/[a-f0-9-]+`));
       }
     }
   );
 
   test('throws error when prompt text exceeds 400 characters', async () => {
-    process.env.DIAL_KEY = 'test-key';
+    delete process.env.IMAGE_PROVIDER; // Use default (pollinations)
 
     const longPrompt: StravaActivityImagePrompt = {
       style: 'cartoon',
@@ -267,5 +291,34 @@ describe('generate-image', () => {
     };
 
     await expect(generateImage({ prompt: longPrompt }, testState.testDir, 'http://localhost:3000')).rejects.toThrow('exceeds 400 character limit');
+  });
+
+  test('uses Pollinations provider by default', async () => {
+    delete process.env.IMAGE_PROVIDER;
+    delete process.env.DIAL_KEY;
+
+    const mockImageBuffer = new TextEncoder().encode('fake-image-data').buffer;
+    const mockFetch = mock(() => 
+      Promise.resolve({
+        ok: true,
+        arrayBuffer: async () => mockImageBuffer,
+      } as Response)
+    );
+    global.fetch = mockFetch as any;
+
+    const prompt: StravaActivityImagePrompt = {
+      style: 'cartoon',
+      mood: 'energetic',
+      subject: 'runner',
+      scene: 'park',
+      text: 'cartoon style, runner, energetic mood, park',
+    };
+
+    const result = await generateImage({ prompt }, testState.testDir, 'http://localhost:3000');
+    
+    expect(result.imageUrl).toMatch(/^http:\/\/localhost:3000\/images\/[a-f0-9-]+$/);
+    expect(mockFetch).toHaveBeenCalled();
+    const fetchUrl = mockFetch.mock.calls[0][0];
+    expect(fetchUrl).toContain('pollinations.ai');
   });
 });
