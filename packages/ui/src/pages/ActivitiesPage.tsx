@@ -9,7 +9,7 @@ import Preloader from '../components/Preloader';
 /**
  * API response type for image generation.
  */
-type ImageGenerationResponse = {
+interface ImageGenerationResponse {
   /** Generated image data. */
   image?: {
     /** Base64-encoded image data URL (data:image/png;base64,...). */
@@ -19,7 +19,7 @@ type ImageGenerationResponse = {
     /** Number of retries performed. */
     retriesPerformed: number;
   };
-};
+}
 
 /**
  * Formats activity type to a friendly display name.
@@ -80,7 +80,7 @@ const ActivitiesPage = (): JSX.Element => {
       
       if (response.image?.imageData) {
         const imageData = response.image.imageData;
-        console.log('Image data received:', imageData.substring(0, 50) + '...');
+        console.info('Image data received:', imageData.substring(0, 50) + '...');
         setGeneratedImageData(imageData);
         setGeneratingImage(false);
       } else {
@@ -110,7 +110,7 @@ const ActivitiesPage = (): JSX.Element => {
    */
   const handleRetry = (): void => {
     if (currentActivityId !== null) {
-      handleGenerateImage(currentActivityId);
+      handleGenerateImage(currentActivityId).catch(console.error);
     }
   };
 
@@ -148,7 +148,9 @@ const ActivitiesPage = (): JSX.Element => {
       const timer = setTimeout(() => {
         setShowContent(true);
       }, 600);
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+      };
     } else {
       setShowContent(false);
     }
@@ -176,8 +178,8 @@ const ActivitiesPage = (): JSX.Element => {
                   width="100%"
                   icon={<ArrowLeft />}
                   placeholder="Go to Home"
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
+                  onPointerEnterCapture={() => undefined}
+                  onPointerLeaveCapture={() => undefined}
                 >
                   Go to Home
                 </Button>
@@ -210,8 +212,8 @@ const ActivitiesPage = (): JSX.Element => {
                 onClick={refetch}
                 width="100%"
                 placeholder="Try Again"
-                onPointerEnterCapture={() => {}}
-                onPointerLeaveCapture={() => {}}
+                onPointerEnterCapture={() => undefined}
+                onPointerLeaveCapture={() => undefined}
               >
                 Try Again
               </Button>
@@ -240,8 +242,8 @@ const ActivitiesPage = (): JSX.Element => {
             auto
             icon={<ArrowLeft />}
             placeholder="Back"
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
+            onPointerEnterCapture={() => undefined}
+            onPointerLeaveCapture={() => undefined}
           >
             Back
           </Button>
@@ -289,10 +291,12 @@ const ActivitiesPage = (): JSX.Element => {
                   width="100%" 
                   scale={0.8}
                   icon={<Zap />}
-                  onClick={() => handleGenerateImage(activity.id)}
+                  onClick={() => {
+                    handleGenerateImage(activity.id).catch(console.error);
+                  }}
                   placeholder="Generate Image"
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
+                  onPointerEnterCapture={() => undefined}
+                  onPointerLeaveCapture={() => undefined}
                 >
                   Generate Image
                 </Button>
@@ -341,8 +345,8 @@ const ActivitiesPage = (): JSX.Element => {
                   type="success"
                   width="100%"
                   placeholder="Try Again"
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
+                  onPointerEnterCapture={() => undefined}
+                  onPointerLeaveCapture={() => undefined}
                 >
                   Try Again
                 </Button>
@@ -362,7 +366,7 @@ const ActivitiesPage = (): JSX.Element => {
                   marginBottom: '1rem',
                 }}
                 onLoad={() => {
-                  console.log('Image loaded successfully');
+                  console.info('Image loaded successfully');
                 }}
                 onError={(e) => {
                   console.error('Image load error:', e);
@@ -370,13 +374,15 @@ const ActivitiesPage = (): JSX.Element => {
                 }}
               />
               <Button
-                onClick={() => handleDownloadImage(generatedImageData)}
+                onClick={() => {
+                  handleDownloadImage(generatedImageData).catch(console.error);
+                }}
                 type="success"
                 width="100%"
                 icon={<Download />}
                 placeholder="Download Image"
-                onPointerEnterCapture={() => {}}
-                onPointerLeaveCapture={() => {}}
+                onPointerEnterCapture={() => undefined}
+                onPointerLeaveCapture={() => undefined}
               >
                 Download Image
               </Button>
@@ -389,8 +395,8 @@ const ActivitiesPage = (): JSX.Element => {
             auto
             icon={<X />}
             placeholder="Close"
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
+            onPointerEnterCapture={() => undefined}
+            onPointerLeaveCapture={() => undefined}
           >
             Close
           </Button>

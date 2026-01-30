@@ -6,16 +6,15 @@
  * otherwise uses rate limit usage headers to calculate wait time. Falls back
  * to default 60-second wait if no rate limit information is available.
  *
- * @param {Response} response - HTTP Response object containing rate limit headers
- * @returns {Promise<void>} Promise that resolves after waiting for the calculated duration
- *
- * @remarks
  * Rate limit headers parsed:
  * - `Retry-After`: Seconds to wait (highest priority)
  * - `X-RateLimit-Limit`: Maximum requests per window
  * - `X-RateLimit-Usage`: Current request count
  *
  * If usage >= limit, waits for full 15-minute window.
+ *
+ * @param {Response} response - HTTP Response object containing rate limit headers
+ * @returns {Promise<void>} Promise that resolves after waiting for the calculated duration
  *
  * @see {@link https://developers.strava.com/docs/rate-limits/ | Strava API Rate Limits}
  *

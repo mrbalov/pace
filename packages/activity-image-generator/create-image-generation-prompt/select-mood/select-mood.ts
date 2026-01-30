@@ -5,15 +5,14 @@ import { StravaActivitySignals } from '../../types';
  *
  * Mood selection is deterministic and aligns with activity characteristics.
  * Priority: tags → intensity → weather.
- *
- * @param {StravaActivitySignals} signals - Activity signals to base mood selection on
- * @returns {string} Mood descriptor (e.g., "calm", "intense", "focused")
- *
- * @remarks
+ * 
  * Mood selection priority:
  * 1. Tag signals (recovery → calm, race → intense)
  * 2. Intensity level (low → calm, high → intense)
  * 3. Weather conditions (sunny → energetic, rainy → contemplative)
+ *
+ * @param {StravaActivitySignals} signals - Activity signals to base mood selection on
+ * @returns {string} Mood descriptor (e.g., "calm", "intense", "focused")
  */
 const selectMood = (signals: StravaActivitySignals): string => {
   const hasRecoveryTag = signals.tags.includes('recovery');

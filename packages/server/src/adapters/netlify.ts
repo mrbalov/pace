@@ -17,7 +17,7 @@ import { getConfig } from '../config';
 /**
  * Netlify Function event type.
  */
-export type NetlifyEvent = {
+export interface NetlifyEvent {
   /**
    * HTTP method.
    */
@@ -38,12 +38,12 @@ export type NetlifyEvent = {
    * Request body.
    */
   body?: string;
-};
+}
 
 /**
  * Netlify Function response type.
  */
-export type NetlifyResponse = {
+export interface NetlifyResponse {
   /**
    * HTTP status code.
    */
@@ -60,7 +60,7 @@ export type NetlifyResponse = {
    * Response body.
    */
   body?: string;
-};
+}
 
 /**
  * Normalizes Netlify function path to expected route path.
@@ -152,10 +152,10 @@ const netlifyEventToRequest = (event: NetlifyEvent): Request => {
  * @returns {string} Allowed origin URL
  * @internal
  */
-const getAllowedOrigin = (): string => {
+const getAllowedOrigin = (): string =>
   // Allow UI origin from environment variable, default to localhost:3001 for dev
-  return process.env.UI_ORIGIN || 'http://localhost:3001';
-};
+   process.env.UI_ORIGIN ?? 'http://localhost:3001'
+;
 
 /**
  * Converts Web API Response to Netlify response format.
@@ -213,14 +213,16 @@ const webResponseToNetlify = async (response: Response): Promise<NetlifyResponse
 /**
  * Handles OPTIONS preflight request.
  *
- * @param {NetlifyEvent} event - Netlify function event
+ * @param {NetlifyEvent} _event - Netlify function event (unused)
  * @returns {NetlifyResponse} CORS preflight response
  * @internal
  */
-const handleOptionsRequest = (event: NetlifyEvent): NetlifyResponse => {
+const handleOptionsRequest = (_event: NetlifyEvent): NetlifyResponse => {
+  // Explicitly mark parameter as intentionally unused
+  void _event;
+
   const allowedOrigin = getAllowedOrigin();
-  const requestMethod = event.headers['access-control-request-method'] || 'GET';
-  const requestHeaders = event.headers['access-control-request-headers'] || 'Content-Type';
+  const requestHeaders = 'Content-Type';
   
   return {
     statusCode: 204,

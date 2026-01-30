@@ -8,10 +8,13 @@ import type { ServerConfig } from '../../types';
  * Does not fetch activities or make external API calls - lightweight auth check only.
  *
  * @param {Request} request - HTTP request
- * @param {ServerConfig} config - Server configuration
+ * @param {ServerConfig} _config - Server configuration (unused)
  * @returns {Response} JSON response with authentication status
  */
-const stravaAuthStatus = (request: Request, config: ServerConfig): Response => {
+const stravaAuthStatus = (request: Request, _config: ServerConfig): Response => {
+  // Explicitly mark parameter as intentionally unused
+  void _config;
+
   const tokens = getTokens(request);
   const hasTokens = tokens !== null;
 

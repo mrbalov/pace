@@ -18,8 +18,7 @@ const Preloader = ({
   message = undefined, 
   showIcon = true,
   fullHeight = true 
-}: PreloaderProps): JSX.Element => {
-  return (
+}: PreloaderProps): JSX.Element => (
     <>
       <Grid.Container
         gap={2}
@@ -113,6 +112,5 @@ const Preloader = ({
       `}</style>
     </>
   );
-};
 
 export default Preloader;

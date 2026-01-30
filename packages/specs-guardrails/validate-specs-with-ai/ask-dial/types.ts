@@ -1,10 +1,10 @@
-export type DialResponse = {
+export interface DialResponse {
   error?: {
     message?: string;
   };
-  choices?: Array<{
+  choices?: {
     message?: {
       content?: string;
     };
-  }>;
-};
+  }[];
+}

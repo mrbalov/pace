@@ -35,7 +35,7 @@ const fetchTokenRefreshResponse = async (url: string, body: string): Promise<Res
       },
       body,
     });
-  } catch (error) {
+  } catch {
     throw createAuthError('NETWORK_ERROR', 'Failed to connect to Strava OAuth endpoint');
   }
 };
@@ -51,7 +51,7 @@ const fetchTokenRefreshResponse = async (url: string, body: string): Promise<Res
 const parseTokenRefreshResponse = async (response: Response): Promise<StravaAuthTokenRefreshResponse> => {
   try {
     return (await response.json()) as StravaAuthTokenRefreshResponse;
-  } catch (error) {
+  } catch {
     throw createAuthError('MALFORMED_RESPONSE', 'Invalid response format from token refresh endpoint');
   }
 };
@@ -115,13 +115,7 @@ const refreshToken = async (
 
   // Clone response to avoid consuming the body stream
   const clonedResponse = response.clone();
-  let tokenData: StravaAuthTokenRefreshResponse;
-  try {
-    tokenData = await parseTokenRefreshResponse(clonedResponse);
-  } catch (error) {
-    // If JSON parsing fails, re-throw the malformed response error
-    throw error;
-  }
+  const tokenData = await parseTokenRefreshResponse(clonedResponse);
 
   if (!tokenData.access_token) {
     throw createAuthError('MALFORMED_RESPONSE', 'Access token not found in refresh response');

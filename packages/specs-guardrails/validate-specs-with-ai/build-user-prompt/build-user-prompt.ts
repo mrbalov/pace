@@ -7,16 +7,15 @@ import { readFile } from 'node:fs/promises';
  * in a structured format. Each spec is numbered and includes its file path.
  * This allows the AI to validate specifications with full context.
  *
- * @param {string[]} specFilePaths - Array of file paths to specification files to include
- * @param {string} userPrompt - Base user prompt describing the validation task
- * @returns {Promise<string>} Promise resolving to formatted prompt string with embedded specifications
- *
- * @remarks
  * The output format includes:
  * - Original user prompt
  * - Separator: "--- BEGIN SPECIFICATIONS ---"
  * - Numbered specifications with paths and content
  * - Separator: "--- END SPECIFICATIONS ---"
+ *
+ * @param {string[]} specFilePaths - Array of file paths to specification files to include
+ * @param {string} userPrompt - Base user prompt describing the validation task
+ * @returns {Promise<string>} Promise resolving to formatted prompt string with embedded specifications
  *
  * @example
  * ```typescript

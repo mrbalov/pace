@@ -8,13 +8,27 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+/**
+ * Custom error class for API request failures.
+ */
 export class APIError extends Error {
+  /**
+   * Creates an API error with HTTP status code.
+   * @param {number} status - HTTP status code
+   * @param {string} message - Error message
+   */
   constructor(public status: number, message: string) {
     super(message);
     this.name = 'APIError';
   }
 }
 
+/**
+ * Makes an authenticated API request to the backend.
+ * @param {string} endpoint - API endpoint path
+ * @param {RequestInit} [options] - Fetch options
+ * @returns {Promise<T>} Response data
+ */
 export async function apiRequest<T>(
   endpoint: string,
   options?: RequestInit
@@ -29,9 +43,9 @@ export async function apiRequest<T>(
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ error: response.statusText }));
-    throw new APIError(response.status, error.error || error.message);
+    const error = await response.json().catch(() => ({ error: response.statusText })) as { error?: string; message?: string };
+    throw new APIError(response.status, error.error ?? error.message ?? 'Unknown error');
   }
 
-  return response.json();
+  return response.json() as Promise<T>;
 }

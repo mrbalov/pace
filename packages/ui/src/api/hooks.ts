@@ -12,6 +12,7 @@ export interface UseActivitiesResult {
 
 /**
  * Hook to fetch and manage Strava activities.
+ * @returns {UseActivitiesResult} Object containing activities, loading state, error, and refetch function
  */
 export function useActivities(): UseActivitiesResult {
   const [activities, setActivities] = useState<Activity[] | null>(null);
@@ -21,8 +22,12 @@ export function useActivities(): UseActivitiesResult {
   const [refetchCount, setRefetchCount] = useState(0);
 
   useEffect(() => {
-    let mounted = true;
+    const mountedRef = { current: true };
 
+    /**
+     * Loads activities from the API.
+     * @returns {Promise<void>} Promise that resolves when loading is complete
+     */
     const loadActivities = async () => {
       setLoading(true);
       setError(null);
@@ -32,12 +37,12 @@ export function useActivities(): UseActivitiesResult {
       
       try {
         const data = await fetchActivities();
-        if (mounted) {
+        if (mountedRef.current) {
           setActivities(data);
           setIsUnauthorized(false);
         }
       } catch (err) {
-        if (mounted) {
+        if (mountedRef.current) {
           // Check if it's an APIError with 401 status
           if (err instanceof APIError && err.status === 401) {
             // 401 Unauthorized - treat as not logged in
@@ -53,7 +58,7 @@ export function useActivities(): UseActivitiesResult {
           }
         }
       } finally {
-        if (mounted) {
+        if (mountedRef.current) {
           // Ensure minimum loading time for smooth transition
           const elapsed = Date.now() - startTime;
           const remaining = Math.max(0, MIN_LOADING_TIME - elapsed);
@@ -64,13 +69,17 @@ export function useActivities(): UseActivitiesResult {
       }
     };
 
-    loadActivities();
+    void loadActivities();
 
     return () => {
-      mounted = false;
+      mountedRef.current = false;
     };
   }, [refetchCount]);
 
+  /**
+   * Triggers a refetch of activities.
+   * @returns {void}
+   */
   const refetch = () => setRefetchCount((c) => c + 1);
 
   return { activities, loading, error, isUnauthorized, refetch };

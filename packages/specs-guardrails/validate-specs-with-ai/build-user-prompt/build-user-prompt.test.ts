@@ -163,13 +163,13 @@ describe('build-user-prompt', () => {
   ])('%#. %s', async (_name, { specContents, userPrompt, expectedContains }) => {
     await Promise.all(
       specContents.map(async (content, i) => {
-        const specFile = join(testState.tempDir, `spec${i + 1}.spec.md`);
+        const specFile = join(testState.tempDir, `spec${Number(i) + 1}.spec.md`);
         await writeFile(specFile, content);
       })
     );
     
     const specFilePaths = Array.from({ length: specContents.length }, (_, i) =>
-      join(testState.tempDir, `spec${i + 1}.spec.md`)
+      join(testState.tempDir, `spec${Number(i) + 1}.spec.md`)
     );
 
     const result = await buildUserPrompt(specFilePaths, userPrompt);

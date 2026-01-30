@@ -280,11 +280,11 @@ describe('ask-dial', () => {
     ) as typeof fetch;
 
     if (shouldThrow) {
-      await expect(askDial(systemPrompt, userPrompt)).rejects.toThrow(expectedError);
+      expect(askDial(systemPrompt, userPrompt)).rejects.toThrow(expectedError);
     } else {
       const result = await askDial(systemPrompt, userPrompt);
 
-      expect(result).toStrictEqual(expectedResult);
+      expect(result).toStrictEqual(expectedResult as Record<string, unknown>);
     }
   });
 
@@ -311,7 +311,7 @@ describe('ask-dial', () => {
     await askDial('System prompt', 'User prompt');
 
     expect(mockFetch).toHaveBeenCalled();
-    const callArgs = mockFetch.mock.calls[0];
+    const callArgs = (mockFetch.mock as { calls: [string, RequestInit | undefined][] }).calls[0];
     expect(callArgs[0]).toContain('ai-proxy.lab.epam.com');
     expect(callArgs[0]).toContain('chat/completions');
     expect(callArgs[1]?.method).toStrictEqual('POST');
@@ -323,10 +323,10 @@ describe('ask-dial', () => {
   test('includes correct messages in request body', async () => {
     process.env.DIAL_KEY = 'test-key';
 
-    const requestBodyState = { value: null as any };
+    const requestBodyState = { value: null as unknown };
 
-    const mockFetch = mock((url, options) => {
-      requestBodyState.value = JSON.parse(options?.body as string);
+    const mockFetch = mock((_url: string, options: RequestInit | undefined) => {
+      requestBodyState.value = JSON.parse(options?.body as string) as unknown;
       return Promise.resolve({
         json: () =>
           Promise.resolve({
@@ -345,15 +345,16 @@ describe('ask-dial', () => {
 
     await askDial('Test system', 'Test user');
 
-    expect(requestBodyState.value.messages).toHaveLength(2);
-    expect(requestBodyState.value.messages[0]).toStrictEqual({
+    const bodyValue = requestBodyState.value as { messages: { role: string; content: string }[]; temperature: number };
+    expect(bodyValue.messages).toHaveLength(2);
+    expect(bodyValue.messages[0]).toStrictEqual({
       role: 'system',
       content: 'Test system',
     });
-    expect(requestBodyState.value.messages[1]).toStrictEqual({
+    expect(bodyValue.messages[1]).toStrictEqual({
       role: 'user',
       content: 'Test user',
     });
-    expect(requestBodyState.value.temperature).toBeDefined();
+    expect(bodyValue.temperature).toBeDefined();
   });
 });

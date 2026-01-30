@@ -1,4 +1,5 @@
-import { StravaActivityConfig, StravaActivityError, StravaActivityTokenRefreshResponse } from '../types';
+import { StravaApiConfig, StravaApiError } from '../../types';
+import { StravaActivityTokenRefreshResponse } from '../types';
 
 /**
  * Creates an ActivityError wrapped in an Error object.
@@ -8,12 +9,12 @@ import { StravaActivityConfig, StravaActivityError, StravaActivityTokenRefreshRe
  * @returns {Error} Error object with JSON-stringified ActivityError in message
  * @internal
  */
-const createActivityError = (code: StravaActivityError['code'], message: string): Error => {
-  const error: StravaActivityError = {
+const createActivityError = (code: StravaApiError['code'], message: string): Error => {
+  const error: StravaApiError = {
     code,
     message,
     retryable: false,
-  };
+  } as const;
   return new Error(JSON.stringify(error));
 };
 
@@ -35,7 +36,7 @@ const fetchTokenRefreshResponse = async (url: string, body: string): Promise<Res
       },
       body,
     });
-  } catch (error) {
+  } catch {
     throw createActivityError('NETWORK_ERROR', 'Failed to connect to Strava OAuth endpoint');
   }
 };
@@ -51,7 +52,7 @@ const fetchTokenRefreshResponse = async (url: string, body: string): Promise<Res
 const parseTokenRefreshJsonData = async (clonedResponse: Response): Promise<StravaActivityTokenRefreshResponse> => {
   try {
     return (await clonedResponse.json()) as StravaActivityTokenRefreshResponse;
-  } catch (error) {
+  } catch {
     throw createActivityError('MALFORMED_RESPONSE', 'Invalid response format from token refresh endpoint');
   }
 };
@@ -63,7 +64,7 @@ const parseTokenRefreshJsonData = async (clonedResponse: Response): Promise<Stra
  * when the current one has expired. Requires refresh token, client ID, and
  * client secret to be present in the configuration.
  *
- * @param {StravaActivityConfig} config - Activity module configuration containing refresh token and OAuth credentials
+ * @param {StravaApiConfig} config - Activity module configuration containing refresh token and OAuth credentials
  * @returns {Promise<string>} Promise resolving to the new access token string
  * @throws {Error} Throws an error with ActivityError structure for various failure scenarios:
  *   - 'UNAUTHORIZED' (not retryable): Refresh token missing or invalid credentials
@@ -84,7 +85,7 @@ const parseTokenRefreshJsonData = async (clonedResponse: Response): Promise<Stra
  * });
  * ```
  */
-const refreshToken = async (config: StravaActivityConfig): Promise<string> => {
+const refreshToken = async (config: StravaApiConfig): Promise<string> => {
   if (config.refreshToken === undefined) {
     throw createActivityError('UNAUTHORIZED', 'Refresh token is not available');
   }

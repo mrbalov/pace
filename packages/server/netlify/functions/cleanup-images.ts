@@ -4,45 +4,51 @@ import { listImageKeys, getImage, isExpired, deleteImage } from '../../src/stora
 /**
  * Scheduled function that runs daily to clean up expired images.
  * Deletes images older than 24 hours.
+ * @param {Request} _request - The incoming HTTP request (unused)
+ * @param {Context} _context - Netlify function context (unused)
+ * @returns {Promise<Response>} HTTP response with cleanup summary
  */
-export default async (request: Request, context: Context) => {
-  console.log('Starting image cleanup...');
-  
+export default async (_request: Request, _context: Context) => {
+  // Explicitly mark parameters as intentionally unused
+  void _request;
+  void _context;
+
+  console.info('Starting image cleanup...');
+
   try {
     const keys = await listImageKeys();
-    console.log(`Found ${keys.length} images to check`);
-    
-    let deletedCount = 0;
-    let errorCount = 0;
-    
+    console.info(`Found ${keys.length} images to check`);
+
+    const counters = { deletedCount: 0, errorCount: 0 };
+
     for (const key of keys) {
       try {
-        const result = await getImage(key);
-        
+        const result = await getImage(key) as { data: unknown; metadata: unknown } | null;
+
         if (!result) {
-          console.log(`Image ${key} not found, skipping`);
+          console.info(`Image ${key} not found, skipping`);
           continue;
         }
-        
+
         if (isExpired(result.metadata)) {
           await deleteImage(key);
-          deletedCount++;
-          console.log(`Deleted expired image: ${key}`);
+          counters.deletedCount++;
+          console.info(`Deleted expired image: ${key}`);
         }
       } catch (error) {
         console.error(`Error processing ${key}:`, error);
-        errorCount++;
+        counters.errorCount++;
       }
     }
     
     const summary = {
       checked: keys.length,
-      deleted: deletedCount,
-      errors: errorCount,
+      deleted: counters.deletedCount,
+      errors: counters.errorCount,
       timestamp: new Date().toISOString(),
     };
-    
-    console.log('Cleanup complete:', summary);
+
+    console.info('Cleanup complete:', summary);
     
     return new Response(JSON.stringify(summary), {
       status: 200,

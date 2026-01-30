@@ -13,17 +13,16 @@ import askDial from './ask-dial';
  * and returns structured validation results. Can validate all specs in a
  * directory or a specific set of spec files.
  *
+ * Exactly one of rootDir or specFilePaths must be provided:
+ * - rootDir: Validates all spec.md files found recursively in the directory
+ * - specFilePaths: Validates only the specified spec files
+ *
  * @param {string} systemPrompt - System prompt instructing the AI on validation rules and format
  * @param {string} userPrompt - User prompt describing what to validate
  * @param {string} [rootDir] - Root directory containing OpenSpec specifications (mutually exclusive with specFilePaths)
  * @param {string[]} [specFilePaths] - Array of specific spec file paths to validate (mutually exclusive with rootDir)
  * @returns {Promise<Output>} Promise resolving to validation output with results, violations, and summary
  * @throws {Error} Throws error if neither rootDir nor specFilePaths is provided, or if both are provided
- *
- * @remarks
- * Exactly one of rootDir or specFilePaths must be provided:
- * - rootDir: Validates all spec.md files found recursively in the directory
- * - specFilePaths: Validates only the specified spec files
  *
  * @example
  * ```typescript
@@ -54,7 +53,7 @@ const validateSpecsWithAI = async (
 
   // Get spec file paths either from rootDir or use provided specFilePaths
   const finalSpecFilePaths = hasRootDir
-    ? await getSpecFilePaths(rootDir!)
+    ? await getSpecFilePaths(rootDir)
     : specFilePaths!;
 
   const userPromptWithSpecs = await buildUserPrompt(finalSpecFilePaths, userPrompt);

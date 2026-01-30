@@ -1,1 +1,1 @@
-export { default } from './pollinations-provider';
+export { default } from './pollinations';

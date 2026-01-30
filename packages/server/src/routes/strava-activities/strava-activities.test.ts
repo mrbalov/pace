@@ -24,7 +24,7 @@ describe('stravaActivities', () => {
 
   beforeEach(() => {
     mockFetchStravaActivities = mock(() => Promise.resolve([] as StravaActivity[]));
-    mock.module('@pace/strava-api', () => ({
+    void mock.module('@pace/strava-api', () => ({
       fetchStravaActivities: mockFetchStravaActivities,
       fetchStravaActivity: mock(() => Promise.resolve(null)),
     }));
@@ -40,7 +40,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(401);
-    const body = await response.json();
+    const body = await response.json() as { error: string; message: string };
     expect(body.error).toBe('Unauthorized');
     expect(body.message).toBe('Authentication required. Please authenticate with Strava.');
   });
@@ -83,7 +83,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(200);
-    const body = await response.json();
+    const body = await response.json() as StravaActivity[];
     expect(Array.isArray(body)).toBe(true);
     expect(body.length).toBe(2);
     expect(body[0].id).toBe(123456);
@@ -110,7 +110,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(401);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Authentication failed. Token may be expired or invalid.');
   });
 
@@ -132,7 +132,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(403);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Insufficient permissions to access activities');
   });
 
@@ -154,7 +154,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(429);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Rate limit exceeded. Please try again later.');
   });
 
@@ -176,7 +176,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(500);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Strava API server error');
   });
 
@@ -198,7 +198,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(500);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Failed to connect to Strava API');
   });
 });

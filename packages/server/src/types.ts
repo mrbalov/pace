@@ -1,7 +1,7 @@
 /**
  * Server configuration for server package.
  */
-export type ServerConfig = {
+export interface ServerConfig {
   /**
    * Server hostname (default: 'localhost').
    */
@@ -52,12 +52,12 @@ export type ServerConfig = {
    * Redirect URL after authorization failure (default: '/').
    */
   errorRedirect?: string;
-};
+}
 
 /**
  * Token result from cookie parsing.
  */
-export type ServerTokenResult = {
+export interface ServerTokenResult {
   /**
    * OAuth2 access token.
    */
@@ -70,7 +70,7 @@ export type ServerTokenResult = {
    * Token expiration timestamp (Unix time).
    */
   expiresAt: number;
-};
+}
 
 /**
  * Cookie names for token storage.

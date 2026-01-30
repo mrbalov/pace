@@ -31,7 +31,7 @@ const config = getConfig();
 const readBodyChunks = async (req: IncomingMessage): Promise<string> => {
   const chunks: Buffer[] = [];
   for await (const chunk of req) {
-    chunks.push(chunk);
+    chunks.push(chunk as Buffer);
   }
   return Buffer.concat(chunks).toString();
 };
@@ -61,13 +61,13 @@ const readRequestBody = async (req: IncomingMessage): Promise<string | undefined
  * @internal
  */
 const nodeRequestToWebRequest = async (req: IncomingMessage): Promise<Request> => {
-  const protocol = req.headers['x-forwarded-proto'] || 'http';
-  const host = req.headers.host || 'localhost';
-  const url = `${protocol}://${host}${req.url || '/'}`;
+  const protocol = req.headers['x-forwarded-proto'] ?? 'http';
+  const host = req.headers.host ?? 'localhost';
+  const url = `${String(protocol)}://${String(host)}${req.url ?? '/'}`;
   const body = await readRequestBody(req);
 
   return new Request(url, {
-    method: req.method || 'GET',
+    method: req.method ?? 'GET',
     headers: req.headers as HeadersInit,
     body,
   });
@@ -79,10 +79,10 @@ const nodeRequestToWebRequest = async (req: IncomingMessage): Promise<Request> =
  * @returns {string} Allowed origin URL
  * @internal
  */
-const getAllowedOrigin = (): string => {
+const getAllowedOrigin = (): string => 
   // Allow UI origin from environment variable, default to localhost:3001 for dev
-  return process.env.UI_ORIGIN || 'http://localhost:3001';
-};
+   process.env.UI_ORIGIN ?? 'http://localhost:3001'
+;
 
 /**
  * Adds CORS headers to response.
@@ -246,8 +246,7 @@ const handleServerError = (error: unknown, res: ServerResponse): void => {
  * @returns {Promise<Response | null>} Response if successful, null if error occurred
  * @internal
  */
-const processRequest = async (req: IncomingMessage): Promise<Response | null> => {
-  return await (async () => {
+const processRequest = async (req: IncomingMessage): Promise<Response | null> => await (async () => {
     try {
       const request = await nodeRequestToWebRequest(req);
       return await handleRoute(request);
@@ -256,7 +255,6 @@ const processRequest = async (req: IncomingMessage): Promise<Response | null> =>
       return null;
     }
   })();
-};
 
 /**
  * Handles incoming HTTP requests.
@@ -290,13 +288,15 @@ const requestHandler = async (req: IncomingMessage, res: ServerResponse): Promis
  * @returns {ReturnType<typeof createServer>} HTTP server instance
  */
 const createHttpServer = (): ReturnType<typeof createServer> => {
-  const server = createServer(requestHandler);
+  const server = createServer((req, res) => {
+    void requestHandler(req, res);
+  });
 
   const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3000;
-  const hostname = config.hostname || '0.0.0.0';
+  const hostname = config.hostname ?? '0.0.0.0';
 
   server.listen(port, hostname, () => {
-    console.log(`🚀 PACE Server is running on http://${hostname}:${port}`);
+    console.info(`🚀 PACE Server is running on http://${hostname}:${port}`);
   });
 
   return server;

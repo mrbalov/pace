@@ -81,11 +81,7 @@ const truncatePrompt = (prompt: Omit<StravaActivityImagePrompt, 'text'>, fullPro
  * - Style-specific quality keywords (professional, polished, elegant, etc.)
  * - Human anatomy quality terms (anatomically correct, well-proportioned)
  * - General quality keywords (high quality, sharp, beautiful)
- *
- * @param {Omit<StravaActivityImagePrompt, 'text'>} prompt - Prompt components to assemble
- * @returns {string} Assembled prompt text (max 400 characters)
- *
- * @remarks
+ * 
  * Enhanced prompt structure: "{qualityKeywords}, {style} style, {subject}{humanQuality}, {mood} mood, {scene}{generalQuality}"
  * 
  * Quality keywords address:
@@ -94,6 +90,9 @@ const truncatePrompt = (prompt: Omit<StravaActivityImagePrompt, 'text'>, fullPro
  * - Visual appeal and overall quality (high quality, sharp, beautiful)
  * 
  * If over character limit, truncates scene details first while preserving quality keywords.
+ *
+ * @param {Omit<StravaActivityImagePrompt, 'text'>} prompt - Prompt components to assemble
+ * @returns {string} Assembled prompt text (max 400 characters)
  *
  * @example
  * ```typescript

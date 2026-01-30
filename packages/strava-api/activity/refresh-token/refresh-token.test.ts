@@ -1,20 +1,21 @@
 import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
 import refreshToken from './refresh-token';
-import { StravaActivityConfig, StravaActivityError } from '../types';
+import { StravaApiConfig, StravaApiError } from '../../types';
 
 type Case = [
   string,
   {
-    config: StravaActivityConfig;
+    config: StravaApiConfig;
     mockResponse: Response | Error;
     shouldThrow: boolean;
-    expectedError?: StravaActivityError;
+    expectedError?: StravaApiError;
     expectedToken?: string;
   }
 ];
 
-const parseError = (error: Error): StravaActivityError => {
-  return JSON.parse(error.message) as StravaActivityError;
+const parseError = (error: Error): StravaApiError => {
+  const parsed = JSON.parse(error.message) as unknown;
+  return parsed as StravaApiError;
 };
 
 describe('refresh-token', () => {
@@ -183,11 +184,11 @@ describe('refresh-token', () => {
       };
     } else {
       // @ts-expect-error - mockResponse is a Response
-      globalThis.fetch = async () => mockResponse;
+      globalThis.fetch = () => Promise.resolve(mockResponse);
     }
 
     if (shouldThrow) {
-      await expect(async () => {
+      expect(async () => {
         await refreshToken(config);
       }).toThrow();
 

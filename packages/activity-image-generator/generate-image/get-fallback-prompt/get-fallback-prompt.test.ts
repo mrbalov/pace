@@ -5,7 +5,6 @@ type Case = [
   string,
   {
     activityType: string;
-    expectedStyle: 'minimal' | 'abstract';
     expectedSubject: string;
     expectedMood: string;
   }
@@ -17,7 +16,6 @@ describe('get-fallback-prompt', () => {
       'generates fallback prompt for Run activity',
       {
         activityType: 'Run',
-        expectedStyle: expect.any(String),
         expectedSubject: 'fitness activity illustration',
         expectedMood: 'energetic',
       },
@@ -26,7 +24,6 @@ describe('get-fallback-prompt', () => {
       'generates fallback prompt for Ride activity',
       {
         activityType: 'Ride',
-        expectedStyle: expect.any(String),
         expectedSubject: 'fitness activity illustration',
         expectedMood: 'energetic',
       },
@@ -35,12 +32,11 @@ describe('get-fallback-prompt', () => {
       'generates fallback prompt for Swim activity',
       {
         activityType: 'Swim',
-        expectedStyle: expect.any(String),
         expectedSubject: 'fitness activity illustration',
         expectedMood: 'energetic',
       },
     ],
-  ])('%#. %s', (_name, { activityType, expectedStyle, expectedSubject, expectedMood }) => {
+  ])('%#. %s', (_name, { activityType, expectedSubject, expectedMood }) => {
     const result = getFallbackPrompt(activityType);
 
     expect(['minimal', 'abstract']).toContain(result.style);

@@ -10,7 +10,7 @@ import type { ServerConfig } from '../../types';
  * @internal
  */
 const createCallbackErrorResponse = (config: ServerConfig): Response => {
-  const errorRedirect = config.errorRedirect || '/';
+  const errorRedirect = config.errorRedirect ?? '/';
   return new Response(null, {
     status: 302,
     headers: {
@@ -40,7 +40,7 @@ const exchangeCodeAndCreateSuccessResponse = async (
 
   if (tokens) {
     // Ensure redirect URL is clean (no query parameters) to prevent exposing OAuth details
-    const successRedirect = config.successRedirect || '/';
+    const successRedirect = config.successRedirect ?? '/';
     const cleanRedirect = successRedirect.split('?')[0]; // Remove any existing query params
     
     const redirectResponse = new Response(null, {
@@ -70,12 +70,10 @@ const exchangeCodeAndCreateSuccessResponse = async (
  * @returns {Promise<Response>} Response with tokens or error redirect
  * @internal
  */
-const handleTokenExchange = async (code: string, config: ServerConfig): Promise<Response> => {
-  return await exchangeCodeAndCreateSuccessResponse(code, config).catch((error) => {
+const handleTokenExchange = async (code: string, config: ServerConfig): Promise<Response> => await exchangeCodeAndCreateSuccessResponse(code, config).catch((error) => {
     console.error('Token exchange failed:', error);
     return createCallbackErrorResponse(config);
   });
-};
 
 /**
  * Creates error response for OAuth parameter errors.
@@ -90,7 +88,7 @@ const createParameterErrorResponse = (url: URL, config: ServerConfig): Response 
   const hasError = error !== null;
 
   if (hasError) {
-    const errorDescription = url.searchParams.get('error_description') || 'Authorization failed';
+    const errorDescription = url.searchParams.get('error_description') ?? 'Authorization failed';
     console.error('Strava OAuth error:', error, errorDescription);
   } else {
     console.error('Missing authorization code in callback');
@@ -107,9 +105,7 @@ const createParameterErrorResponse = (url: URL, config: ServerConfig): Response 
  * @returns {Response} Error response
  * @internal
  */
-const getCallbackErrorResponse = (url: URL, config: ServerConfig): Response => {
-  return createParameterErrorResponse(url, config);
-};
+const getCallbackErrorResponse = (url: URL, config: ServerConfig): Response => createParameterErrorResponse(url, config);
 
 /**
  * Gets success response after token exchange.
@@ -119,9 +115,7 @@ const getCallbackErrorResponse = (url: URL, config: ServerConfig): Response => {
  * @returns {Promise<Response>} Success response with tokens
  * @internal
  */
-const getCallbackSuccessResponse = async (code: string, config: ServerConfig): Promise<Response> => {
-  return await handleTokenExchange(code, config);
-};
+const getCallbackSuccessResponse = async (code: string, config: ServerConfig): Promise<Response> => await handleTokenExchange(code, config);
 
 /**
  * Gets the promise to await for callback response.

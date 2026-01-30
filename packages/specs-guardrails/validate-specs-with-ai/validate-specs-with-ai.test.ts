@@ -149,15 +149,15 @@ describe('validate-specs-with-ai', () => {
     } as Output));
 
     // Use mock.module to mock ES modules
-    mock.module('./get-spec-file-paths', () => ({
+    void mock.module('./get-spec-file-paths', () => ({
       default: mockGetSpecFilePaths,
     }));
 
-    mock.module('./build-user-prompt', () => ({
+    void mock.module('./build-user-prompt', () => ({
       default: mockBuildUserPrompt,
     }));
 
-    mock.module('./ask-dial', () => ({
+    void mock.module('./ask-dial', () => ({
       default: mockAskDial,
     }));
 
@@ -165,7 +165,7 @@ describe('validate-specs-with-ai', () => {
     const { default: validateSpecsWithAI } = await import('./validate-specs-with-ai');
 
     if (shouldThrow) {
-      await expect(
+      expect(
         validateSpecsWithAI(systemPrompt, userPrompt, rootDir, specFilePaths)
       ).rejects.toThrow(expectedError);
     } else {
@@ -186,15 +186,15 @@ describe('validate-specs-with-ai', () => {
     const mockBuildUserPrompt = mock(() => Promise.resolve('Built prompt'));
     const mockAskDial = mock(() => Promise.resolve({} as Output));
 
-    mock.module('./get-spec-file-paths', () => ({
+    void mock.module('./get-spec-file-paths', () => ({
       default: mockGetSpecFilePaths,
     }));
 
-    mock.module('./build-user-prompt', () => ({
+    void mock.module('./build-user-prompt', () => ({
       default: mockBuildUserPrompt,
     }));
 
-    mock.module('./ask-dial', () => ({
+    void mock.module('./ask-dial', () => ({
       default: mockAskDial,
     }));
 
@@ -211,11 +211,11 @@ describe('validate-specs-with-ai', () => {
     const mockBuildUserPrompt = mock(() => Promise.resolve('Built prompt'));
     const mockAskDial = mock(() => Promise.resolve({} as Output));
 
-    mock.module('./build-user-prompt', () => ({
+    void mock.module('./build-user-prompt', () => ({
       default: mockBuildUserPrompt,
     }));
 
-    mock.module('./ask-dial', () => ({
+    void mock.module('./ask-dial', () => ({
       default: mockAskDial,
     }));
 

@@ -10,14 +10,12 @@ import type { ServerConfig, ServerTokenResult } from '../../types';
  * @returns {StravaApiConfig} Strava API configuration
  * @internal
  */
-const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): StravaApiConfig => {
-  return {
+const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): StravaApiConfig => ({
     accessToken: tokens.accessToken,
     refreshToken: tokens.refreshToken,
     clientId: config.strava.clientId,
     clientSecret: config.strava.clientSecret,
-  };
-};
+  });
 
 /**
  * Creates error response for unauthorized requests.
@@ -25,8 +23,7 @@ const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): 
  * @returns {Response} 401 Unauthorized response
  * @internal
  */
-const createUnauthorizedResponse = (): Response => {
-  return new Response(
+const createUnauthorizedResponse = (): Response => new Response(
     JSON.stringify({
       error: 'Unauthorized',
       message: 'Authentication required. Please authenticate with Strava.',
@@ -38,7 +35,6 @@ const createUnauthorizedResponse = (): Response => {
       },
     }
   );
-};
 
 /**
  * Determines status code and error message from activity error code.
@@ -88,11 +84,6 @@ const determineErrorDetails = (
  * @internal
  */
 const createErrorResponse = (error: Error): Response => {
-  const defaultDetails = {
-    statusCode: 500,
-    errorMessage: 'Internal server error',
-  };
-
   const details = (() => {
     try {
       const activityError = JSON.parse(error.message) as {

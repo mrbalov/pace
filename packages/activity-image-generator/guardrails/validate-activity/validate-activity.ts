@@ -92,13 +92,12 @@ const validateActivitySemantics = (activity: StravaActivity): StravaActivityVali
  * Returns validation result with sanitized activity if validation fails
  * but sanitization is possible.
  *
- * @param {StravaActivity} activity - Activity data to validate
- * @returns {StravaActivityValidationResult} Validation result with errors and optional sanitized activity
- *
- * @remarks
  * Required fields: type, sport_type
  * Value constraints: distance > 0, avg_hr in [40, 220], pace > 0, elevation_gain >= 0
  * Semantic validation: values must be consistent with activity type
+ *
+ * @param {StravaActivity} activity - Activity data to validate
+ * @returns {StravaActivityValidationResult} Validation result with errors and optional sanitized activity
  */
 const validateActivity = (activity: StravaActivity): StravaActivityValidationResult => {
   const errors: string[] = [];

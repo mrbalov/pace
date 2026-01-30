@@ -26,7 +26,7 @@ const setTokens = (
 
   cookieOptions.push(`Path=/`);
   cookieOptions.push(`HttpOnly`);
-  cookieOptions.push(`SameSite=${cookieConfig.sameSite || 'lax'}`);
+  cookieOptions.push(`SameSite=${cookieConfig.sameSite ?? 'lax'}`);
 
   if (cookieConfig.secure) {
     cookieOptions.push('Secure');

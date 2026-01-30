@@ -12,9 +12,7 @@ type Case = [
   }
 ];
 
-const parseError = (error: Error): StravaAuthError => {
-  return JSON.parse(error.message) as StravaAuthError;
-};
+const parseError = (error: Error): StravaAuthError => JSON.parse(error.message) as StravaAuthError;
 
 describe('get-authorization-url', () => {
   test.each<Case>([

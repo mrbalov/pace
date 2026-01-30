@@ -7,15 +7,13 @@ import { COOKIE_NAMES, type ServerTokenResult } from '../../types';
  * @returns {Record<string, string>} Parsed cookies object
  * @internal
  */
-const parseCookies = (cookieHeader: string): Record<string, string> => {
-  return cookieHeader.split(';').reduce((acc, cookie) => {
+const parseCookies = (cookieHeader: string): Record<string, string> => cookieHeader.split(';').reduce((acc, cookie) => {
     const [key, value] = cookie.trim().split('=');
     if (key && value) {
       acc[key] = decodeURIComponent(value);
     }
     return acc;
   }, {} as Record<string, string>);
-};
 
 /**
  * Extracts tokens from parsed cookies.

@@ -1,11 +1,11 @@
 import { describe, test, expect } from 'bun:test';
 import getAuthHeaders from './get-auth-headers';
-import { StravaActivityConfig } from '../types';
+import { StravaApiConfig } from '../../types';
 
 type Case = [
   string,
   {
-    config: StravaActivityConfig;
+    config: StravaApiConfig;
     expected: HeadersInit;
   }
 ];

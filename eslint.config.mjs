@@ -7,7 +7,7 @@ export default tseslint.config(
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   {
-    files: ['packages/**/*.ts'],
+    files: ['packages/**/*.{ts,tsx}'],
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
@@ -37,30 +37,12 @@ export default tseslint.config(
       ],
       'prefer-const': 'error',
       'no-var': 'error',
-      'no-nested-functions': 'error',
+      'no-inner-declarations': 'error',
 
       // TypeScript specific rules
-      '@typescript-eslint/explicit-function-return-type': [
-        'error',
-        {
-          allowExpressions: false,
-          allowTypedFunctionExpressions: false,
-          allowHigherOrderFunctions: false,
-          allowDirectConstAssertionInArrowFunctions: false,
-        },
-      ],
+      '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-inferrable-types': 'off',
-      '@typescript-eslint/typedef': [
-        'error',
-        {
-          arrowParameter: true,
-          variableDeclaration: true,
-          memberVariableDeclaration: true,
-          parameter: true,
-          propertyDeclaration: true,
-          variableDeclarationIgnoreFunction: false,
-        },
-      ],
+      '@typescript-eslint/typedef': 'off',
 
       // JSDoc requirements
       'jsdoc/require-jsdoc': [
@@ -106,7 +88,7 @@ export default tseslint.config(
       'prefer-arrow-callback': 'error',
       'arrow-body-style': [
         'error',
-        'always',
+        'as-needed',
       ],
 
       // Import patterns

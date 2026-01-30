@@ -8,16 +8,15 @@ import checkForbiddenContent from '../check-forbidden-content';
  * Checks that signals comply with guardrails, tags are normalized,
  * and intensity/elevation classifications are valid.
  *
- * @param {StravaActivitySignals} signals - Activity signals to validate
- * @returns {StravaActivitySignalsValidationResult} Validation result with errors and optional sanitized signals
- *
- * @remarks
  * Validates:
  * - Intensity is one of: low, medium, high
  * - Elevation is one of: flat, rolling, mountainous
  * - Time of day is one of: morning, day, evening, night
  * - Tags are normalized strings
  * - No forbidden content in semantic context
+ *
+ * @param {StravaActivitySignals} signals - Activity signals to validate
+ * @returns {StravaActivitySignalsValidationResult} Validation result with errors and optional sanitized signals
  */
 const validateActivitySignals = (signals: StravaActivitySignals): StravaActivitySignalsValidationResult => {
   const errors: string[] = [];
@@ -28,19 +27,19 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
   }
   
   // Validate intensity
-  const validIntensities: Array<StravaActivitySignals['intensity']> = ['low', 'medium', 'high'];
+  const validIntensities: StravaActivitySignals['intensity'][] = ['low', 'medium', 'high'];
   if (!validIntensities.includes(signals.intensity)) {
     errors.push(`Intensity must be one of: ${validIntensities.join(', ')}`);
   }
   
   // Validate elevation
-  const validElevations: Array<StravaActivitySignals['elevation']> = ['flat', 'rolling', 'mountainous'];
+  const validElevations: StravaActivitySignals['elevation'][] = ['flat', 'rolling', 'mountainous'];
   if (!validElevations.includes(signals.elevation)) {
     errors.push(`Elevation must be one of: ${validElevations.join(', ')}`);
   }
   
   // Validate time of day
-  const validTimeOfDay: Array<StravaActivitySignals['timeOfDay']> = ['morning', 'day', 'evening', 'night'];
+  const validTimeOfDay: StravaActivitySignals['timeOfDay'][] = ['morning', 'day', 'evening', 'night'];
   if (!validTimeOfDay.includes(signals.timeOfDay)) {
     errors.push(`Time of day must be one of: ${validTimeOfDay.join(', ')}`);
   }
@@ -65,7 +64,7 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
   
   // Validate weather if present
   if (signals.weather !== undefined) {
-    const validWeather: Array<NonNullable<StravaActivitySignals['weather']>> = ['sunny', 'rainy', 'cloudy', 'foggy'];
+    const validWeather: NonNullable<StravaActivitySignals['weather']>[] = ['sunny', 'rainy', 'cloudy', 'foggy'];
     if (!validWeather.includes(signals.weather)) {
       errors.push(`Weather must be one of: ${validWeather.join(', ')}`);
     }

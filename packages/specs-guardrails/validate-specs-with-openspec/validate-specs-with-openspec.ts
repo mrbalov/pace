@@ -50,11 +50,11 @@ const getOpenSpecBin = (rootDir: string): string => {
 /**
  * Parsed validation data from OpenSpec JSON output.
  */
-type ParsedValidationData = {
+interface ParsedValidationData {
   items: Output['items'];
   summary: Output['summary'];
   version: string;
-};
+}
 
 /**
  * Parses validation data from OpenSpec JSON output.
@@ -80,13 +80,12 @@ const parseValidationData = (stdout: string): ParsedValidationData => {
  * validation rules. Returns structured validation results including items,
  * summary, and version information.
  *
+ * Executes: `openspec validate --all --strict --no-interactive --json`
+ * The command validates all specs in the rootDir directory tree.
+ *
  * @param {string} rootDir - Root directory containing OpenSpec specifications to validate
  * @returns {Promise<Output>} Promise resolving to validation output with success status, items, summary, and version
  * @throws {Error} Throws error if openspec binary cannot be found or if JSON output cannot be parsed
- *
- * @remarks
- * Executes: `openspec validate --all --strict --no-interactive --json`
- * The command validates all specs in the rootDir directory tree.
  *
  * @see {@link https://github.com/fission-ai/openspec | OpenSpec CLI Documentation}
  *

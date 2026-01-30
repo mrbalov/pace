@@ -45,7 +45,8 @@ const fetchApiResponseWithErrorHandling = async (
 
     if (activityError !== null && activityError.code === 'RATE_LIMITED') {
       // Use the actual response if available, otherwise create a mock with default wait
-      const rateLimitResponse = (error as any).response ?? new Response('Rate Limited', {
+      const errorWithResponse = error as Error & { response?: Response };
+      const rateLimitResponse = errorWithResponse.response ?? new Response('Rate Limited', {
         status: 429,
         headers: { 'Retry-After': '60' },
       });
@@ -66,7 +67,7 @@ const fetchApiResponseWithErrorHandling = async (
             accessToken: newAccessToken,
           };
           return await fetchFromApi(activityId, refreshedConfig);
-        } catch (refreshError) {
+        } catch {
           throw error;
         }
       } else {
@@ -123,6 +124,15 @@ const fetchActivityWithTokenRefresh = async (
  *
  * This function is typically called when a Strava webhook notification is
  * received containing an activity ID, initiating the activity processing pipeline.
+ * 
+ * The function implements the following flow:
+ * 1. Validates activity ID format
+ * 2. Fetches from API with automatic retry on retryable errors
+ * 3. Handles rate limiting by waiting before retry
+ * 4. Attempts token refresh on 401 errors (if refresh token available)
+ * 5. Transforms API response to internal format
+ * 6. Validates through Activity Guardrails (if provided)
+ * 7. Returns validated activity
  *
  * @param {string} activityId - Activity ID from Strava (typically received via webhook)
  * @param {ActivityConfig} config - Activity module configuration including OAuth tokens and optional guardrails
@@ -138,16 +148,6 @@ const fetchActivityWithTokenRefresh = async (
  *   - 'VALIDATION_FAILED' (not retryable): Activity Guardrails validation failed
  *   - 'MALFORMED_RESPONSE' (not retryable): Invalid API response format
  *
- * @remarks
- * The function implements the following flow:
- * 1. Validates activity ID format
- * 2. Fetches from API with automatic retry on retryable errors
- * 3. Handles rate limiting by waiting before retry
- * 4. Attempts token refresh on 401 errors (if refresh token available)
- * 5. Transforms API response to internal format
- * 6. Validates through Activity Guardrails (if provided)
- * 7. Returns validated activity
- *
  * @see {@link https://developers.strava.com/docs/reference/#api-Activities-getActivityById | Strava Get Activity API}
  * @see {@link https://developers.strava.com/docs/webhooks/ | Strava Webhooks}
  *
@@ -162,9 +162,11 @@ const fetchActivityWithTokenRefresh = async (
 const fetchActivity = async (activityId: string, config: StravaApiConfig): Promise<StravaActivity | null> => {
   validateActivityId(activityId);
 
-  const fetchWithRetry = async (): Promise<StravaActivity | null> => {
-    return fetchActivityWithTokenRefresh(activityId, config, config);
-  };
+  /**
+   * Inner function to fetch activity with retry capability.
+   * @returns {Promise<StravaActivity | null>} The activity data or null if not found
+   */
+  const fetchWithRetry = async (): Promise<StravaActivity | null> => fetchActivityWithTokenRefresh(activityId, config, config);
 
   return handleRetry(fetchWithRetry, STRAVA_API_MAX_RETRIES, STRAVA_API_INITIAL_BACKOFF_MS);
 };

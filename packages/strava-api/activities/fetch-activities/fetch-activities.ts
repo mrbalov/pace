@@ -36,13 +36,14 @@ const fetchApiResponseWithErrorHandling = async (
   currentConfig: StravaApiConfig,
 ): Promise<StravaActivity[]> => {
   try {
-    return await fetchActivitiesFromApi(currentConfig);
+    return await fetchActivitiesFromApi(currentConfig) as StravaActivity[];
   } catch (error) {
     const activityError = parseError(error as Error);
 
     if (activityError !== null && activityError.code === 'RATE_LIMITED') {
       // Use the actual response if available, otherwise create a mock with default wait
-      const rateLimitResponse = (error as any).response ?? new Response('Rate Limited', {
+      const errorWithResponse = error as Error & { response?: Response };
+      const rateLimitResponse = errorWithResponse.response ?? new Response('Rate Limited', {
         status: 429,
         headers: { 'Retry-After': '60' },
       });
@@ -62,8 +63,8 @@ const fetchApiResponseWithErrorHandling = async (
             ...currentConfig,
             accessToken: newAccessToken,
           };
-          return await fetchActivitiesFromApi(refreshedConfig);
-        } catch (refreshError) {
+          return await fetchActivitiesFromApi(refreshedConfig) as StravaActivity[];
+        } catch {
           throw error;
         }
       } else {
@@ -79,15 +80,17 @@ const fetchApiResponseWithErrorHandling = async (
  * Fetches activities list with token refresh support.
  *
  * @param {StravaApiConfig} currentConfig - Current Strava API configuration
- * @param {StravaApiConfig} originalConfig - Original Strava API configuration (for consistency)
+ * @param {StravaApiConfig} _originalConfig - Original Strava API configuration (unused)
  * @returns {Promise<StravaActivityApiResponse[]>} Promise resolving to activities array
  * @throws {Error} Throws error if API errors occur
  * @internal
  */
 const fetchActivitiesWithTokenRefresh = async (
   currentConfig: StravaApiConfig,
-  originalConfig: StravaApiConfig
+  _originalConfig: StravaApiConfig
 ): Promise<StravaActivity[]> => {
+  // _originalConfig reserved for future use (e.g., fallback scenarios)
+  void _originalConfig;
   return await fetchApiResponseWithErrorHandling(currentConfig);
 };
 
@@ -100,6 +103,12 @@ const fetchActivitiesWithTokenRefresh = async (
  *
  * This function is typically called to retrieve a list of activities for display
  * or processing purposes.
+ * 
+ * The function implements the following flow:
+ * 1. Fetches from API with automatic retry on retryable errors
+ * 2. Handles rate limiting by waiting before retry
+ * 3. Attempts token refresh on 401 errors (if refresh token available)
+ * 4. Returns raw API response array
  *
  * @param {StravaApiConfig} config - Strava API configuration including OAuth tokens
  * @returns {Promise<StravaActivityApiResponse[]>} Promise resolving to array of activities in raw Strava API format
@@ -111,13 +120,6 @@ const fetchActivitiesWithTokenRefresh = async (
  *   - 'NETWORK_ERROR' (retryable): Network connection failure (handled with retry)
  *   - 'MALFORMED_RESPONSE' (not retryable): Invalid API response format
  *
- * @remarks
- * The function implements the following flow:
- * 1. Fetches from API with automatic retry on retryable errors
- * 2. Handles rate limiting by waiting before retry
- * 3. Attempts token refresh on 401 errors (if refresh token available)
- * 4. Returns raw API response array
- *
  * @see {@link https://developers.strava.com/docs/reference/#api-Activities-getLoggedInAthleteActivities | Strava Get Activities API}
  *
  * @example
@@ -128,9 +130,11 @@ const fetchActivitiesWithTokenRefresh = async (
  * ```
  */
 const fetchActivities = async (config: StravaApiConfig): Promise<StravaActivity[]> => {
-  const fetchWithRetry = async (): Promise<StravaActivity[]> => {
-    return fetchActivitiesWithTokenRefresh(config, config);
-  };
+  /**
+   * Inner function to fetch activities with retry capability.
+   * @returns {Promise<StravaActivity[]>} Array of activities
+   */
+  const fetchWithRetry = async (): Promise<StravaActivity[]> => fetchActivitiesWithTokenRefresh(config, config);
 
   return handleRetry(fetchWithRetry, STRAVA_API_MAX_RETRIES, STRAVA_API_INITIAL_BACKOFF_MS);
 };

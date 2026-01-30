@@ -9,23 +9,23 @@ export type StravaApiErrorCode =
   | 'VALIDATION_FAILED'
   | 'MALFORMED_RESPONSE';
 
-export type StravaApiError = {
+export interface StravaApiError {
   code: StravaApiErrorCode;
   message: string;
   retryable?: boolean;
-};
+}
 
 /**
  * Entity validation result from Guardrails.
  */
-export type StravaApiConfigGuardrailsValidationResult = {
+export interface StravaApiConfigGuardrailsValidationResult {
   /** Whether the entity is valid. */
   valid: boolean;
   /** Validation errors if any. */
   errors?: string[];
-};
+}
 
-export type StravaApiConfig = {
+export interface StravaApiConfig {
   /** OAuth2 access token for Strava API. */
   accessToken: string;
   /** OAuth2 refresh token for token refresh. */
@@ -45,14 +45,14 @@ export type StravaApiConfig = {
      */
     validate: (input: Record<string, unknown>) => StravaApiConfigGuardrailsValidationResult;
   };
-};
+}
 
 /**
  * Strava Activity type.
  * The type is dictated by the Strava API and used internally by the system.
  * @see {@link https://developers.strava.com/docs/reference/#api-Activities-getActivityById | Strava Activity Response Format}
  */
-export type StravaActivity = {
+export interface StravaActivity {
   id: number;
   resource_state?: number;
   external_id?: string;
@@ -111,9 +111,9 @@ export type StravaActivity = {
   suffer_score?: number | null;
   description?: string;
   calories?: number;
-  segment_efforts?: Array<Record<string, unknown>>;
-  splits_metric?: Array<Record<string, unknown>>;
-  laps?: Array<Record<string, unknown>>;
+  segment_efforts?: Record<string, unknown>[];
+  splits_metric?: Record<string, unknown>[];
+  laps?: Record<string, unknown>[];
   gear?: {
     id?: string;
     primary?: boolean;
@@ -123,10 +123,10 @@ export type StravaActivity = {
   };
   partner_brand_tag?: string | null;
   photos?: Record<string, unknown>;
-  highlighted_kudosers?: Array<Record<string, unknown>>;
+  highlighted_kudosers?: Record<string, unknown>[];
   hide_from_home?: boolean;
   device_name?: string;
   embed_token?: string;
   segment_leaderboard_opt_out?: boolean;
   leaderboard_opt_out?: boolean;
-};
+}

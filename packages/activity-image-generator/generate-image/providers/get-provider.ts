@@ -1,32 +1,41 @@
-import { ImageProvider, ProviderName } from './types';
-import pollinationsProvider from './pollinations/pollinations-provider';
+import { ImageGenerationProvider } from '../types';
+import { ImageGenerationProviderName } from '../../types';
+import pollinations from './pollinations';
 
 /**
  * Gets the configured image generation provider.
- * 
- * Reads IMAGE_PROVIDER environment variable to determine which provider to use.
- * Defaults to Pollinations if not set.
- * 
- * @returns {ImageProvider} Image generation provider instance
- * @throws {Error} Throws if provider name is invalid
- * 
- * @remarks
+ * Reads IMAGE_PROVIDER environment variable or defaults to 'Pollinations'.
+ *
  * Supported providers:
- * - 'pollinations' (default): Free, unlimited, no authentication
- * 
+ * - 'pollinations' (default): Free, unlimited, no authentication.
+ *
+ * Priority:
+ * 1. Explicit providerName parameter
+ * 2. IMAGE_PROVIDER environment variable
+ * 3. Default to 'pollinations'
+ *
+ * @param {ImageGenerationProviderName} [providerName] - Override provider name
+ * @returns {ImageGenerationProvider} Image generation provider instance.
+ * @throws {Error} Throws if provider name is invalid.
+ *
  * @example
  * ```typescript
- * // Use default (Pollinations)
- * const provider = getProvider();
+ * const provider1 = getProvider(); // Uses IMAGE_PROVIDER env or defaults to 'pollinations'
+ * const provider2 = getProvider('pollinations');
  * ```
  */
-const getProvider = (): ImageProvider => {
-  const providerName = (process.env.IMAGE_PROVIDER || 'pollinations') as ProviderName;
-  
-  if (providerName === 'pollinations') {
-    return pollinationsProvider;
-  } else {
-    throw new Error(`Unknown IMAGE_PROVIDER: ${providerName}. Supported: pollinations`);
+const getProvider = (
+  providerName?: ImageGenerationProviderName,
+): ImageGenerationProvider => {
+  const name = providerName ?? (process.env.IMAGE_PROVIDER as ImageGenerationProviderName) ?? 'pollinations';
+
+  switch (name) {
+    case 'pollinations': {
+      return pollinations;
+    }
+    default: {
+      throw new Error(`Unknown image generation provider: ${String(name)}.`);
+    }
   }
 };
 

@@ -53,7 +53,6 @@ Configure these environment variables in the Netlify dashboard (Site settings â†
 
 - **`IMAGE_PROVIDER`** - AI image generation provider (default: `pollinations`)
   - `pollinations`: Free, unlimited Pollinations.ai (no API key required, recommended for Netlify deployment)
-  - `dial`: EPAM Dial with DALL-E-3 (requires DIAL_KEY and VPN access)
   - Default: `pollinations` (works from Netlify without VPN)
 
 - **`POLLINATIONS_MODEL`** - Pollinations.ai model selection (default: `flux`)
@@ -62,11 +61,6 @@ Configure these environment variables in the Netlify dashboard (Site settings â†
   - `gpt-image-large`: High-fidelity with GPT Image 1.5 (better for photorealism)
   - `kontext`: Context-aware generation
   - Default: `flux` (produces better results for cartoon/illustration styles)
-
-- **`DIAL_KEY`** - EPAM Dial API key (only required if IMAGE_PROVIDER=dial)
-  - Required for EPAM Dial provider
-  - Not needed for Pollinations (default)
-  - Note: EPAM Dial requires VPN access, so it won't work from Netlify Functions
 
 ## Deployment Steps
 

@@ -28,7 +28,7 @@ const parseError = (error: Error): StravaApiError | null => {
  * @param {number} attemptIndex - Current attempt index (0-based)
  * @param {number} maxRetries - Maximum number of retry attempts
  * @param {number} currentBackoffMs - Current backoff delay in milliseconds
- * @param {Error | null} previousError - Previous error encountered (if any)
+ * @param {Error | null} _previousError - Previous error encountered (if any) (unused)
  * @returns {Promise<T>} Promise resolving to the function's return value on success
  * @throws {Error} Throws the error if all retries are exhausted or error is non-retryable
  * @internal
@@ -38,8 +38,11 @@ const attemptWithBackoff = async <T>(
   attemptIndex: number,
   maxRetries: number,
   currentBackoffMs: number,
-  previousError: Error | null
+  _previousError: Error | null
 ): Promise<T> => {
+  // _previousError may be used for enhanced error reporting in the future
+  void _previousError;
+
   try {
     return await fn();
   } catch (error) {
@@ -93,8 +96,6 @@ const handleRetry = async <T>(
   fn: RetryFunction<T>,
   maxRetries: number,
   initialBackoffMs: number = STRAVA_API_INITIAL_BACKOFF_MS
-): Promise<T> => {
-  return attemptWithBackoff(fn, 0, maxRetries, initialBackoffMs, null);
-};
+): Promise<T> => attemptWithBackoff(fn, 0, maxRetries, initialBackoffMs, null);
 
 export default handleRetry;

@@ -15,9 +15,7 @@ type Case = [
   }
 ];
 
-const parseError = (error: Error): StravaApiError => {
-  return JSON.parse(error.message) as StravaApiError;
-};
+const parseError = (error: Error): StravaApiError => JSON.parse(error.message) as StravaApiError;
 
 describe('fetch-activity', () => {
   const fetchState = { originalFetch: globalThis.fetch };
@@ -38,8 +36,8 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
@@ -47,7 +45,7 @@ describe('fetch-activity', () => {
               name: 'Test Activity',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -94,7 +92,7 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () => new Response('Not Found', { status: 404 }),
+        mockFetch: () => Promise.resolve(new Response('Not Found', { status: 404 })),
         shouldThrow: true,
         expectedError: {
           code: 'NOT_FOUND',
@@ -110,7 +108,7 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'invalid-token',
         },
-        mockFetch: async () => new Response('Unauthorized', { status: 401 }),
+        mockFetch: () => Promise.resolve(new Response('Unauthorized', { status: 401 })),
         shouldThrow: true,
         expectedError: {
           code: 'UNAUTHORIZED',
@@ -131,27 +129,27 @@ describe('fetch-activity', () => {
         },
         mockFetch: (() => {
           const callCounter = { count: 0 };
-          return async () => {
+          return () => {
             callCounter.count = callCounter.count + 1;
             if (callCounter.count === 1) {
-              return new Response('Unauthorized', { status: 401 });
+              return Promise.resolve(new Response('Unauthorized', { status: 401 }));
             }
             if (callCounter.count === 2) {
-              return new Response(
+              return Promise.resolve(new Response(
                 JSON.stringify({
                   access_token: 'new-access-token',
                 }),
                 { status: 200 }
-              );
+              ));
             }
-            return new Response(
+            return Promise.resolve(new Response(
               JSON.stringify({
                 id: 123456,
                 type: 'Ride',
                 sport_type: 'Ride',
               }),
               { status: 200 }
-            );
+            ));
           };
         })(),
         shouldThrow: false,
@@ -169,7 +167,7 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () => new Response('Forbidden', { status: 403 }),
+        mockFetch: () => Promise.resolve(new Response('Forbidden', { status: 403 })),
         shouldThrow: true,
         expectedError: {
           code: 'FORBIDDEN',
@@ -187,24 +185,24 @@ describe('fetch-activity', () => {
         },
         mockFetch: (() => {
           const callCounter = { count: 0 };
-          return async () => {
+          return () => {
             callCounter.count = callCounter.count + 1;
             if (callCounter.count === 1) {
-              return new Response('Rate Limited', {
+              return Promise.resolve(new Response('Rate Limited', {
                 status: 429,
                 headers: {
                   'Retry-After': '0.1',
                 },
-              });
+              }));
             }
-            return new Response(
+            return Promise.resolve(new Response(
               JSON.stringify({
                 id: 123456,
                 type: 'Ride',
                 sport_type: 'Ride',
               }),
               { status: 200 }
-            );
+            ));
           };
         })(),
         shouldThrow: false,
@@ -224,19 +222,19 @@ describe('fetch-activity', () => {
         },
         mockFetch: (() => {
           const callCounter = { count: 0 };
-          return async () => {
+          return () => {
             callCounter.count = callCounter.count + 1;
             if (callCounter.count === 1) {
-              return new Response('Server Error', { status: 500 });
+              return Promise.resolve(new Response('Server Error', { status: 500 }));
             }
-            return new Response(
+            return Promise.resolve(new Response(
               JSON.stringify({
                 id: 123456,
                 type: 'Ride',
                 sport_type: 'Ride',
               }),
               { status: 200 }
-            );
+            ));
           };
         })(),
         shouldThrow: false,
@@ -263,15 +261,15 @@ describe('fetch-activity', () => {
             },
           },
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
               sport_type: 'Ride',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -288,19 +286,20 @@ describe('fetch-activity', () => {
           accessToken: 'test-token',
           guardrails: {
             validate: (_input: Record<string, unknown>) => {
+              void _input; // Explicitly mark as intentionally unused
               return { valid: false, errors: ['Validation failed'] };
             },
           },
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
               sport_type: 'Ride',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: true,
         expectedError: {
           code: 'VALIDATION_FAILED',
@@ -316,15 +315,15 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Run',
               sport_type: 'Run',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Run',
@@ -340,8 +339,8 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
@@ -355,7 +354,7 @@ describe('fetch-activity', () => {
               calories: 800,
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -378,7 +377,7 @@ describe('fetch-activity', () => {
     }
 
     if (shouldThrow) {
-      await expect(async () => {
+      expect(async () => {
         await fetchActivity(activityId, config);
       }).toThrow();
 

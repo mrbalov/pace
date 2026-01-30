@@ -16,11 +16,6 @@ import normalizeText from './normalize-text';
  * all semantic signals needed for prompt generation, including intensity,
  * elevation, time of day, weather, tags, and semantic context from user text.
  *
- * @param {StravaActivity} activity - Strava activity data to extract signals from
- * @returns {Promise<StravaActivitySignals>} Promise resolving to extracted and validated activity signals
- * @throws {Error} Throws error if activity validation fails
- *
- * @remarks
  * Signal extraction process:
  * 1. Validates activity data via Activity Guardrails
  * 2. Extracts activity type from sport_type
@@ -31,8 +26,12 @@ import normalizeText from './normalize-text';
  * 7. Normalizes and extracts tags
  * 8. Processes user text (name, description) for semantic context
  * 9. Validates extracted signals via Activity Guardrails
+ *
+ * @param {StravaActivity} activity - Strava activity data to extract signals from
+ * @returns {StravaActivitySignals} Extracted and validated activity signals
+ * @throws {Error} Throws error if activity validation fails
  */
-const getActivitySignals = async (activity: StravaActivity): Promise<StravaActivitySignals> => {
+const getActivitySignals = (activity: StravaActivity): StravaActivitySignals => {
   // Validate activity first
   const activityValidation = validateActivity(activity);
   

@@ -4,6 +4,7 @@ import { useActivities } from '../api/hooks';
 /**
  * Hook to determine if user is authenticated.
  * Checks if activities can be fetched successfully.
+ * @returns {{ isAuthenticated: boolean, loading: boolean }} Authentication status
  */
 export function useAuth() {
   const { activities, loading, error } = useActivities();

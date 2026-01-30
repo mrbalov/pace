@@ -7,14 +7,13 @@ import { CONFIG } from '../../constants';
  * Categorizes terrain as flat, rolling, or mountainous based on
  * total elevation gain from the activity.
  *
- * @param {StravaActivity} activity - Activity data to classify
- * @returns {'flat' | 'rolling' | 'mountainous'} Elevation classification
- *
- * @remarks
  * Classification thresholds:
  * - Flat: < 50m elevation gain
  * - Rolling: 50m - 500m elevation gain
  * - Mountainous: > 500m elevation gain
+ *
+ * @param {StravaActivity} activity - Activity data to classify
+ * @returns {'flat' | 'rolling' | 'mountainous'} Elevation classification
  */
 const classifyElevation = (activity: StravaActivity): 'flat' | 'rolling' | 'mountainous' => {
   const elevationGain = activity.total_elevation_gain;

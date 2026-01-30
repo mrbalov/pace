@@ -1,11 +1,9 @@
-import { StravaActivity } from '../types';
-
 /**
  * Token refresh response from Strava OAuth endpoint.
  */
-export type StravaActivityTokenRefreshResponse = {
+export interface StravaActivityTokenRefreshResponse {
   /** New access token. */
   access_token?: string;
   /** New refresh token (optional). */
   refresh_token?: string;
-};
+}

@@ -9,10 +9,20 @@ interface HeaderProps {
   onThemeChange: (theme: 'light' | 'dark') => void;
 }
 
+/**
+ * Application header with navigation and theme switcher.
+ * @param {HeaderProps} root0 - Component props
+ * @param {Function} root0.onThemeChange - Callback to change theme
+ * @returns {JSX.Element} Header component
+ */
 export default function Header({ onThemeChange }: HeaderProps) {
   const [location, setLocation] = useLocation();
   const { isAuthenticated, loading } = useAuth();
 
+  /**
+   * Handles user logout.
+   * @returns {Promise<void>}
+   */
   const handleLogout = async () => {
     await logout();
   };
@@ -60,8 +70,8 @@ export default function Header({ onThemeChange }: HeaderProps) {
             }}
             scale={0.8}
             placeholder="Logout"
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
+            onPointerEnterCapture={() => undefined}
+            onPointerLeaveCapture={() => undefined}
           >
             Logout
           </Button>

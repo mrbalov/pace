@@ -8,15 +8,14 @@ import checkForbiddenContent from '../check-forbidden-content';
  *
  * Checks prompt length, forbidden content, style validity, and brand usage compliance.
  *
- * @param {StravaActivityImagePrompt} prompt - Image prompt to validate
- * @returns {StravaActivityImagePromptValidationResult} Validation result with errors and optional sanitized prompt
- *
- * @remarks
  * Validates:
  * - Prompt length <= 600 characters
  * - No forbidden content (real persons, political symbols, violence, text instructions)
  * - Style is from allowed set: cartoon, minimal, abstract, illustrated
  * - Brand usage is compliant (contextual, not excessive)
+ *
+ * @param {StravaActivityImagePrompt} prompt - Image prompt to validate
+ * @returns {StravaActivityImagePromptValidationResult} Validation result with errors and optional sanitized prompt
  */
 const validateActivityImagePrompt = (prompt: StravaActivityImagePrompt): StravaActivityImagePromptValidationResult => {
   const errors: string[] = [];
@@ -33,7 +32,7 @@ const validateActivityImagePrompt = (prompt: StravaActivityImagePrompt): StravaA
   }
   
   // Validate style
-  const validStyles: Array<StravaActivityImagePrompt['style']> = ['cartoon', 'minimal', 'abstract', 'illustrated'];
+  const validStyles: StravaActivityImagePrompt['style'][] = ['cartoon', 'minimal', 'abstract', 'illustrated'];
   if (!validStyles.includes(prompt.style)) {
     errors.push(`Style must be one of: ${validStyles.join(', ')}`);
   }

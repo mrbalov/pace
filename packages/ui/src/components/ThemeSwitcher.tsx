@@ -7,9 +7,20 @@ interface ThemeSwitcherProps {
   onThemeChange: (theme: 'light' | 'dark') => void;
 }
 
+/**
+ * Theme switcher button component.
+ * @param {ThemeSwitcherProps} root0 - Component props
+ * @param {string} root0.className - Optional CSS class name
+ * @param {Function} root0.onThemeChange - Callback to change theme
+ * @returns {JSX.Element} Theme switcher button
+ */
 export default function ThemeSwitcher({ className, onThemeChange }: ThemeSwitcherProps) {
   const theme = useTheme();
 
+  /**
+   * Toggles between light and dark theme.
+   * @returns {void}
+   */
   const toggleTheme = () => {
     const newTheme = theme.type === 'dark' ? 'light' : 'dark';
     onThemeChange(newTheme);
@@ -24,8 +35,8 @@ export default function ThemeSwitcher({ className, onThemeChange }: ThemeSwitche
       aria-label={`Switch to ${theme.type === 'dark' ? 'light' : 'dark'} mode`}
       title={`Switch to ${theme.type === 'dark' ? 'light' : 'dark'} mode`}
       placeholder="Toggle Theme"
-      onPointerEnterCapture={() => {}}
-      onPointerLeaveCapture={() => {}}
+      onPointerEnterCapture={() => undefined}
+      onPointerLeaveCapture={() => undefined}
     />
   );
 }

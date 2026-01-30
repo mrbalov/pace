@@ -32,7 +32,7 @@ const createAuthSuccessResponse = (config: ServerConfig): Response => {
  * @internal
  */
 const createAuthErrorResponse = (config: ServerConfig): Response => {
-  const errorRedirect = config.errorRedirect || '/';
+  const errorRedirect = config.errorRedirect ?? '/';
   return new Response(null, {
     status: 302,
     headers: {
@@ -48,8 +48,7 @@ const createAuthErrorResponse = (config: ServerConfig): Response => {
  * @returns {Response} Success or error response
  * @internal
  */
-const attemptAuthResponse = (config: ServerConfig): Response => {
-  return (() => {
+const attemptAuthResponse = (config: ServerConfig): Response => (() => {
     try {
       return createAuthSuccessResponse(config);
     } catch (error) {
@@ -57,7 +56,6 @@ const attemptAuthResponse = (config: ServerConfig): Response => {
       return createAuthErrorResponse(config);
     }
   })();
-};
 
 /**
  * Handles GET /strava/auth - Initiates Strava OAuth flow.
@@ -68,8 +66,6 @@ const attemptAuthResponse = (config: ServerConfig): Response => {
  * @param {ServerConfig} config - Server configuration
  * @returns {Response} Redirect response to Strava authorization URL
  */
-const stravaAuth = (request: Request, config: ServerConfig): Response => {
-  return attemptAuthResponse(config);
-};
+const stravaAuth = (request: Request, config: ServerConfig): Response => attemptAuthResponse(config);
 
 export default stravaAuth;

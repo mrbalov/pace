@@ -21,16 +21,15 @@ const ACTIVITY_SUBJECTS: Record<string, string> = {
  * time of day, and weather. Scene composition follows priority order:
  * base environment → terrain → weather → lighting → atmosphere.
  *
- * @param {StravaActivitySignals} signals - Activity signals to compose scene from
- * @returns {{ subject: string; scene: string }} Subject and scene description
- *
- * @remarks
  * Scene composition priority:
  * 1. Base environment (from activity type)
  * 2. Terrain features (from elevation)
  * 3. Weather elements (if applicable)
  * 4. Lighting (from time of day)
  * 5. Atmosphere (from mood)
+ * 
+ * @param {StravaActivitySignals} signals - Activity signals to compose scene from
+ * @returns {{ subject: string; scene: string }} Subject and scene description
  */
 const composeScene = (signals: StravaActivitySignals): { subject: string; scene: string } => {
   // Determine subject from activity type

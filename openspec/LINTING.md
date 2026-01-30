@@ -28,7 +28,7 @@ The ESLint configuration enforces the following key rules from `project.md`:
 
 1. **No `let` usage**: The `let` keyword is completely forbidden. Always use `const`. Enforced via `no-restricted-syntax` rule.
 2. **Prefer `const`**: Enforced via `prefer-const` rule.
-3. **No nested functions**: All functions must be defined at the top level of the file. Enforced via `no-nested-functions` rule and `no-restricted-syntax` for nested arrow functions.
+3. **No nested functions**: All functions must be defined at the top level of the file. Enforced via `no-inner-declarations` rule and `no-restricted-syntax` for nested arrow functions.
 4. **Explicit return types**: All functions must have explicit return type annotations. Enforced via `@typescript-eslint/explicit-function-return-type`.
 5. **Type annotations**: All variables, parameters, and properties must have type annotations. Enforced via `@typescript-eslint/typedef`.
 6. **JSDoc requirements**: All functions must have complete JSDoc comments with:
@@ -59,7 +59,7 @@ Some rules require manual review:
 
 The following rules from `project.md` require manual code review as they cannot be fully automated:
 
-1. **JSDoc completeness**: While ESLint enforces JSDoc presence and basic structure, ensuring all required tags (`@throws`, `@see`, `@example`, `@remarks`, `@internal`, `@template`) are present requires manual review.
+1. **JSDoc completeness**: While ESLint enforces JSDoc presence and basic structure, ensuring all required tags (`@throws`, `@see`, `@example`, `@internal`, `@template`) are present requires manual review.
 
 2. **Type naming conventions**: Module-scoped type prefixes (e.g., `ActivityConfig`) cannot be automatically enforced and require manual review.
 
@@ -125,7 +125,7 @@ If you need to disable a rule for a specific line or block:
 
 ```typescript
 // eslint-disable-next-line no-restricted-syntax
-const example = () => {};
+const example = () => undefined;
 
 // eslint-disable-block no-restricted-syntax
 // ... code ...
@@ -140,4 +140,4 @@ Consider creating custom ESLint rules for:
 1. Detecting inline object/function types in parameters
 2. Enforcing no early returns pattern
 3. Validating type naming conventions with module prefixes
-4. Ensuring complete JSDoc tag coverage (all required tags: `@throws`, `@see`, `@example`, `@remarks`, `@internal`, `@template`)
+4. Ensuring complete JSDoc tag coverage (all required tags: `@throws`, `@see`, `@example`, `@internal`, `@template`)

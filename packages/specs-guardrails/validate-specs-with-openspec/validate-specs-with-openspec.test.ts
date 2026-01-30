@@ -2,8 +2,6 @@ import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test';
 import { mkdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { Output } from './types';
-
 type Case = [
   string,
   {
@@ -27,7 +25,7 @@ describe('validate-specs-with-openspec', () => {
     
     // Mock existsSync to return true for any path ending with node_modules/.bin/openspec
     const actualFs = await import('node:fs');
-    mock.module('node:fs', () => ({
+    void mock.module('node:fs', () => ({
       ...actualFs,
       existsSync: (path: string) => {
         if (typeof path === 'string' && path.endsWith('node_modules/.bin/openspec')) {
@@ -453,13 +451,13 @@ describe('validate-specs-with-openspec', () => {
       exited: Promise.resolve(exitCode),
     };
 
-    Bun.spawn = mock(() => mockProc as any) as typeof Bun.spawn;
+    Bun.spawn = mock(() => mockProc) as unknown as typeof Bun.spawn;
 
     // Re-import the function to get the mocked version
     const { default: validateSpecsWithOpenspec } = await import('./validate-specs-with-openspec');
 
     if (shouldThrow) {
-      await expect(validateSpecsWithOpenspec(rootDir)).rejects.toThrow(expectedError);
+      expect(validateSpecsWithOpenspec(rootDir)).rejects.toThrow(expectedError);
     } else {
       const result = await validateSpecsWithOpenspec(rootDir);
 
@@ -473,8 +471,7 @@ describe('validate-specs-with-openspec', () => {
   });
 
   test('calls openspec with correct arguments', async () => {
-    const mockSpawn = mock(() => {
-      return {
+    const mockSpawn = mock(() => ({
         stdout: new Response(JSON.stringify({
           items: [],
           summary: {
@@ -500,8 +497,7 @@ describe('validate-specs-with-openspec', () => {
         })).body as ReadableStream,
         stderr: new Response('').body as ReadableStream,
         exited: Promise.resolve(0),
-      } as any;
-    });
+      } as unknown));
 
     Bun.spawn = mockSpawn as typeof Bun.spawn;
 

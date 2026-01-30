@@ -35,7 +35,7 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(401);
-    const body = await response.json();
+    const body = await response.json() as { error: string; message: string };
     expect(body.error).toBe('Unauthorized');
     expect(body.message).toBe('Authentication required. Please authenticate with Strava.');
   });
@@ -50,14 +50,14 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(400);
-    const body = await response.json();
+    const body = await response.json() as { error: string; message: string };
     expect(body.error).toBe('Bad Request');
     expect(body.message).toBe('Activity ID is required');
   });
 
   test('successfully fetches activity with valid ID and tokens', async () => {
-    globalThis.fetch = async () =>
-      new Response(
+    globalThis.fetch = () =>
+      Promise.resolve(new Response(
         JSON.stringify({
           id: 123456,
           type: 'Ride',
@@ -65,7 +65,7 @@ describe('stravaActivity', () => {
           name: 'Test Activity',
         }),
         { status: 200 }
-      );
+      ));
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
     const request = new Request('http://localhost:3000/strava/activity/123456', {
@@ -76,7 +76,7 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(200);
-    const body = await response.json();
+    const body = await response.json() as { id: number; type: string; sport_type: string; name: string };
     expect(body.id).toBe(123456);
     expect(body.type).toBe('Ride');
     expect(body.sport_type).toBe('MountainBikeRide');
@@ -84,7 +84,7 @@ describe('stravaActivity', () => {
   });
 
   test('returns 404 when activity is not found', async () => {
-    globalThis.fetch = async () => new Response('Not Found', { status: 404 });
+    globalThis.fetch = () => Promise.resolve(new Response('Not Found', { status: 404 }));
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
     const request = new Request('http://localhost:3000/strava/activity/999999', {
@@ -95,12 +95,12 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(404);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Activity not found');
   });
 
   test('returns 401 when authentication fails', async () => {
-    globalThis.fetch = async () => new Response('Unauthorized', { status: 401 });
+    globalThis.fetch = () => Promise.resolve(new Response('Unauthorized', { status: 401 }));
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=invalid-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
     const request = new Request('http://localhost:3000/strava/activity/123456', {
@@ -111,7 +111,7 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(401);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Authentication failed. Token may be expired or invalid.');
   });
 
@@ -125,7 +125,7 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(400);
-    const body = await response.json();
+    const body = await response.json() as { error: string };
     expect(body.error).toBe('Activity ID must be a valid number');
   });
 });

@@ -39,7 +39,7 @@ const fetchApiResponse = async (url: string, headers: HeadersInit): Promise<Resp
       method: 'GET',
       headers,
     });
-  } catch (error) {
+  } catch {
     throw createActivityError(
       'NETWORK_ERROR',
       'Failed to connect to Strava API',
@@ -76,7 +76,7 @@ const parseErrorFromMessage = (error: Error): StravaApiError | null => {
  */
 const parseApiJsonData = async (response: Response): Promise<StravaActivityApiResponse[]> => {
   try {
-    const data = await response.json();
+    const data = await response.json() as unknown;
     if (!Array.isArray(data)) {
       throw createActivityError(
         'MALFORMED_RESPONSE',
@@ -157,8 +157,9 @@ const fetchActivitiesFromApi = async (
       true
     );
     // Store cloned response in error for rate limit handling (clone to preserve headers)
-    (error as any).response = response.clone();
-    throw error;
+    const errorWithResponse = error as Error & { response: Response };
+    errorWithResponse.response = response.clone();
+    throw errorWithResponse;
   }
 
   if (response.status >= 500) {

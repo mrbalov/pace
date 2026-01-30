@@ -6,16 +6,15 @@ import { StravaActivitySignals } from '../../types';
  * Style selection is deterministic and based on activity characteristics.
  * Follows the style selection rules from the specification.
  *
- * @param {StravaActivitySignals} signals - Activity signals to base style selection on
- * @returns {'cartoon' | 'minimal' | 'abstract' | 'illustrated'} Selected visual style
- *
- * @remarks
  * Style selection rules (deterministic):
  * - High intensity + (Run|Ride|Trail Run) → illustrated
  * - Recovery/easy tags → minimal
  * - High elevation → illustrated
  * - Foggy weather → abstract
  * - Default → cartoon
+ *
+ * @param {StravaActivitySignals} signals - Activity signals to base style selection on
+ * @returns {'cartoon' | 'minimal' | 'abstract' | 'illustrated'} Selected visual style
  */
 const selectStyle = (signals: StravaActivitySignals): 'cartoon' | 'minimal' | 'abstract' | 'illustrated' => {
   const hasRecoveryTag = signals.tags.includes('recovery') || signals.tags.includes('easy');

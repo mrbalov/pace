@@ -6,13 +6,12 @@ import sanitizeText from '../../guardrails/sanitize-text';
  * Processes text from activity name, description, or gear fields
  * to extract safe semantic context. Never copies text verbatim.
  *
- * @param {string} text - User-provided text to normalize
- * @returns {string[]} Array of safe semantic signal strings
- *
- * @remarks
  * User-provided text is sanitized and processed to extract semantic
  * signals that can safely influence prompt generation. Forbidden
  * content is removed, and only safe, normalized signals are returned.
+ *
+ * @param {string} text - User-provided text to normalize
+ * @returns {string[]} Array of safe semantic signal strings
  */
 const normalizeText = (text: string): string[] => {
   const hasText = text !== undefined && text !== null && text.trim().length > 0;

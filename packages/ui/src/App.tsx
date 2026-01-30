@@ -7,6 +7,12 @@ interface AppProps {
   onThemeChange: (theme: 'light' | 'dark') => void;
 }
 
+/**
+ * Main application component with routing.
+ * @param {AppProps} root0 - Component props
+ * @param {Function} root0.onThemeChange - Callback to change theme
+ * @returns {JSX.Element} App component
+ */
 export default function App({ onThemeChange }: AppProps) {
   return (
     <>

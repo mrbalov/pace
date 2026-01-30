@@ -14,9 +14,7 @@ type Case = [
   }
 ];
 
-const parseError = (error: Error): StravaAuthError => {
-  return JSON.parse(error.message) as StravaAuthError;
-};
+const parseError = (error: Error): StravaAuthError => JSON.parse(error.message) as StravaAuthError;
 
 describe('exchange-token', () => {
   const fetchState = { originalFetch: globalThis.fetch };
@@ -216,11 +214,11 @@ describe('exchange-token', () => {
         throw new Error('Network error');
       }) as unknown as typeof fetch;
     } else {
-      globalThis.fetch = (async () => mockResponse) as unknown as typeof fetch;
+      globalThis.fetch = (() => Promise.resolve(mockResponse)) as unknown as typeof fetch;
     }
 
     if (shouldThrow) {
-      await expect(async () => {
+      expect(async () => {
         await exchangeToken(code, config);
       }).toThrow();
 
