@@ -149,15 +149,15 @@ describe('validate-specs-with-ai', () => {
     } as Output));
 
     // Use mock.module to mock ES modules
-    mock.module('./get-spec-file-paths', () => ({
+    void mock.module('./get-spec-file-paths', () => ({
       default: mockGetSpecFilePaths,
     }));
 
-    mock.module('./build-user-prompt', () => ({
+    void mock.module('./build-user-prompt', () => ({
       default: mockBuildUserPrompt,
     }));
 
-    mock.module('./ask-dial', () => ({
+    void mock.module('./ask-dial', () => ({
       default: mockAskDial,
     }));
 

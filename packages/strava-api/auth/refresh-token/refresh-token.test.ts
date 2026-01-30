@@ -198,11 +198,11 @@ describe('refresh-token', () => {
       };
     } else {
       // @ts-expect-error - mockResponse is a Response
-      globalThis.fetch = async () => mockResponse;
+      globalThis.fetch = () => Promise.resolve(mockResponse);
     }
 
     if (shouldThrow) {
-      await expect(async () => {
+      expect(async () => {
         await refreshToken(token, config);
       }).toThrow();
 

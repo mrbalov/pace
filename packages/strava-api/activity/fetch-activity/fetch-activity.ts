@@ -45,7 +45,8 @@ const fetchApiResponseWithErrorHandling = async (
 
     if (activityError !== null && activityError.code === 'RATE_LIMITED') {
       // Use the actual response if available, otherwise create a mock with default wait
-      const rateLimitResponse = (error as any).response ?? new Response('Rate Limited', {
+      const errorWithResponse = error as Error & { response?: Response };
+      const rateLimitResponse = errorWithResponse.response ?? new Response('Rate Limited', {
         status: 429,
         headers: { 'Retry-After': '60' },
       });

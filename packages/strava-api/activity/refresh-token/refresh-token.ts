@@ -13,7 +13,7 @@ const createActivityError = (code: StravaActivityError['code'], message: string)
     code,
     message,
     retryable: false,
-  };
+  } as const;
   return new Error(JSON.stringify(error));
 };
 
@@ -35,7 +35,7 @@ const fetchTokenRefreshResponse = async (url: string, body: string): Promise<Res
       },
       body,
     });
-  } catch (error) {
+  } catch {
     throw createActivityError('NETWORK_ERROR', 'Failed to connect to Strava OAuth endpoint');
   }
 };
@@ -51,7 +51,7 @@ const fetchTokenRefreshResponse = async (url: string, body: string): Promise<Res
 const parseTokenRefreshJsonData = async (clonedResponse: Response): Promise<StravaActivityTokenRefreshResponse> => {
   try {
     return (await clonedResponse.json()) as StravaActivityTokenRefreshResponse;
-  } catch (error) {
+  } catch {
     throw createActivityError('MALFORMED_RESPONSE', 'Invalid response format from token refresh endpoint');
   }
 };

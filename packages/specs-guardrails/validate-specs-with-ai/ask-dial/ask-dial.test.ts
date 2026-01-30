@@ -280,11 +280,11 @@ describe('ask-dial', () => {
     ) as typeof fetch;
 
     if (shouldThrow) {
-      await expect(askDial(systemPrompt, userPrompt)).rejects.toThrow(expectedError);
+      expect(askDial(systemPrompt, userPrompt)).rejects.toThrow(expectedError);
     } else {
       const result = await askDial(systemPrompt, userPrompt);
 
-      expect(result).toStrictEqual(expectedResult);
+      expect(result).toStrictEqual(expectedResult as Record<string, unknown>);
     }
   });
 

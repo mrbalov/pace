@@ -36,13 +36,14 @@ const fetchApiResponseWithErrorHandling = async (
   currentConfig: StravaApiConfig,
 ): Promise<StravaActivity[]> => {
   try {
-    return await fetchActivitiesFromApi(currentConfig);
+    return await fetchActivitiesFromApi(currentConfig) as StravaActivity[];
   } catch (error) {
     const activityError = parseError(error as Error);
 
     if (activityError !== null && activityError.code === 'RATE_LIMITED') {
       // Use the actual response if available, otherwise create a mock with default wait
-      const rateLimitResponse = (error as any).response ?? new Response('Rate Limited', {
+      const errorWithResponse = error as Error & { response?: Response };
+      const rateLimitResponse = errorWithResponse.response ?? new Response('Rate Limited', {
         status: 429,
         headers: { 'Retry-After': '60' },
       });

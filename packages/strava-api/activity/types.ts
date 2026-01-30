@@ -1,5 +1,3 @@
-import { StravaActivity } from '../types';
-
 /**
  * Token refresh response from Strava OAuth endpoint.
  */

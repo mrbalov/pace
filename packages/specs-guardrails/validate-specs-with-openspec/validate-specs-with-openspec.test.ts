@@ -2,8 +2,6 @@ import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test';
 import { mkdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { Output } from './types';
-
 type Case = [
   string,
   {
@@ -27,7 +25,7 @@ describe('validate-specs-with-openspec', () => {
     
     // Mock existsSync to return true for any path ending with node_modules/.bin/openspec
     const actualFs = await import('node:fs');
-    mock.module('node:fs', () => ({
+    void mock.module('node:fs', () => ({
       ...actualFs,
       existsSync: (path: string) => {
         if (typeof path === 'string' && path.endsWith('node_modules/.bin/openspec')) {

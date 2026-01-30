@@ -38,8 +38,8 @@ describe('fetch-activities', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify([
               {
                 id: 123456,
@@ -65,7 +65,7 @@ describe('fetch-activities', () => {
               },
             ]),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivities: [
           {
@@ -99,7 +99,7 @@ describe('fetch-activities', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () => new Response(JSON.stringify([]), { status: 200 }),
+        mockFetch: () => Promise.resolve(new Response(JSON.stringify([]), { status: 200 })),
         shouldThrow: false,
         expectedActivities: [],
       },
@@ -110,7 +110,7 @@ describe('fetch-activities', () => {
         config: {
           accessToken: 'invalid-token',
         },
-        mockFetch: async () => new Response('Unauthorized', { status: 401 }),
+        mockFetch: () => Promise.resolve(new Response('Unauthorized', { status: 401 })),
         shouldThrow: true,
         expectedError: {
           code: 'UNAUTHORIZED',
@@ -293,14 +293,14 @@ describe('fetch-activities', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: true,
         expectedError: {
           code: 'MALFORMED_RESPONSE',
@@ -316,8 +316,8 @@ describe('fetch-activities', () => {
           accessToken: 'test-token',
           baseUrl: 'https://custom-api.example.com/api/v3',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify([
               {
                 id: 123456,
@@ -326,7 +326,7 @@ describe('fetch-activities', () => {
               },
             ]),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivities: [
           {

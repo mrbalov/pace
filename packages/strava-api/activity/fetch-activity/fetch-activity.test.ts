@@ -36,8 +36,8 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
@@ -45,7 +45,7 @@ describe('fetch-activity', () => {
               name: 'Test Activity',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -92,7 +92,7 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () => new Response('Not Found', { status: 404 }),
+        mockFetch: () => Promise.resolve(new Response('Not Found', { status: 404 })),
         shouldThrow: true,
         expectedError: {
           code: 'NOT_FOUND',
@@ -108,7 +108,7 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'invalid-token',
         },
-        mockFetch: async () => new Response('Unauthorized', { status: 401 }),
+        mockFetch: () => Promise.resolve(new Response('Unauthorized', { status: 401 })),
         shouldThrow: true,
         expectedError: {
           code: 'UNAUTHORIZED',
@@ -167,7 +167,7 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () => new Response('Forbidden', { status: 403 }),
+        mockFetch: () => Promise.resolve(new Response('Forbidden', { status: 403 })),
         shouldThrow: true,
         expectedError: {
           code: 'FORBIDDEN',
@@ -261,15 +261,15 @@ describe('fetch-activity', () => {
             },
           },
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
               sport_type: 'Ride',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -288,15 +288,15 @@ describe('fetch-activity', () => {
             validate: (_input: Record<string, unknown>) => ({ valid: false, errors: ['Validation failed'] }),
           },
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
               sport_type: 'Ride',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: true,
         expectedError: {
           code: 'VALIDATION_FAILED',
@@ -312,15 +312,15 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Run',
               sport_type: 'Run',
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Run',
@@ -336,8 +336,8 @@ describe('fetch-activity', () => {
         config: {
           accessToken: 'test-token',
         },
-        mockFetch: async () =>
-          new Response(
+        mockFetch: () =>
+          Promise.resolve(new Response(
             JSON.stringify({
               id: 123456,
               type: 'Ride',
@@ -351,7 +351,7 @@ describe('fetch-activity', () => {
               calories: 800,
             }),
             { status: 200 }
-          ),
+          )),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',

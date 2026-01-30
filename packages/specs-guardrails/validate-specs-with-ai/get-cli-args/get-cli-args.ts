@@ -44,7 +44,7 @@ const getCliArgs = () => {
   const specFilePathsArg = getCliArg('--specFilePaths');
   
   return {
-    rootDir: rootDirArg ? rootDirArg : undefined,
+    rootDir: rootDirArg ?? undefined,
     specFilePaths: specFilePathsArg !== undefined ? specFilePathsArg.split(',').map(path => path.trim()) : undefined,
     systemPromptPath: getCliArg('--systemPrompt'),
     userPromptPath: getCliArg('--userPrompt'),

@@ -37,7 +37,7 @@ describe('handle-retry', () => {
     [
       'succeeds on first attempt',
       {
-        fn: async () => 'success',
+        fn: () => Promise.resolve('success'),
         maxRetries: 3,
         shouldSucceed: true,
         expectedAttempts: 1,
@@ -48,12 +48,12 @@ describe('handle-retry', () => {
       {
         fn: (() => {
           const attemptCounter = { count: 0 };
-          return async () => {
+          return () => {
             attemptCounter.count = attemptCounter.count + 1;
             if (attemptCounter.count === 1) {
               throw createRetryableError();
             }
-            return 'success';
+            return Promise.resolve('success');
           };
         })(),
         maxRetries: 3,
@@ -88,12 +88,12 @@ describe('handle-retry', () => {
       {
         fn: (() => {
           const attemptCounter = { count: 0 };
-          return async () => {
+          return () => {
             attemptCounter.count = attemptCounter.count + 1;
             if (attemptCounter.count < 3) {
               throw createRetryableError();
             }
-            return 'success';
+            return Promise.resolve('success');
           };
         })(),
         maxRetries: 3,
@@ -113,7 +113,7 @@ describe('handle-retry', () => {
       expect(result).toBe('success');
       expect(attemptCounter.count).toBe(Number(expectedAttempts));
     } else {
-      await expect(async () => {
+      expect(async () => {
         await handleRetry(wrappedFn, maxRetries, initialBackoffMs);
       }).toThrow();
       expect(attemptCounter.count).toBe(Number(expectedAttempts));

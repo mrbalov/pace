@@ -38,7 +38,7 @@ const attemptWithBackoff = async <T>(
   attemptIndex: number,
   maxRetries: number,
   currentBackoffMs: number,
-  previousError: Error | null
+  _previousError: Error | null
 ): Promise<T> => {
   try {
     return await fn();

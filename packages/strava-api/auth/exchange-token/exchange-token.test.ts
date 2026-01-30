@@ -214,11 +214,11 @@ describe('exchange-token', () => {
         throw new Error('Network error');
       }) as unknown as typeof fetch;
     } else {
-      globalThis.fetch = (async () => mockResponse) as unknown as typeof fetch;
+      globalThis.fetch = (() => Promise.resolve(mockResponse)) as unknown as typeof fetch;
     }
 
     if (shouldThrow) {
-      await expect(async () => {
+      expect(async () => {
         await exchangeToken(code, config);
       }).toThrow();
 

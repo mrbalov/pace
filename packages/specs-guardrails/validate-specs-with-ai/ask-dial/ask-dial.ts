@@ -10,7 +10,10 @@ import { DialResponse } from './types';
  * prompts. The service returns a JSON response that is parsed and returned
  * as the specified type. Handles errors and validates response structure.
  *
- * @template T - Expected response type (must be a record/object type)
+ * The function expects the AI response content to be valid JSON that can be
+ * parsed into the specified type T. The response is wrapped in a DialResponse
+ * structure from the API.
+ *
  * @template T - Expected response type (must be a record/object type)
  * @param {string} systemPrompt - System prompt providing context and instructions to the AI
  * @param {string} userPrompt - User prompt with the actual request/question
@@ -19,11 +22,6 @@ import { DialResponse } from './types';
  *   - DIAL_KEY environment variable is not set
  *   - API returns an error response
  *   - Response content is missing or invalid JSON
- *
- * @remarks
- * The function expects the AI response content to be valid JSON that can be
- * parsed into the specified type T. The response is wrapped in a DialResponse
- * structure from the API.
  *
  * @see {@link https://ai-proxy.lab.epam.com/ | DIAL AI Proxy Service}
  *
@@ -64,7 +62,7 @@ const askDial = async <T extends Record<string, unknown>>(systemPrompt: string, 
   const content = contentRaw ? JSON.parse(contentRaw) as T : null;
 
   if (json.error) {
-    throw new Error(json.error.message || 'Unknown DIAL error.');
+    throw new Error(json.error.message ?? 'Unknown DIAL error.');
   } else if (!content) {
     throw new Error('No content in DIAL response.');
   } else {
