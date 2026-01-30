@@ -21,6 +21,7 @@ const HomePage = (): JSX.Element => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const oauthParams = ['code', 'state', 'scope'];
+    // eslint-disable-next-line no-restricted-syntax
     let hasOAuthParams = false;
 
     oauthParams.forEach((param) => {
@@ -43,7 +44,7 @@ const HomePage = (): JSX.Element => {
       const timer = setTimeout(() => {
         setShowContent(true);
       }, 600);
-      return () => clearTimeout(timer);
+      return () => { clearTimeout(timer); };
     } else {
       setShowContent(false);
     }
@@ -82,8 +83,8 @@ const HomePage = (): JSX.Element => {
                     icon={<ActivityIcon />}
                     width="100%"
                     placeholder="View Activities"
-                    onPointerEnterCapture={() => {}}
-                    onPointerLeaveCapture={() => {}}
+                    onPointerEnterCapture={() => undefined}
+                    onPointerLeaveCapture={() => undefined}
                   >
                     <span style={{ marginLeft: '0.5rem' }}>View Activities</span>
                   </Button>
@@ -109,8 +110,8 @@ const HomePage = (): JSX.Element => {
                   onClick={authorizeStrava}
                   width="100%"
                   placeholder="Authorize with Strava"
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
+                  onPointerEnterCapture={() => undefined}
+                  onPointerLeaveCapture={() => undefined}
                 >
                   Authorize with Strava
                 </Button>

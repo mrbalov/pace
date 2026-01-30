@@ -3,8 +3,14 @@ import ReactDOM from 'react-dom/client';
 import { GeistProvider, CssBaseline } from '@geist-ui/core';
 import App from './App';
 
+/**
+ *
+ */
 function Root() {
   // Initialize theme synchronously to prevent flash
+  /**
+   *
+   */
   const getInitialTheme = (): 'light' | 'dark' => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     if (savedTheme) {
@@ -21,6 +27,10 @@ function Root() {
     document.documentElement.setAttribute('data-theme', themeType);
   }, [themeType]);
 
+  /**
+   *
+   * @param newTheme
+   */
   const handleThemeChange = (newTheme: 'light' | 'dark') => {
     setThemeType(newTheme);
     localStorage.setItem('theme', newTheme);

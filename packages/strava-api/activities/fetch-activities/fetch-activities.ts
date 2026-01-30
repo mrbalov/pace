@@ -128,6 +128,9 @@ const fetchActivitiesWithTokenRefresh = async (
  * ```
  */
 const fetchActivities = async (config: StravaApiConfig): Promise<StravaActivity[]> => {
+  /**
+   *
+   */
   const fetchWithRetry = async (): Promise<StravaActivity[]> => {
     return fetchActivitiesWithTokenRefresh(config, config);
   };

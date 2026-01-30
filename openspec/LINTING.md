@@ -125,7 +125,7 @@ If you need to disable a rule for a specific line or block:
 
 ```typescript
 // eslint-disable-next-line no-restricted-syntax
-const example = () => {};
+const example = () => undefined;
 
 // eslint-disable-block no-restricted-syntax
 // ... code ...

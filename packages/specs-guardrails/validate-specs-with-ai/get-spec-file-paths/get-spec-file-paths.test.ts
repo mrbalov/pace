@@ -7,7 +7,7 @@ import getSpecFilePaths from './get-spec-file-paths';
 type Case = [
   string,
   {
-    files: Array<{ path: string; content: string }>;
+    files: { path: string; content: string }[];
     directories: string[];
     expectedCount: number;
     expectedPaths: string[];
@@ -243,7 +243,7 @@ describe('get-spec-file-paths', () => {
     expect(result.length).toStrictEqual(expectedCount);
 
     if (expectedPaths.length > 0) {
-      const relativePaths = result.map((path) => path.replace(testState.tempDir + '/', ''));
+      const relativePaths = result.map((path) => {return path.replace(testState.tempDir + '/', '')});
       for (const expectedPath of expectedPaths) {
         expect(relativePaths).toContain(expectedPath);
       }

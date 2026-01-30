@@ -1,7 +1,7 @@
 /**
  * OAuth2 authorization configuration for Strava API.
  */
-export type StravaAuthConfig = {
+export interface StravaAuthConfig {
   /** OAuth2 client ID from Strava application. */
   clientId: string;
   /** OAuth2 client secret from Strava application. */
@@ -10,12 +10,12 @@ export type StravaAuthConfig = {
   redirectUri: string;
   /** OAuth2 scopes (e.g., 'activity:read' or 'activity:read_all'). */
   scope?: string;
-};
+}
 
 /**
  * Token exchange response from Strava OAuth endpoint.
  */
-export type StravaAuthTokenResponse = {
+export interface StravaAuthTokenResponse {
   /** OAuth2 access token. */
   access_token: string;
   /** OAuth2 refresh token. */
@@ -49,12 +49,12 @@ export type StravaAuthTokenResponse = {
     friend?: unknown;
     follower?: unknown;
   };
-};
+}
 
 /**
  * Token refresh response from Strava OAuth endpoint.
  */
-export type StravaAuthTokenRefreshResponse = {
+export interface StravaAuthTokenRefreshResponse {
   /** New OAuth2 access token. */
   access_token: string;
   /** New OAuth2 refresh token (optional, may not be provided). */
@@ -65,7 +65,7 @@ export type StravaAuthTokenRefreshResponse = {
   expires_in: number;
   /** Token type (typically 'Bearer'). */
   token_type: string;
-};
+}
 
 /**
  * Authorization error codes.
@@ -80,9 +80,9 @@ export type StravaAuthErrorCode =
 /**
  * Authorization error structure.
  */
-export type StravaAuthError = {
+export interface StravaAuthError {
   /** Error code. */
   code: StravaAuthErrorCode;
   /** User-friendly error message. */
   message: string;
-};
+}

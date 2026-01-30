@@ -201,7 +201,7 @@ const handleActivityFetch = async (
 const stravaActivity = async (request: Request, config: ServerConfig): Promise<Response> => {
   const url = new URL(request.url);
   const pathname = url.pathname;
-  const pathParts = pathname.split('/').filter((part) => part !== '');
+  const pathParts = pathname.split('/').filter((part) => {return part !== ''});
   const activityIdIndex = pathParts.indexOf('activity');
   const hasActivityId = activityIdIndex !== -1 && activityIdIndex < pathParts.length - 1;
 

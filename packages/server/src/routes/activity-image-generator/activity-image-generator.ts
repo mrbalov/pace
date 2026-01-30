@@ -12,12 +12,12 @@ import { ERROR_CODES, ERROR_MESSAGES, STATUS_CODES } from './constants';
  * @returns {StravaApiConfig} Strava API configuration.
  * @internal
  */
-const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): StravaApiConfig => ({
+const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): StravaApiConfig => {return {
   accessToken: tokens.accessToken,
   refreshToken: tokens.refreshToken,
   clientId: config.strava.clientId,
   clientSecret: config.strava.clientSecret,
-});
+}};
 
 /**
  * Creates error response for unauthorized requests.
@@ -25,7 +25,7 @@ const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): 
  * @returns {Response} 401 Unauthorized response.
  * @internal
  */
-const createUnauthorizedResponse = (): Response => (
+const createUnauthorizedResponse = (): Response => {return (
   new Response(
     JSON.stringify({
       error: 'Unauthorized',
@@ -38,7 +38,7 @@ const createUnauthorizedResponse = (): Response => (
       },
     }
   )
-);
+)};
 
 /**
  * Determines status code and error message from activity error code.
@@ -224,7 +224,7 @@ const handleActivityProcessing = async (
 const activityImageGenerator = async (request: Request, config: ServerConfig): Promise<Response> => {
   const url = new URL(request.url);
   const pathname = url.pathname;
-  const pathParts = pathname.split('/').filter((part) => part !== '');
+  const pathParts = pathname.split('/').filter((part) => {return part !== ''});
   const activityIdIndex = pathParts.indexOf('activity-image-generator');
   const hasActivityId = activityIdIndex !== -1 && activityIdIndex < pathParts.length - 1;
 

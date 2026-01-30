@@ -6,7 +6,7 @@ import { BASE_URL, MODEL, NEGATIVE_PROMPT, PROMPT_ENHANCER } from './constants';
  * Random seed prevents caching - ensures each request generates a unique image.
  * @returns {string} Random seed.
 */
-const getSeed = () => String(Math.floor(Math.random() * 1000000));
+const getSeed = () => {return String(Math.floor(Math.random() * 1000000))};
 
 /**
  * Creates Pollinations image generation URL for a given prompt.

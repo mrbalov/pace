@@ -57,7 +57,7 @@ describe('stravaActivity', () => {
 
   test('successfully fetches activity with valid ID and tokens', async () => {
     globalThis.fetch = async () =>
-      new Response(
+      {return new Response(
         JSON.stringify({
           id: 123456,
           type: 'Ride',
@@ -65,7 +65,7 @@ describe('stravaActivity', () => {
           name: 'Test Activity',
         }),
         { status: 200 }
-      );
+      )};
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
     const request = new Request('http://localhost:3000/strava/activity/123456', {
@@ -84,7 +84,7 @@ describe('stravaActivity', () => {
   });
 
   test('returns 404 when activity is not found', async () => {
-    globalThis.fetch = async () => new Response('Not Found', { status: 404 });
+    globalThis.fetch = async () => {return new Response('Not Found', { status: 404 })};
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
     const request = new Request('http://localhost:3000/strava/activity/999999', {
@@ -100,7 +100,7 @@ describe('stravaActivity', () => {
   });
 
   test('returns 401 when authentication fails', async () => {
-    globalThis.fetch = async () => new Response('Unauthorized', { status: 401 });
+    globalThis.fetch = async () => {return new Response('Unauthorized', { status: 401 })};
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=invalid-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
     const request = new Request('http://localhost:3000/strava/activity/123456', {

@@ -132,11 +132,11 @@ describe('validate-activity-id', () => {
   ])('%#. %s', (_name, { activityId, shouldThrow, expectedError }) => {
     if (shouldThrow) {
       expect(() => {
-        validateActivityId(activityId as string);
+        validateActivityId(activityId!);
       }).toThrow();
 
       try {
-        validateActivityId(activityId as string);
+        validateActivityId(activityId!);
       } catch (error) {
         const parsedError = parseError(error as Error);
         expect(parsedError.code).toStrictEqual(expectedError!.code);
@@ -145,7 +145,7 @@ describe('validate-activity-id', () => {
       }
     } else {
       expect(() => {
-        validateActivityId(activityId as string);
+        validateActivityId(activityId!);
       }).not.toThrow();
     }
   });

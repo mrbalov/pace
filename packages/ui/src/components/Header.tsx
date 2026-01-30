@@ -9,10 +9,18 @@ interface HeaderProps {
   onThemeChange: (theme: 'light' | 'dark') => void;
 }
 
+/**
+ *
+ * @param root0
+ * @param root0.onThemeChange
+ */
 export default function Header({ onThemeChange }: HeaderProps) {
   const [location, setLocation] = useLocation();
   const { isAuthenticated, loading } = useAuth();
 
+  /**
+   *
+   */
   const handleLogout = async () => {
     await logout();
   };
@@ -60,8 +68,8 @@ export default function Header({ onThemeChange }: HeaderProps) {
             }}
             scale={0.8}
             placeholder="Logout"
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
+            onPointerEnterCapture={() => undefined}
+            onPointerLeaveCapture={() => undefined}
           >
             Logout
           </Button>

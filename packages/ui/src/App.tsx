@@ -7,6 +7,11 @@ interface AppProps {
   onThemeChange: (theme: 'light' | 'dark') => void;
 }
 
+/**
+ *
+ * @param root0
+ * @param root0.onThemeChange
+ */
 export default function App({ onThemeChange }: AppProps) {
   return (
     <>

@@ -17,7 +17,7 @@ import { getConfig } from '../config';
 /**
  * Netlify Function event type.
  */
-export type NetlifyEvent = {
+export interface NetlifyEvent {
   /**
    * HTTP method.
    */
@@ -38,12 +38,12 @@ export type NetlifyEvent = {
    * Request body.
    */
   body?: string;
-};
+}
 
 /**
  * Netlify Function response type.
  */
-export type NetlifyResponse = {
+export interface NetlifyResponse {
   /**
    * HTTP status code.
    */
@@ -60,7 +60,7 @@ export type NetlifyResponse = {
    * Response body.
    */
   body?: string;
-};
+}
 
 /**
  * Normalizes Netlify function path to expected route path.
@@ -283,7 +283,7 @@ const stravaAuthError = (error: unknown): NetlifyResponse => {
  * @returns {Promise<NetlifyResponse>} Netlify function response
  */
 export const stravaAuthHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
-  const result = await stravaAuthSuccess(event).catch((error) => stravaAuthError(error));
+  const result = await stravaAuthSuccess(event).catch((error) => {return stravaAuthError(error)});
   return result;
 };
 
@@ -337,7 +337,7 @@ const stravaAuthStatusError = (error: unknown): NetlifyResponse => {
  */
 export const stravaAuthStatusHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
   const result = await stravaAuthStatusSuccess(event).catch((error) =>
-    stravaAuthStatusError(error)
+    {return stravaAuthStatusError(error)}
   );
   return result;
 };
@@ -392,7 +392,7 @@ const stravaAuthCallbackError = (error: unknown): NetlifyResponse => {
  */
 export const stravaAuthCallbackHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
   const result = await stravaAuthCallbackSuccess(event).catch((error) =>
-    stravaAuthCallbackError(error)
+    {return stravaAuthCallbackError(error)}
   );
   return result;
 };
@@ -446,7 +446,7 @@ const stravaLogoutError = (error: unknown): NetlifyResponse => {
  * @returns {Promise<NetlifyResponse>} Netlify function response
  */
 export const stravaLogoutHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
-  const result = await stravaLogoutSuccess(event).catch((error) => stravaLogoutError(error));
+  const result = await stravaLogoutSuccess(event).catch((error) => {return stravaLogoutError(error)});
   return result;
 };
 
@@ -500,7 +500,7 @@ const stravaActivitiesError = (error: unknown): NetlifyResponse => {
  */
 export const stravaActivitiesHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
   const result = await stravaActivitiesSuccess(event).catch((error) =>
-    stravaActivitiesError(error)
+    {return stravaActivitiesError(error)}
   );
   return result;
 };
@@ -554,6 +554,6 @@ const stravaActivityError = (error: unknown): NetlifyResponse => {
  * @returns {Promise<NetlifyResponse>} Netlify function response
  */
 export const stravaActivityHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
-  const result = await stravaActivitySuccess(event).catch((error) => stravaActivityError(error));
+  const result = await stravaActivitySuccess(event).catch((error) => {return stravaActivityError(error)});
   return result;
 };

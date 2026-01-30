@@ -28,19 +28,19 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
   }
   
   // Validate intensity
-  const validIntensities: Array<StravaActivitySignals['intensity']> = ['low', 'medium', 'high'];
+  const validIntensities: StravaActivitySignals['intensity'][] = ['low', 'medium', 'high'];
   if (!validIntensities.includes(signals.intensity)) {
     errors.push(`Intensity must be one of: ${validIntensities.join(', ')}`);
   }
   
   // Validate elevation
-  const validElevations: Array<StravaActivitySignals['elevation']> = ['flat', 'rolling', 'mountainous'];
+  const validElevations: StravaActivitySignals['elevation'][] = ['flat', 'rolling', 'mountainous'];
   if (!validElevations.includes(signals.elevation)) {
     errors.push(`Elevation must be one of: ${validElevations.join(', ')}`);
   }
   
   // Validate time of day
-  const validTimeOfDay: Array<StravaActivitySignals['timeOfDay']> = ['morning', 'day', 'evening', 'night'];
+  const validTimeOfDay: StravaActivitySignals['timeOfDay'][] = ['morning', 'day', 'evening', 'night'];
   if (!validTimeOfDay.includes(signals.timeOfDay)) {
     errors.push(`Time of day must be one of: ${validTimeOfDay.join(', ')}`);
   }
@@ -49,7 +49,7 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
   if (!Array.isArray(signals.tags)) {
     errors.push('Tags must be an array');
   } else {
-    const invalidTags = signals.tags.filter((tag) => typeof tag !== 'string');
+    const invalidTags = signals.tags.filter((tag) => {return typeof tag !== 'string'});
     if (invalidTags.length > 0) {
       errors.push('All tags must be strings');
     }
@@ -57,7 +57,7 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
   
   // Check for forbidden content in semantic context
   if (signals.semanticContext !== undefined) {
-    const hasForbidden = signals.semanticContext.some((context) => checkForbiddenContent(context));
+    const hasForbidden = signals.semanticContext.some((context) => {return checkForbiddenContent(context)});
     if (hasForbidden) {
       errors.push('Semantic context contains forbidden content');
     }
@@ -65,7 +65,7 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
   
   // Validate weather if present
   if (signals.weather !== undefined) {
-    const validWeather: Array<NonNullable<StravaActivitySignals['weather']>> = ['sunny', 'rainy', 'cloudy', 'foggy'];
+    const validWeather: NonNullable<StravaActivitySignals['weather']>[] = ['sunny', 'rainy', 'cloudy', 'foggy'];
     if (!validWeather.includes(signals.weather)) {
       errors.push(`Weather must be one of: ${validWeather.join(', ')}`);
     }
@@ -76,7 +76,7 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
     if (!Array.isArray(signals.brands)) {
       errors.push('Brands must be an array');
     } else {
-      const invalidBrands = signals.brands.filter((brand) => typeof brand !== 'string');
+      const invalidBrands = signals.brands.filter((brand) => {return typeof brand !== 'string'});
       if (invalidBrands.length > 0) {
         errors.push('All brands must be strings');
       }
@@ -90,7 +90,7 @@ const validateActivitySignals = (signals: StravaActivitySignals): StravaActivity
     ? undefined
     : {
         ...signals,
-        semanticContext: signals.semanticContext?.filter((context) => !checkForbiddenContent(context)),
+        semanticContext: signals.semanticContext?.filter((context) => {return !checkForbiddenContent(context)}),
       };
   
   return {

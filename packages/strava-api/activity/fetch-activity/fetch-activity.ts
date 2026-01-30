@@ -162,6 +162,9 @@ const fetchActivityWithTokenRefresh = async (
 const fetchActivity = async (activityId: string, config: StravaApiConfig): Promise<StravaActivity | null> => {
   validateActivityId(activityId);
 
+  /**
+   *
+   */
   const fetchWithRetry = async (): Promise<StravaActivity | null> => {
     return fetchActivityWithTokenRefresh(activityId, config, config);
   };

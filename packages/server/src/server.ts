@@ -120,7 +120,7 @@ const isBinaryContentType = (contentType: string | null): boolean => {
     'application/zip',
   ];
   
-  return binaryTypes.some(type => contentType.toLowerCase().startsWith(type));
+  return binaryTypes.some(type => {return contentType.toLowerCase().startsWith(type)});
 };
 
 /**
@@ -180,7 +180,7 @@ const webResponseToNodeResponse = async (
  * @internal
  */
 const matchesActivityRoute = (pathname: string): boolean => {
-  const pathParts = pathname.split('/').filter((part) => part !== '');
+  const pathParts = pathname.split('/').filter((part) => {return part !== ''});
   return pathParts.length === 3 && pathParts[0] === 'strava' && pathParts[1] === 'activity';
 };
 
@@ -192,7 +192,7 @@ const matchesActivityRoute = (pathname: string): boolean => {
  * @internal
  */
 const matchesActivityImageGeneratorRoute = (pathname: string): boolean => {
-  const pathParts = pathname.split('/').filter((part) => part !== '');
+  const pathParts = pathname.split('/').filter((part) => {return part !== ''});
   return pathParts.length === 2 && pathParts[0] === 'activity-image-generator';
 };
 

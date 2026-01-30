@@ -200,7 +200,7 @@ describe('fetch-from-api', () => {
       };
     } else {
       // @ts-expect-error - mockResponse is a Response
-      globalThis.fetch = async () => mockResponse;
+      globalThis.fetch = async () => {return mockResponse};
     }
 
     if (shouldThrow) {

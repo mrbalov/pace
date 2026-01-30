@@ -53,7 +53,7 @@ const checkForbiddenContent = (text: string): boolean => {
     ...textPatterns,
   ];
   
-  const hasForbiddenContent = allPatterns.some((pattern) => pattern.test(lowerText));
+  const hasForbiddenContent = allPatterns.some((pattern) => {return pattern.test(lowerText)});
   
   return hasForbiddenContent;
 };

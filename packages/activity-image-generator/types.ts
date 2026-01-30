@@ -7,19 +7,19 @@ export type ImageGenerationProviderName = 'pollinations';
 /**
  * Validation result returned by guardrails validation functions.
  */
-export type ValidationResult<T = unknown> = {
+export interface ValidationResult<T = unknown> {
   /** Whether the validation passed. */
   valid: boolean;
   /** Array of error messages if validation failed. */
   errors: string[];
   /** Sanitized version of the input if validation failed but sanitization was possible. */
   sanitized?: T;
-};
+}
 
 /**
  * Activity signals extracted from activity data.
  */
-export type StravaActivitySignals = {
+export interface StravaActivitySignals {
   /** Activity type from sport_type field. */
   activityType: string;
   /** Intensity classification. */
@@ -36,12 +36,12 @@ export type StravaActivitySignals = {
   brands?: string[];
   /** Safe semantic signals extracted from user text. */
   semanticContext?: string[];
-};
+}
 
 /**
  * Image generation prompt structure.
  */
-export type StravaActivityImagePrompt = {
+export interface StravaActivityImagePrompt {
   /** Visual style for the image. */
   style: 'cartoon' | 'minimal' | 'abstract' | 'illustrated';
   /** Mood descriptor. */
@@ -52,4 +52,4 @@ export type StravaActivityImagePrompt = {
   scene: string;
   /** Full assembled prompt text (max 400 characters). */
   text: string;
-};
+}

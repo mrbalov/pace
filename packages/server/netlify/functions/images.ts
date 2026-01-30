@@ -6,10 +6,12 @@ import { getImage, isExpired, deleteImage } from '../../src/storage';
  * 
  * GET /images/:key - Retrieves and serves image by key
  * Auto-deletes if expired (>24 hours old)
+ * @param request
+ * @param context
  */
 export default async (request: Request, context: Context) => {
   const url = new URL(request.url);
-  const pathParts = url.pathname.split('/').filter(part => part);
+  const pathParts = url.pathname.split('/').filter(part => {return part});
   
   // Extract key from path: /images/:key or /.netlify/functions/images/:key
   const keyIndex = pathParts.indexOf('images');

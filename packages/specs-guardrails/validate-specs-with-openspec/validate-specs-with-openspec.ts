@@ -50,11 +50,11 @@ const getOpenSpecBin = (rootDir: string): string => {
 /**
  * Parsed validation data from OpenSpec JSON output.
  */
-type ParsedValidationData = {
+interface ParsedValidationData {
   items: Output['items'];
   summary: Output['summary'];
   version: string;
-};
+}
 
 /**
  * Parses validation data from OpenSpec JSON output.

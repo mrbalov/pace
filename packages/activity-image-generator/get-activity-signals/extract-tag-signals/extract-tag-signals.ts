@@ -54,8 +54,8 @@ const extractTagSignals = (activity: StravaActivity): string[] => {
   
   // Normalize tags to lowercase and filter to known tags
   const normalizedTags = tags
-    .map((tag) => tag.toLowerCase().trim())
-    .filter((tag) => KNOWN_TAGS.includes(tag as typeof KNOWN_TAGS[number]));
+    .map((tag) => {return tag.toLowerCase().trim()})
+    .filter((tag) => {return KNOWN_TAGS.includes(tag as typeof KNOWN_TAGS[number])});
   
   return normalizedTags;
 };

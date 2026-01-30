@@ -1,6 +1,10 @@
 import { StravaActivityImagePrompt } from '../../types';
 import { CONFIG } from '../../constants';
 
+/**
+ *
+ * @param activityType
+ */
 const getStyleIndex = (activityType: string): number => {
   const chars = Array.from(activityType);
   const hash = chars.reduce((acc, char) => {

@@ -33,7 +33,7 @@ const validateActivityImagePrompt = (prompt: StravaActivityImagePrompt): StravaA
   }
   
   // Validate style
-  const validStyles: Array<StravaActivityImagePrompt['style']> = ['cartoon', 'minimal', 'abstract', 'illustrated'];
+  const validStyles: StravaActivityImagePrompt['style'][] = ['cartoon', 'minimal', 'abstract', 'illustrated'];
   if (!validStyles.includes(prompt.style)) {
     errors.push(`Style must be one of: ${validStyles.join(', ')}`);
   }

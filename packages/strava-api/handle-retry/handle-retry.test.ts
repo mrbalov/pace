@@ -37,7 +37,7 @@ describe('handle-retry', () => {
     [
       'succeeds on first attempt',
       {
-        fn: async () => 'success',
+        fn: async () => {return 'success'},
         maxRetries: 3,
         shouldSucceed: true,
         expectedAttempts: 1,

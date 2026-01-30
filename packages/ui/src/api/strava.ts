@@ -30,6 +30,7 @@ export async function fetchActivities(): Promise<Activity[]> {
 
 /**
  * Fetch specific activity by ID.
+ * @param id
  */
 export async function fetchActivity(id: number): Promise<Activity> {
   return apiRequest<Activity>(`/strava/activity/${id}`);

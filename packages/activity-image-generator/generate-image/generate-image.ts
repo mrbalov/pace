@@ -12,6 +12,7 @@ import getFallbackPrompt from './get-fallback-prompt';
  * @param {StravaActivityImagePrompt} prompt - Current prompt to use.
  * @param {number} attempt - Current attempt number (0-based).
  * @param {number} maxAttempts - Maximum number of attempts allowed.
+ * @param providerName
  * @param {ImageGenerationOptions} [options] - Optional configuration.
  * @returns {Promise<string>} Promise resolving to base64-encoded image data URL.
  * @throws {Error} Throws error if all retries fail.

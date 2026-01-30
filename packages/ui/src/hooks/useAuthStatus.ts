@@ -18,6 +18,9 @@ export const useAuthStatus = (): UseAuthStatusResult => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    /**
+     *
+     */
     const checkAuth = async () => {
       setLoading(true);
       const startTime = Date.now();

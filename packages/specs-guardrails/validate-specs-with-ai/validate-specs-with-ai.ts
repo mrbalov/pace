@@ -54,7 +54,7 @@ const validateSpecsWithAI = async (
 
   // Get spec file paths either from rootDir or use provided specFilePaths
   const finalSpecFilePaths = hasRootDir
-    ? await getSpecFilePaths(rootDir!)
+    ? await getSpecFilePaths(rootDir)
     : specFilePaths!;
 
   const userPromptWithSpecs = await buildUserPrompt(finalSpecFilePaths, userPrompt);

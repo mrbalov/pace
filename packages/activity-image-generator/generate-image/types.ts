@@ -3,25 +3,25 @@ import { ImageGenerationProviderName, StravaActivityImagePrompt } from '../types
 /**
  * Input for image generation.
  */
-export type GenerateImageInput = {
+export interface GenerateImageInput {
   /** Image generation prompt from activity data. */
   prompt: StravaActivityImagePrompt;
   /** Number of retry attempts made so far. */
   attempts?: number;
   provider?: ImageGenerationProviderName;
-};
+}
 
 /**
  * Output from image generation.
  */
-export type GenerateImageOutput = {
+export interface GenerateImageOutput {
   /** Base64-encoded image data URL. */
   imageData: string;
   /** Whether fallback was used. */
   fallback: boolean;
   /** Number of retry attempts performed. */
   attempts: number;
-};
+}
 
 /**
  * Common interface for all image generation providers.

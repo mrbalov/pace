@@ -7,9 +7,18 @@ interface ThemeSwitcherProps {
   onThemeChange: (theme: 'light' | 'dark') => void;
 }
 
+/**
+ *
+ * @param root0
+ * @param root0.className
+ * @param root0.onThemeChange
+ */
 export default function ThemeSwitcher({ className, onThemeChange }: ThemeSwitcherProps) {
   const theme = useTheme();
 
+  /**
+   *
+   */
   const toggleTheme = () => {
     const newTheme = theme.type === 'dark' ? 'light' : 'dark';
     onThemeChange(newTheme);
@@ -24,8 +33,8 @@ export default function ThemeSwitcher({ className, onThemeChange }: ThemeSwitche
       aria-label={`Switch to ${theme.type === 'dark' ? 'light' : 'dark'} mode`}
       title={`Switch to ${theme.type === 'dark' ? 'light' : 'dark'} mode`}
       placeholder="Toggle Theme"
-      onPointerEnterCapture={() => {}}
-      onPointerLeaveCapture={() => {}}
+      onPointerEnterCapture={() => undefined}
+      onPointerLeaveCapture={() => undefined}
     />
   );
 }

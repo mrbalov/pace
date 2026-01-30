@@ -8,13 +8,26 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+/**
+ *
+ */
 export class APIError extends Error {
+  /**
+   *
+   * @param status
+   * @param message
+   */
   constructor(public status: number, message: string) {
     super(message);
     this.name = 'APIError';
   }
 }
 
+/**
+ *
+ * @param endpoint
+ * @param options
+ */
 export async function apiRequest<T>(
   endpoint: string,
   options?: RequestInit
@@ -29,7 +42,7 @@ export async function apiRequest<T>(
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ error: response.statusText }));
+    const error = await response.json().catch(() => {return { error: response.statusText }});
     throw new APIError(response.status, error.error || error.message);
   }
 

@@ -169,7 +169,7 @@ describe('build-user-prompt', () => {
     );
     
     const specFilePaths = Array.from({ length: specContents.length }, (_, i) =>
-      join(testState.tempDir, `spec${i + 1}.spec.md`)
+      {return join(testState.tempDir, `spec${i + 1}.spec.md`)}
     );
 
     const result = await buildUserPrompt(specFilePaths, userPrompt);

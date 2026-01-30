@@ -1,44 +1,44 @@
-export type ValidationIssue = {
+export interface ValidationIssue {
   level: 'ERROR' | 'WARNING';
   path: string;
   message: string;
-};
+}
 
-export type ValidationItem = {
+export interface ValidationItem {
   id: string;
   type: 'spec' | 'change';
   valid: boolean;
   issues: ValidationIssue[];
   durationMs: number;
-};
+}
 
 /**
  * Validation count statistics.
  */
-export type ValidationCounts = {
+export interface ValidationCounts {
   items: number;
   passed: number;
   failed: number;
-};
+}
 
 /**
  * Validation counts grouped by type.
  */
-export type ValidationCountsByType = {
+export interface ValidationCountsByType {
   change: ValidationCounts;
   spec: ValidationCounts;
-};
+}
 
-export type ValidationSummary = {
+export interface ValidationSummary {
   totals: ValidationCounts;
   byType: ValidationCountsByType;
-};
+}
 
-export type Output = {
+export interface Output {
   success: boolean;
   exitCode: number;
   items: ValidationItem[];
   summary: ValidationSummary;
   version: string;
   stderr: string;
-};
+}

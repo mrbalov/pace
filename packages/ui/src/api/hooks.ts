@@ -23,6 +23,9 @@ export function useActivities(): UseActivitiesResult {
   useEffect(() => {
     let mounted = true;
 
+    /**
+     *
+     */
     const loadActivities = async () => {
       setLoading(true);
       setError(null);
@@ -71,7 +74,10 @@ export function useActivities(): UseActivitiesResult {
     };
   }, [refetchCount]);
 
-  const refetch = () => setRefetchCount((c) => c + 1);
+  /**
+   *
+   */
+  const refetch = () => {return setRefetchCount((c) => {return c + 1})};
 
   return { activities, loading, error, isUnauthorized, refetch };
 }

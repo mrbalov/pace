@@ -23,11 +23,11 @@ describe('stravaActivities', () => {
   let mockFetchStravaActivities: ReturnType<typeof mock>;
 
   beforeEach(() => {
-    mockFetchStravaActivities = mock(() => Promise.resolve([] as StravaActivity[]));
-    mock.module('@pace/strava-api', () => ({
+    mockFetchStravaActivities = mock(() => {return Promise.resolve([] as StravaActivity[])});
+    mock.module('@pace/strava-api', () => {return {
       fetchStravaActivities: mockFetchStravaActivities,
-      fetchStravaActivity: mock(() => Promise.resolve(null)),
-    }));
+      fetchStravaActivity: mock(() => {return Promise.resolve(null)}),
+    }});
   });
 
   afterEach(() => {
