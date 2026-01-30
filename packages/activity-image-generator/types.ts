@@ -1,4 +1,10 @@
 /**
+ * Supported image generation providers:
+ * - `pollinations`: Free, unlimited, no authentication.
+ */
+export type ImageGenerationProviderName = 'pollinations';
+
+/**
  * Validation result returned by guardrails validation functions.
  */
 export type ValidationResult<T = unknown> = {

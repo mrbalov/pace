@@ -1,7 +1,7 @@
 import { GenerateImageInput, GenerateImageOutput } from './types';
-import { CONFIG } from './constants';
-import { StravaActivityImagePrompt } from '../types';
-import { getProvider, ImageGenerationOptions } from './providers';
+import { CONFIG } from '../constants';
+import { ImageGenerationProviderName, StravaActivityImagePrompt } from '../types';
+import { getProvider } from './providers';
 import simplifyPrompt from './simplify-prompt';
 import getFallbackPrompt from './get-fallback-prompt';
 
@@ -9,31 +9,34 @@ import getFallbackPrompt from './get-fallback-prompt';
  * Attempts image generation with retry logic.
  *
  * @internal
- * @param {StravaActivityImagePrompt} currentPrompt - Current prompt to use
- * @param {number} attemptNumber - Current attempt number (0-based)
- * @param {number} maxRetries - Maximum number of retries allowed
- * @param {ImageGenerationOptions} [options] - Optional configuration
- * @returns {Promise<string>} Promise resolving to base64-encoded image data URL
- * @throws {Error} Throws error if all retries fail
+ * @param {StravaActivityImagePrompt} prompt - Current prompt to use.
+ * @param {number} attempt - Current attempt number (0-based).
+ * @param {number} maxAttempts - Maximum number of attempts allowed.
+ * @param {ImageGenerationOptions} [options] - Optional configuration.
+ * @returns {Promise<string>} Promise resolving to base64-encoded image data URL.
+ * @throws {Error} Throws error if all retries fail.
  */
 const attemptGeneration = async (
-  currentPrompt: StravaActivityImagePrompt,
-  attemptNumber: number,
-  maxRetries: number,
-  options?: ImageGenerationOptions
+  prompt: StravaActivityImagePrompt,
+  attempt: number,
+  maxAttempts: number,
+  providerName?: ImageGenerationProviderName,
 ): Promise<string> => {
-  const provider = getProvider(); // Get provider based on env var
+  const provider = getProvider(providerName);
   
   try {
-    const imageData = await provider.generateImage(
-      currentPrompt.text,
-      options
-    );
-    return imageData;
+    return await provider(prompt.text);
   } catch (error) {
-    if (attemptNumber < maxRetries) {
-      const simplifiedPrompt = simplifyPrompt(currentPrompt, attemptNumber + 1);
-      return attemptGeneration(simplifiedPrompt, attemptNumber + 1, maxRetries, options);
+    if (attempt < maxAttempts) {
+      const nextAttempt = attempt + 1;
+      const simplifiedPrompt = simplifyPrompt(prompt, nextAttempt);
+
+      return attemptGeneration(
+        simplifiedPrompt,
+        nextAttempt,
+        maxAttempts,
+        providerName,
+      );
     } else {
       throw error;
     }
@@ -75,41 +78,39 @@ const attemptGeneration = async (
  */
 const generateImage = async (
   input: GenerateImageInput,
-  options?: ImageGenerationOptions
 ): Promise<GenerateImageOutput> => {
   const provider = getProvider();
-  
   const promptText = input.prompt.text;
-  if (promptText.length > 400) {
-    throw new Error(`Prompt text exceeds 400 character limit: ${promptText.length} characters`);
-  }
 
-  const retryCount = input.retryCount ?? 0;
-  const maxRetries = CONFIG.MAX_RETRIES;
+  if (promptText.length > CONFIG.MAX_PROMPT_LENGTH) {
+    throw new Error(`Prompt text exceeds ${CONFIG.MAX_PROMPT_LENGTH} character limit: ${promptText.length} characters`);
+  } else {
+    const attempts = input.attempts ?? 0;
 
-  const result = (async (): Promise<GenerateImageOutput> => {
     try {
-      const imageData = await attemptGeneration(input.prompt, 0, maxRetries, options);
+      const imageData = await attemptGeneration(
+        input.prompt,
+        0,
+        CONFIG.MAX_RETRIES,
+        input.provider,
+      );
+
       return {
+        fallback: false,
         imageData,
-        usedFallback: false,
-        retriesPerformed: retryCount,
+        attempts,
       };
     } catch (error) {
       const fallbackPrompt = getFallbackPrompt(input.prompt.subject);
-      const fallbackImageData = await provider.generateImage(
-        fallbackPrompt.text,
-        options
-      );
+      const fallbackImageData = await provider(fallbackPrompt.text);
+
       return {
         imageData: fallbackImageData,
-        usedFallback: true,
-        retriesPerformed: maxRetries,
+        fallback: true,
+        attempts: CONFIG.MAX_RETRIES,
       };
     }
-  })();
-
-  return result;
+  }
 };
 
 export default generateImage;

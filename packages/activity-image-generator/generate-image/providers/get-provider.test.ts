@@ -1,7 +1,6 @@
 import { test, expect, beforeEach, afterEach } from 'bun:test';
 import getProvider from './get-provider';
-import pollinationsProvider from './pollinations/pollinations-provider';
-import dialProvider from './dial/dial-provider';
+import pollinationsProvider from './pollinations/pollinations';
 
 describe('get-provider', () => {
   const testState = {

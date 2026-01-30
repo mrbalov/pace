@@ -1,5 +1,16 @@
 import { StravaActivityImagePrompt } from '../../types';
-import { CONFIG } from '../constants';
+import { CONFIG } from '../../constants';
+
+const getStyleIndex = (activityType: string): number => {
+  const chars = Array.from(activityType);
+  const hash = chars.reduce((acc, char) => {
+    const charCode = char.charCodeAt(0);
+    const newHash = ((acc << 5) - acc) + charCode;
+    return newHash & newHash;
+  }, 0);
+
+  return Math.abs(hash) % CONFIG.FALLBACK_STYLES.length;
+};
 
 /**
  * Generates a safe fallback prompt for image generation.
@@ -20,37 +31,23 @@ import { CONFIG } from '../constants';
  *
  * @example
  * ```typescript
- * const fallback = getFallbackPrompt('Run');
- * // Returns: { style: 'abstract', mood: 'energetic', ... }
+ * const fallback = getFallbackPrompt('Run'); // -> { style: 'abstract', mood: 'energetic', ... }
  * ```
  */
 const getFallbackPrompt = (activityType: string): StravaActivityImagePrompt => {
-  const fallbackStyles = CONFIG.FALLBACK_STYLES;
-  
-  const styleIndex = (() => {
-    const chars = Array.from(activityType);
-    const hash = chars.reduce((acc, char) => {
-      const charCode = char.charCodeAt(0);
-      const newHash = ((acc << 5) - acc) + charCode;
-      return newHash & newHash;
-    }, 0);
-    return Math.abs(hash) % fallbackStyles.length;
-  })();
-  
-  const style = fallbackStyles[styleIndex] ?? 'abstract';
-  
-  const subject = 'fitness activity illustration';
-  const mood = 'energetic';
-  const scene = 'neutral background';
-  
-  const text = `${style} style, ${subject}, ${mood} mood, ${scene}`;
-  
+  const styleIndex = getStyleIndex(activityType);
+  const style = CONFIG.FALLBACK_STYLES[styleIndex] ?? 'abstract';  
+  const text = `${style} style, ${CONFIG.FALLBACK_SUBJECT}, ${CONFIG.FALLBACK_MOOD} mood, ${CONFIG.FALLBACK_SCENE}`;
+  const textValidated = text.length <= CONFIG.MAX_PROMPT_LENGTH
+    ? text
+    : text.substring(0, CONFIG.MAX_PROMPT_LENGTH);
+
   return {
-    style: style as 'minimal' | 'abstract',
-    mood,
-    subject,
-    scene,
-    text: text.length <= 600 ? text : text.substring(0, 400),
+    mood: CONFIG.FALLBACK_MOOD,
+    subject: CONFIG.FALLBACK_SUBJECT,
+    scene: CONFIG.FALLBACK_SCENE,
+    text: textValidated,
+    style,
   };
 };
 

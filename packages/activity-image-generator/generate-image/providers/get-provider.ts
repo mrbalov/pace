@@ -1,32 +1,34 @@
-import { ImageProvider, ProviderName } from './types';
-import pollinationsProvider from './pollinations/pollinations-provider';
+import { ImageGenerationProvider } from './types';
+import { ImageGenerationProviderName } from '../../types';
+import pollinations from './pollinations';
 
 /**
  * Gets the configured image generation provider.
+ * Defaults to `Pollinations` if not set.
  * 
- * Reads IMAGE_PROVIDER environment variable to determine which provider to use.
- * Defaults to Pollinations if not set.
- * 
- * @returns {ImageProvider} Image generation provider instance
- * @throws {Error} Throws if provider name is invalid
+ * @returns {ImageProvider} Image generation provider instance.
+ * @throws {Error} Throws if provider name is invalid.
  * 
  * @remarks
  * Supported providers:
- * - 'pollinations' (default): Free, unlimited, no authentication
+ * - 'pollinations' (default): Free, unlimited, no authentication.
  * 
  * @example
  * ```typescript
- * // Use default (Pollinations)
- * const provider = getProvider();
+ * const provider1 = getProvider(); // Uses default 'pollinations'.
+ * const provider2 = getProvider('pollinations');
  * ```
  */
-const getProvider = (): ImageProvider => {
-  const providerName = (process.env.IMAGE_PROVIDER || 'pollinations') as ProviderName;
-  
-  if (providerName === 'pollinations') {
-    return pollinationsProvider;
-  } else {
-    throw new Error(`Unknown IMAGE_PROVIDER: ${providerName}. Supported: pollinations`);
+const getProvider = (
+  providerName: ImageGenerationProviderName = 'pollinations',
+): ImageGenerationProvider => {
+  switch (providerName) {
+    case 'pollinations': {
+      return pollinations;
+    }
+    default: {
+      throw new Error(`Unknown image generation provider: ${providerName}.`);
+    }
   }
 };
 
