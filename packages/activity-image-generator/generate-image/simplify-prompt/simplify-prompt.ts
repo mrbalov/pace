@@ -34,7 +34,7 @@ const simplifyPrompt = (
       scene: '',
       text: simplifiedText.length <= CONFIG.MAX_PROMPT_LENGTH
         ? simplifiedText
-        : simplifiedText.substring(0,  600 ),
+        : simplifiedText.substring(0, CONFIG.MAX_PROMPT_LENGTH),
     };
   } else {
     const basicSubject = prompt.subject.split(',')[0]?.trim() ?? prompt.subject;
@@ -46,7 +46,7 @@ const simplifyPrompt = (
       scene: '',
       text: simplifiedText.length <= CONFIG.MAX_PROMPT_LENGTH
         ? simplifiedText
-        : simplifiedText.substring(0,  600 ),
+        : simplifiedText.substring(0, CONFIG.MAX_PROMPT_LENGTH),
     };
   }
 };
