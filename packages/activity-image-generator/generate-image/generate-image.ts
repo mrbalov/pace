@@ -9,20 +9,12 @@ import getFallbackPrompt from './get-fallback-prompt';
  * Attempts image generation with retry logic.
  *
  * @internal
- * @param {StravaActivityImagePrompt} prompt - Current prompt to use.
- * @param {number} attempt - Current attempt number (0-based).
- * @param {number} maxAttempts - Maximum number of attempts allowed.
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @param {ImageGenerationOptions} [options] - Optional configuration.
-=======
- * @param {ImageGenerationProviderName} [providerName] - Optional provider name to use.
->>>>>>> a24e8e8b4d99cfd9ac6c73aead3b30e8b87836b0
-=======
- * @param {ImageGenerationProviderName} [providerName] - Optional provider name to use.
->>>>>>> a24e8e8b4d99cfd9ac6c73aead3b30e8b87836b0
- * @returns {Promise<string>} Promise resolving to base64-encoded image data URL.
- * @throws {Error} Throws error if all retries fail.
+ * @param {StravaActivityImagePrompt} prompt - Current prompt to use
+ * @param {number} attempt - Current attempt number (0-based)
+ * @param {number} maxAttempts - Maximum number of retries allowed
+ * @param {ImageGenerationProviderName} [providerName] - Optional provider name
+ * @returns {Promise<string>} Promise resolving to base64-encoded image data URL
+ * @throws {Error} Throws error if all retries fail
  */
 const attemptGeneration = async (
   prompt: StravaActivityImagePrompt,
@@ -106,15 +98,7 @@ const generateImage = async (
         imageData,
         attempts,
       };
-<<<<<<< HEAD
-<<<<<<< HEAD
-    } catch (error) {
-=======
     } catch {
->>>>>>> a24e8e8b4d99cfd9ac6c73aead3b30e8b87836b0
-=======
-    } catch {
->>>>>>> a24e8e8b4d99cfd9ac6c73aead3b30e8b87836b0
       const fallbackPrompt = getFallbackPrompt(input.prompt.subject);
       const fallbackImageData = await provider(fallbackPrompt.text);
 
