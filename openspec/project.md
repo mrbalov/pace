@@ -872,7 +872,7 @@ Strava tags influence mood and scene composition:
 4. **Style Selection**: Choose appropriate visual style deterministically.
 5. **Mood Mapping**: Align emotional tone with activity characteristics.
 6. **Scene Composition**: Build environment and atmosphere.
-7. **Prompt Assembly**: Construct text prompt (≤400 characters).
+7. **Prompt Assembly**: Construct text prompt (≤ 600  characters).
 8. **Validation**: Ensure compliance with all guardrails.
 9. **Fallback**: Use safe defaults if validation fails.
 

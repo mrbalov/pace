@@ -49,17 +49,17 @@ describe('simplify-prompt', () => {
         },
       ],
       [
-        'truncates simplified text if exceeds 400 characters',
+        'truncates simplified text if exceeds 600 characters',
         {
           prompt: {
             style: 'abstract',
             mood: 'very energetic and dynamic',
-            subject: 'a'.repeat(400),
+            subject: 'a'.repeat( 600 ),
             scene: 'complex scene',
             text: 'a'.repeat(500),
           },
           retryLevel: 1,
-          expectedText: 'abstract style, very energetic and dynamic mood, ' + 'a'.repeat(400 - 'abstract style, very energetic and dynamic mood, '.length),
+          expectedText: 'abstract style, very energetic and dynamic mood, ' + 'a'.repeat( 600  - 'abstract style, very energetic and dynamic mood, '.length),
           expectedScene: '',
           expectedMood: 'very energetic and dynamic',
         },

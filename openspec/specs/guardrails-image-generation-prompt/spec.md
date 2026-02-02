@@ -71,14 +71,14 @@ Prompts SHALL NOT include real persons or identifiable individuals, political or
 
 ### Requirement: Prompt Size Limits
 
-The maximum prompt length SHALL be 400 characters. Prompts exceeding this limit SHALL be truncated or simplified.
+The maximum prompt length SHALL be 600 characters. Prompts exceeding this limit SHALL be truncated or simplified.
 
 #### Scenario: Prompt within size limit
-- **GIVEN** a prompt with length less than or equal to 400 characters
+- **GIVEN** a prompt with length less than or equal to 600 characters
 - **WHEN** validating the prompt
 - **THEN** the prompt passes size validation
 
 #### Scenario: Prompt exceeding size limit
-- **GIVEN** a prompt with length greater than 400 characters
+- **GIVEN** a prompt with length greater than 600 characters
 - **WHEN** validating the prompt
 - **THEN** the prompt SHALL be truncated or simplified to meet the limit

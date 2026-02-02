@@ -259,7 +259,7 @@ The module SHALL implement retry logic for transient failures. Retries SHALL use
 - **AND** retry attempts SHALL be limited to a maximum number
 
 #### Scenario: No retry for client errors
-- **GIVEN** a client error (400, 401, 403, 404) from Strava API
+- **GIVEN** a client error ( 600 , 401, 403, 404) from Strava API
 - **WHEN** handling the error
 - **THEN** the module SHALL NOT retry the request
 - **AND** the module SHALL return the error immediately

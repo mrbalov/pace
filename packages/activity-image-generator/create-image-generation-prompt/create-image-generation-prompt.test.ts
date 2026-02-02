@@ -19,7 +19,7 @@ describe('generate-prompt', () => {
     expect(prompt.mood).toBeDefined();
     expect(prompt.subject).toBeDefined();
     expect(prompt.scene).toBeDefined();
-    expect(prompt.text.length).toBeLessThanOrEqual(400);
+    expect(prompt.text.length).toBeLessThanOrEqual( 600 );
     
     // Validate the prompt
     const validation = validateActivityImagePrompt(prompt);

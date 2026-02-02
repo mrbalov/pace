@@ -263,7 +263,7 @@ Scenes SHALL be properly composed with appropriate elements based on activity si
 
 ### Requirement: Prompt Assembly
 
-Prompts SHALL follow the defined structure and length constraints. Prompts SHALL not exceed 400 characters.
+Prompts SHALL follow the defined structure and length constraints. Prompts SHALL not exceed 600 characters.
 
 #### Scenario: Prompt structure compliance
 - **GIVEN** activity signals ready for prompt assembly
@@ -273,11 +273,11 @@ Prompts SHALL follow the defined structure and length constraints. Prompts SHALL
 - **AND** comply with image generation prompt guardrails
 
 #### Scenario: Length limit enforcement
-- **GIVEN** a prompt exceeding 400 characters
+- **GIVEN** a prompt exceeding 600 characters
 - **WHEN** assembling the prompt
 - **THEN** scene details SHALL be truncated first
 - **AND** core subject and style SHALL always be preserved
-- **AND** the prompt SHALL not exceed 400 characters
+- **AND** the prompt SHALL not exceed 600 characters
 
 ### Requirement: Prompt Validation
 

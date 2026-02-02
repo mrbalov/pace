@@ -43,7 +43,7 @@ describe('get-fallback-prompt', () => {
     expect(result.subject).toBe(expectedSubject);
     expect(result.mood).toBe(expectedMood);
     expect(result.scene).toBe('neutral background');
-    expect(result.text.length).toBeLessThanOrEqual(400);
+    expect(result.text.length).toBeLessThanOrEqual( 600 );
   });
 
   test('generates deterministic style based on activity type', () => {

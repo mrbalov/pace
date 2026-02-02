@@ -50,6 +50,6 @@ export interface StravaActivityImagePrompt {
   subject: string;
   /** Scene/environment description. */
   scene: string;
-  /** Full assembled prompt text (max 400 characters). */
+  /** Full assembled prompt text (max 600 characters). */
   text: string;
 }

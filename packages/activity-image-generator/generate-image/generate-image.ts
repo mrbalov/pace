@@ -56,7 +56,7 @@ const attemptGeneration = async (
  *
  * Generation process:
  * 1. Get configured provider based on IMAGE_PROVIDER env var (defaults to Pollinations)
- * 2. Validate prompt text length (max 400 characters)
+ * 2. Validate prompt text length (max 600 characters)
  * 3. Attempt generation with original prompt
  * 4. On failure, retry with simplified prompt (max 2 retries)
  * 5. If all retries fail, use fallback prompt

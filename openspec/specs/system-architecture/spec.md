@@ -138,7 +138,7 @@ The system SHALL process multiple data points to create contextually appropriate
 
 ### Requirement: Activity Prompt Generation Pipeline
 
-The system SHALL generate prompts through the following steps: Input Validation (ensure required fields present), Signal Extraction (process user text safely), Classification (determine activity type, intensity, environment), Style Selection (choose appropriate visual style deterministically), Mood Mapping (align emotional tone with activity characteristics), Scene Composition (build environment and atmosphere), Prompt Assembly (construct text prompt ≤400 characters), Validation (ensure compliance with guardrails), and Fallback (use safe defaults if validation fails).
+The system SHALL generate prompts through the following steps: Input Validation (ensure required fields present), Signal Extraction (process user text safely), Classification (determine activity type, intensity, environment), Style Selection (choose appropriate visual style deterministically), Mood Mapping (align emotional tone with activity characteristics), Scene Composition (build environment and atmosphere), Prompt Assembly (construct text prompt ≤ 600  characters), Validation (ensure compliance with guardrails), and Fallback (use safe defaults if validation fails).
 
 #### Scenario: Complete prompt generation pipeline
 - **GIVEN** extracted activity signals
@@ -148,7 +148,7 @@ The system SHALL generate prompts through the following steps: Input Validation 
 #### Scenario: Prompt size limit enforcement
 - **GIVEN** a prompt being assembled
 - **WHEN** constructing the prompt text
-- **THEN** the prompt SHALL not exceed 400 characters
+- **THEN** the prompt SHALL not exceed 600 characters
 
 #### Scenario: Deterministic style selection
 - **GIVEN** identical activity classifications

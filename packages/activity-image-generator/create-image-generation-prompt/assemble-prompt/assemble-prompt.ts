@@ -92,7 +92,7 @@ const truncatePrompt = (prompt: Omit<StravaActivityImagePrompt, 'text'>, fullPro
  * If over character limit, truncates scene details first while preserving quality keywords.
  *
  * @param {Omit<StravaActivityImagePrompt, 'text'>} prompt - Prompt components to assemble
- * @returns {string} Assembled prompt text (max 400 characters)
+ * @returns {string} Assembled prompt text (max 600 characters)
  *
  * @example
  * ```typescript
