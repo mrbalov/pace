@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://image.pollinations.ai/prompt/';
+export const BASE_URL = 'https://gen.pollinations.ai/image/';
 
 /**
  * Pollinations model for image generation.
@@ -24,3 +24,18 @@ export const PROMPT_ENHANCER = 'side view, natural human anatomy, natural and cl
  * Pollinations generates poor images due to limited resources; negative prompts help mitigate this.
 */
 export const NEGATIVE_PROMPT = 'distorted or warped eyes, twisted joints, distorted feet, unrealistic pose, distorted or warped faces, warped or distorted eyes, extra limbs, malformed or distorted hands, blurry, low quality, pixelated, ugly, deformed body, disfigured, bad or broken anatomy, bad proportions, extra fingers, missing fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, noise, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, mutated hands, out of focus, long neck, long body, logo, watermark';
+
+/**
+ * Base64 prefix for PNG images.
+ */
+export const BASE_64_PREFIX = 'data:image/png;base64,';
+
+/**
+ * Image width in pixels.
+*/
+export const IMAGE_WIDTH = 1024;
+
+/**
+ * Image height in pixels.
+ */
+export const IMAGE_HEIGHT = 1024;

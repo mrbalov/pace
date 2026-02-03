@@ -9,6 +9,7 @@ export interface GenerateImageInput {
   /** Number of retry attempts made so far. */
   attempts?: number;
   provider?: ImageGenerationProviderName;
+  providerApiKey?: string;
 }
 
 /**
@@ -28,7 +29,8 @@ export interface GenerateImageOutput {
  * Generates an image from a text prompt.
  * 
  * @param {string} prompt - Text prompt for image generation.
+ * @param {string} [apiKey] - Optional API key for the provider.
  * @returns {Promise<string>} Promise resolving to base64-encoded image data URL (`data:image/png;base64,...`).
  * @throws {Error} Throws error if generation fails.
  */
-export type ImageGenerationProvider = (prompt: string) => Promise<string>;
+export type ImageGenerationProvider = (prompt: string, apiKey?: string) => Promise<string>;

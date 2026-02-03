@@ -13,6 +13,7 @@ import getFallbackPrompt from './get-fallback-prompt';
  * @param {number} attempt - Current attempt number (0-based)
  * @param {number} maxAttempts - Maximum number of retries allowed
  * @param {ImageGenerationProviderName} [providerName] - Optional provider name
+ * @param {string} [providerApiKey] - Optional provider API key.
  * @returns {Promise<string>} Promise resolving to base64-encoded image data URL
  * @throws {Error} Throws error if all retries fail
  */
@@ -21,11 +22,12 @@ const attemptGeneration = async (
   attempt: number,
   maxAttempts: number,
   providerName?: ImageGenerationProviderName,
+  providerApiKey?: string,
 ): Promise<string> => {
   const provider = getProvider(providerName);
   
   try {
-    return await provider(prompt.text);
+    return await provider(prompt.text, providerApiKey);
   } catch (error) {
     if (attempt < maxAttempts) {
       const nextAttempt = attempt + 1;
@@ -36,6 +38,7 @@ const attemptGeneration = async (
         nextAttempt,
         maxAttempts,
         providerName,
+        providerApiKey,
       );
     } else {
       throw error;
@@ -91,6 +94,7 @@ const generateImage = async (
         0,
         CONFIG.MAX_RETRIES,
         input.provider,
+        input.providerApiKey,
       );
 
       return {

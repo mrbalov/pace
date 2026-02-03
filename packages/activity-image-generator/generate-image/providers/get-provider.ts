@@ -25,16 +25,14 @@ import pollinations from './pollinations';
  * ```
  */
 const getProvider = (
-  providerName?: ImageGenerationProviderName,
+  providerName: ImageGenerationProviderName = 'pollinations',
 ): ImageGenerationProvider => {
-  const name = providerName ?? (process.env.IMAGE_PROVIDER as ImageGenerationProviderName) ?? 'pollinations';
-
-  switch (name) {
+  switch (providerName) {
     case 'pollinations': {
       return pollinations;
     }
     default: {
-      throw new Error(`Unknown image generation provider: ${String(name)}.`);
+      throw new Error(`Unknown image generation provider: ${String(providerName)}.`);
     }
   }
 };

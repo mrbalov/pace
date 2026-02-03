@@ -16,10 +16,6 @@ export const CONFIG = {
   FALLBACK_SUBJECT: 'fitness activity illustration' as const,
   FALLBACK_MOOD: 'energetic' as const,
   FALLBACK_SCENE: 'neutral background' as const,
-  IMAGE_SIZE: {
-    WIDTH: 1024,
-    HEIGHT: 1024,
-  },
 
   /** Allowed visual styles for image generation. */
   ALLOWED_STYLES: ['cartoon', 'minimal', 'abstract', 'illustrated'] as const,

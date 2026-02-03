@@ -3,6 +3,7 @@ import { getActivitySignals, createActivityImageGenerationPrompt, generateImage 
 import { getTokens } from '../../cookies';
 import type { ServerConfig, ServerTokenResult } from '../../types';
 import { ERROR_CODES, ERROR_MESSAGES, STATUS_CODES } from './constants';
+import env from '../../env';
 
 /**
  * Creates StravaApiConfig from server tokens and config.
@@ -138,15 +139,19 @@ const processActivityAndCreateResponse = async (
   const signals = activity ? getActivitySignals(activity) : null;
   const prompt = signals ? createActivityImageGenerationPrompt(signals) : null;
   const image = await (async () => {
-    if (!prompt) {
-      return null;
-    } else {
+    if (prompt) {
       try {
-        return await generateImage({ provider, prompt });
+        return await generateImage({
+          providerApiKey: env.pollinationsApiKey,
+          provider,
+          prompt,
+        });
       } catch (error) {
         console.error('Image generation failed:', error);
         return null;
       }
+    } else {
+      return null;
     }
   })();
 
