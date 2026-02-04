@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+Development+-+Changelog) for more details.
 
+## [1.4.0] - 2026-02-03
+
+### Enhanced Home Page Component Architecture and User Experience
+
+### Added
+- New `Deferred` component for smooth content transitions with configurable timeout
+- Custom hook `useRemoveAuthUrlParameters` for OAuth parameter cleanup
+- Separate `Guest` and `Member` view components for better code organization
+
+### Changed
+- Refactored HomePage into modular component architecture with dedicated folder structure
+- Updated all UI components to use theme palette directly for better theme consistency
+- Improved loading transitions using deferred rendering pattern
+- Reduced button scale from 0.8 to 0.6 across Header and ThemeSwitcher for consistent sizing
+- Enhanced Preloader and ActivitiesPage components with direct theme palette usage
+
 ## [1.3.0] - 2026-02-03
 
 ### Improved Home Page UX and Navigation
