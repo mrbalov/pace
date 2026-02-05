@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
-import { ANIMATION_TIMEOUT, ANIMATION_TIMEOUT_HALF, EMOJIS } from './constants';
+import useEmoji, { EMOJI_ANIMATION_TIMEOUT_HALF } from './useEmoji';
 
 /**
  * Interactive activity emoji component.
@@ -8,38 +7,7 @@ import { ANIMATION_TIMEOUT, ANIMATION_TIMEOUT_HALF, EMOJIS } from './constants';
  * @returns {JSX.Element} Interactive activity emoji component with rotation animation.
  */
 const ActivityEmoji = (): JSX.Element => {
-  const [activeEmojiIndex, setActiveEmojiIndex] = useState<number>(0);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
-  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
-  const activeEmoji: string = EMOJIS[activeEmojiIndex];
-
-  useEffect(() => {
-    intervalIdRef.current = setInterval(() => {
-      setIsAnimating(true);
-      timeoutIdRef.current = setTimeout(() => {
-        setActiveEmojiIndex(
-          (prevIndex: number) => {
-            const nextIndex: number = Math.floor(Math.random() * EMOJIS.length);
-
-            return nextIndex === prevIndex ? (nextIndex + 1) % EMOJIS.length : nextIndex;
-          },
-        );
-        setIsAnimating(false);
-      }, ANIMATION_TIMEOUT_HALF);
-    }, ANIMATION_TIMEOUT);
-
-    return () => {
-      if (intervalIdRef.current) {
-        clearInterval(intervalIdRef.current);
-        intervalIdRef.current = null;
-      }
-      if (timeoutIdRef.current) {
-        clearTimeout(timeoutIdRef.current);
-        timeoutIdRef.current = null;
-      }
-    };
-  }, []);
+  const { emoji, isEmojiAnimating } = useEmoji();
 
   return (
     <>
@@ -64,17 +32,17 @@ const ActivityEmoji = (): JSX.Element => {
             display: inline-block;
             font-size: 1.2em;
             transition: all 0.4s ease-in-out;
-            animation: ${isAnimating ? `emojiTransition ${ANIMATION_TIMEOUT_HALF}ms ease-in-out` : 'none'};
+            animation: ${isEmojiAnimating ? `emojiTransition ${EMOJI_ANIMATION_TIMEOUT_HALF}ms ease-in-out` : 'none'};
           }
         `}
       </style>
       <span 
         className="activity-emoji"
         role="img" 
-        aria-label={`Activity emoji: ${activeEmoji}`}
+        aria-label={`Activity emoji: ${emoji}`}
         title="Rotating sport activity emoji"
       >
-        {activeEmoji}
+        {emoji}
       </span>
     </>
   );
