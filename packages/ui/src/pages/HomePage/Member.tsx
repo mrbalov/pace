@@ -1,5 +1,5 @@
 import { Button, Grid, Text } from '@geist-ui/core';
-import { Activity } from '@geist-ui/icons';
+import { Activity as ActivityIcon } from '@geist-ui/icons';
 import { Link } from 'wouter';
 
 /**
@@ -30,7 +30,7 @@ const Member = () => (
       <Link href='/activities'>
         <Button
           type='default'
-          icon={<Activity />}
+          icon={<ActivityIcon />}
           placeholder='View Activities'
           onPointerEnterCapture={() => undefined}
           onPointerLeaveCapture={() => undefined}

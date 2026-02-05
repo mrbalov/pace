@@ -1,5 +1,5 @@
 import { Button, Grid, Text } from '@geist-ui/core';
-import { Activity } from '@geist-ui/icons';
+import { Activity as ActivityIcon } from '@geist-ui/icons';
 
 import { authorizeStrava } from '../../api/strava';
 
@@ -30,7 +30,7 @@ const Guest = () => (
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Button
         type='default'
-        icon={<Activity />}
+        icon={<ActivityIcon />}
         onClick={authorizeStrava}
         placeholder='Authorize with Strava'
         onPointerEnterCapture={() => undefined}

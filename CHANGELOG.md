@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+Development+-+Changelog) for more details.
 
-## [1.4.0] - 2026-02-04
+## [1.5.0] - 2026-02-05
 
 ### Comprehensive UI Refactoring and Enhanced Component Architecture
 
@@ -20,9 +20,6 @@ See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+De
 - Dedicated error and guest view components for ActivitiesPage
 - Warning message in image generation drawer about AI limitations
 - TypeScript type definitions file for shared types across the application
-- New `Deferred` component for smooth content transitions with configurable timeout
-- Custom hook `useRemoveAuthUrlParameters` for OAuth parameter cleanup
-- Separate `Guest` and `Member` view components for better code organization
 
 ### Changed
 - Refactored ActivitiesPage from monolithic 400+ line component into modular architecture with separate concerns (Activities, ActivitiesList, ImageGenerationDrawer)
@@ -33,16 +30,27 @@ See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+De
 - Simplified main.tsx entry point by extracting theme initialization logic
 - Improved Preloader component API by renaming `fullHeight` prop to `withFullHeight` for clarity
 - Reorganized HomePage components to use Grid layout for better responsive design
-- Refactored HomePage into modular component architecture with dedicated folder structure
-- Updated all UI components to use theme palette directly for better theme consistency
-- Improved loading transitions using deferred rendering pattern
-- Reduced button scale from 0.8 to 0.6 across Header and ThemeSwitcher for consistent sizing
-- Enhanced Preloader and ActivitiesPage components with direct theme palette usage
 
 ### Removed
 - External link buttons from Header (moved to Footer for cleaner navigation)
 - Inline theme management code from main.tsx (replaced with useTheme hook)
 - Redundant activity type formatting logic (centralized to formatActivityType utility)
+
+## [1.4.0] - 2026-02-03
+
+### Enhanced Home Page Component Architecture and User Experience
+
+### Added
+- New `Deferred` component for smooth content transitions with configurable timeout
+- Custom hook `useRemoveAuthUrlParameters` for OAuth parameter cleanup
+- Separate `Guest` and `Member` view components for better code organization
+
+### Changed
+- Refactored HomePage into modular component architecture with dedicated folder structure
+- Updated all UI components to use theme palette directly for better theme consistency
+- Improved loading transitions using deferred rendering pattern
+- Reduced button scale from 0.8 to 0.6 across Header and ThemeSwitcher for consistent sizing
+- Enhanced Preloader and ActivitiesPage components with direct theme palette usage
 
 ## [1.3.0] - 2026-02-03
 

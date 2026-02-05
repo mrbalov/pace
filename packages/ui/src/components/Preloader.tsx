@@ -1,5 +1,5 @@
 import { Grid, Loading, Text, useTheme } from '@geist-ui/core';
-import { Activity } from '@geist-ui/icons';
+import { Activity as ActivityIcon } from '@geist-ui/icons';
 
 export interface PreloaderProps {
   message?: string;
@@ -70,7 +70,7 @@ const Preloader = ({
                 justifyContent: 'center',
               }}
             >
-              <Activity size={56} />
+              <ActivityIcon size={56} />
             </div>
             <div style={{ 
               display: 'flex', 
