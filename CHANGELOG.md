@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+Development+-+Changelog) for more details.
 
+## [1.5.2] - 2026-02-05
+
+### Fixed OAuth Success Redirect to UI Origin
+
+### Fixed
+- OAuth success redirect now correctly uses the `UI_ORIGIN` environment variable instead of hardcoded root path, ensuring proper navigation after authentication
+
 ## [1.5.1] - 2026-02-05
 
 ### Refactored OAuth URL Parameter Cleanup Hook
