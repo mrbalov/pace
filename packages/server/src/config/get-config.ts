@@ -69,7 +69,7 @@ const getConfig = (): ServerConfig => {
       secure: true,
       sameSite: 'lax',
     },
-    successRedirect: '/',
+    successRedirect: process.env.UI_ORIGIN,
     errorRedirect: '/',
   };
 
