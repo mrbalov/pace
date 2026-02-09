@@ -38,9 +38,9 @@ export const EMOJIS_WITH_SKIN_TONES_BASE = [
 /**
  * Emojis with skin tone variations.
  * Generated from base emojis supporting skin tones.
-*/
-export const EMOJIS_WITH_SKIN_TONES = (
-  EMOJIS_WITH_SKIN_TONES_BASE.flatMap((emoji: string) => (
+ */
+export const EMOJIS_WITH_SKIN_TONES = EMOJIS_WITH_SKIN_TONES_BASE.flatMap(
+  (emoji: string) => (
     EMOJI_SKIN_TONES.map((tone) => {
       if (tone === '') {
         return emoji;
@@ -53,7 +53,7 @@ export const EMOJIS_WITH_SKIN_TONES = (
         return emoji + tone;
       }
     })
-  ))
+  ),
 );
 
 /**
@@ -92,7 +92,4 @@ export const EMOJIS_WO_SKIN_TONES = [
 /**
  * Complete list of sport emojis including skin tone variations.
  */
-export const EMOJIS = [
-  ...EMOJIS_WO_SKIN_TONES,
-  ...EMOJIS_WITH_SKIN_TONES,
-];
+export const EMOJIS = [...EMOJIS_WO_SKIN_TONES, ...EMOJIS_WITH_SKIN_TONES];

@@ -29,7 +29,9 @@ const useEmoji = (): Output => {
           (prevIndex: number) => {
             const nextIndex: number = Math.floor(Math.random() * EMOJIS.length);
 
-            return nextIndex === prevIndex ? (nextIndex + 1) % EMOJIS.length : nextIndex;
+            return nextIndex === prevIndex
+              ? ((nextIndex + 1) % EMOJIS.length)
+              : nextIndex;
           },
         );
         setIsAnimating(false);

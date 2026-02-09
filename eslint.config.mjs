@@ -10,7 +10,8 @@ export default tseslint.config(
     files: ['packages/**/*.{ts,tsx}'],
     languageOptions: {
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
         ecmaVersion: 2022,
         sourceType: 'module',
       },
@@ -38,6 +39,7 @@ export default tseslint.config(
       'prefer-const': 'error',
       'no-var': 'error',
       'no-inner-declarations': 'error',
+      // 'max-len': ['error', { code: 80 }],
 
       // TypeScript specific rules
       '@typescript-eslint/explicit-function-return-type': 'off',
@@ -80,7 +82,7 @@ export default tseslint.config(
 
       // Code style
       'no-console': [
-        'warn',
+        'error',
         {
           allow: ['info', 'warn', 'error'],
         },

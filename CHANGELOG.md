@@ -8,6 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+Development+-+Changelog) for more details.
 
+## [1.6.0] - 2026-02-09
+
+### [28 Added Claude Code Development Hooks and Cleanup](https://github.com/mrbalov/pace/issues/28)
+
+### Added
+- Claude Code development hooks for enhanced workflow automation:
+  - Dangerous command blocking hook to prevent accidental destructive operations
+  - Event logging hook for debugging Claude Code interactions
+  - Automatic code verification hook that runs ESLint fixes and tests on file changes
+- Claude Code project settings configuration with pre/post tool use hooks
+
+### Changed
+- ESLint `no-console` rule severity from warning to error for stricter code quality
+- TypeScript ESLint configuration with proper project root directory settings
+- Code formatting in emoji constants from single to double quotes for consistency
+- Test command simplified from `bun test ./packages` to `bun test packages`
+
+### Removed
+- Unused server image storage infrastructure including cleanup functions and storage module
+- Netlify `/images/*` route redirect as image handling was removed
+
+### Fixed
+- Test file extension from `.tsx` to `.ts` for non-React component test file
+
 ## [1.5.2] - 2026-02-05
 
 ### Fixed OAuth Success Redirect to UI Origin

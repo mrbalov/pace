@@ -1,77 +1,71 @@
 [build]
-  # Build command - install Bun and dependencies (Netlify will compile TypeScript functions)
-  # Note: Netlify doesn't have Bun pre-installed, so we install it first
-  command = "curl -fsSL https://bun.sh/install | bash && export PATH=\"$HOME/.bun/bin:$PATH\" && cd ../.. && bun install"
-  # Functions directory (relative to base directory)
-  functions = "netlify/functions"
-  # Publish directory (not used for functions-only deployment, but required by Netlify)
-  publish = "."
+# Build command - install Bun and dependencies (Netlify will compile TypeScript functions)
+# Note: Netlify doesn't have Bun pre-installed, so we install it first
+command = "curl -fsSL https://bun.sh/install | bash && export PATH=\"$HOME/.bun/bin:$PATH\" && cd ../.. && bun install"
+# Functions directory (relative to base directory)
+functions = "netlify/functions"
+# Publish directory (not used for functions-only deployment, but required by Netlify)
+publish = "."
 
 [build.environment]
-  NODE_VERSION = "20"
+NODE_VERSION = "20"
 
 # Function configuration
 [functions]
-  # Directory for compiled function files
-  directory = "netlify/functions"
-  # Node.js bundler
-  node_bundler = "esbuild"
+# Directory for compiled function files
+directory = "netlify/functions"
+# Node.js bundler
+node_bundler = "esbuild"
 
 # CORS headers for all function responses
 # Note: Function code will override these with UI_ORIGIN environment variable
 # This serves as a fallback
 [[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "https://pace.balov.dev"
-    Access-Control-Allow-Methods = "GET, POST, OPTIONS, DELETE"
-    Access-Control-Allow-Headers = "Content-Type"
-    Access-Control-Allow-Credentials = "true"
+for = "/.netlify/functions/*"
+[headers.values]
+Access-Control-Allow-Origin = "https://pace.balov.dev"
+Access-Control-Allow-Methods = "GET, POST, OPTIONS, DELETE"
+Access-Control-Allow-Headers = "Content-Type"
+Access-Control-Allow-Credentials = "true"
 
 # Redirects for cleaner URLs
 [[redirects]]
-  from = "/strava/auth"
-  to = "/.netlify/functions/strava-auth"
-  status = 200
+from = "/strava/auth"
+to = "/.netlify/functions/strava-auth"
+status = 200
 
 [[redirects]]
-  from = "/strava/auth/callback"
-  to = "/.netlify/functions/strava-auth-callback"
-  status = 200
+from = "/strava/auth/callback"
+to = "/.netlify/functions/strava-auth-callback"
+status = 200
 
 [[redirects]]
-  from = "/strava/auth/status"
-  to = "/.netlify/functions/strava-auth-status"
-  status = 200
+from = "/strava/auth/status"
+to = "/.netlify/functions/strava-auth-status"
+status = 200
 
 [[redirects]]
-  from = "/strava/logout"
-  to = "/.netlify/functions/strava-logout"
-  status = 200
+from = "/strava/logout"
+to = "/.netlify/functions/strava-logout"
+status = 200
 
 [[redirects]]
-  from = "/strava/activities"
-  to = "/.netlify/functions/strava-activities"
-  status = 200
+from = "/strava/activities"
+to = "/.netlify/functions/strava-activities"
+status = 200
 
 [[redirects]]
-  from = "/strava/activity/*"
-  to = "/.netlify/functions/strava-activity/:splat"
-  status = 200
-  force = true
+from = "/strava/activity/*"
+to = "/.netlify/functions/strava-activity/:splat"
+status = 200
+force = true
 
 [[redirects]]
-  from = "/images/*"
-  to = "/.netlify/functions/images/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/activity-image-generator/*"
-  to = "/.netlify/functions/activity-image-generator/:splat"
-  status = 200
-  force = true
+from = "/activity-image-generator/*"
+to = "/.netlify/functions/activity-image-generator/:splat"
+status = 200
+force = true
 
 # Scheduled function configuration
 [functions."cleanup-images"]
-  schedule = "@daily"
+schedule = "@daily"
