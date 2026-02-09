@@ -12,6 +12,7 @@ elif [ ! -f "$CHANGED_FILE_PATH" ]; then
 else
   # Use bunx to ensure we use project-local eslint.
   bunx eslint "$CHANGED_FILE_PATH" --fix 2>/dev/null || true
+  bunx eslint "$CHANGED_FILE_PATH" || true
   
   # Find and run corresponding test file if it exists.
   # For `file.ts`, look for `file.test.ts` or `file.test.tsx`.
