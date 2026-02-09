@@ -113,6 +113,7 @@ export default defineConfig([
       'dist/**',
       '*.config.js',
       'actions-runner/**',
+      '.claude/**',
     ],
   },
   prettierConfig,

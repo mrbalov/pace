@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Skip acknowledgments - focus on the solution.'"
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/initSession.sh"
           }
         ]
       }
@@ -20,6 +20,15 @@
             "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/blockDangerousCommands.js"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tdd.js"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -29,6 +38,10 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/verifyCode.sh"
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tddLineBudget.sh"
           }
         ]
       }

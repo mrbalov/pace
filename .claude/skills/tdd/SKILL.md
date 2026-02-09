@@ -1,0 +1,178 @@
+---
+name: tdd
+description: TODO
+---
+
+# TDD Skill
+
+## Overview
+
+This project enforces strict Test-Driven Development (TDD) practices with automated hooks that ensure tests are written before implementation and maintain quality standards.
+
+## TDD Requirements
+
+### 1. Test-First Approach (Mandatory)
+
+- **New implementation files**: Test file MUST exist before creating implementation
+- **Legacy files**: Warnings shown but allowed (gradual adoption)
+- **Test file pattern**: `filename.test.ts` co-located with `filename.ts`
+
+### 2. Session Line Budget
+
+- **Limit**: 1000 lines of code per session
+- **Counter**: Tracks accumulated lines across all edits
+- **Reset**: New session or session clear (`source: "clear"`)
+
+### 3. Test Validation
+
+- All tests must pass before edits are considered complete
+- Failed tests block further changes until fixed
+- Use `bun test` (not Jest) as per project conventions
+
+## Test Patterns
+
+Follow [project.md](../../../openspec/project.md).
+
+## Red-Green-Refactor Cycle
+
+### Step 1: Red (Failing Test)
+
+```typescript
+// user.test.ts
+import { test, expect } from 'bun:test';
+import { createUser } from './user.js';
+
+test('creates user with valid email', () => {
+  const result = createUser({ email: 'test@example.com', name: 'Test' });
+  expect(result).toStrictEqual({
+    id: expect.any(String),
+    email: 'test@example.com',
+    name: 'Test',
+    createdAt: expect.any(Date)
+  });
+});
+```
+
+### Step 2: Green (Minimal Implementation)
+
+```typescript
+// user.ts
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+  createdAt: Date;
+};
+
+export const createUser = (input: { email: string; name: string }): User => {
+  return {
+    id: crypto.randomUUID(),
+    email: input.email,
+    name: input.name,
+    createdAt: new Date()
+  };
+};
+```
+
+### Step 3: Refactor (Improve Code)
+
+Add validation, error handling, and additional test cases while keeping tests green.
+
+## Hook Behavior
+
+### PreToolUse (Edit|Write)
+
+- **New files**: Blocks if no corresponding `.test.ts` exists
+- **Existing files**: Warns but allows (legacy support)
+- **Config files**: Always allowed (eslint.config.js, tsconfig.json, etc.)
+
+### PostToolUse (Edit|Write)
+
+- Runs ESLint with `--fix`
+- Runs Prettier formatting
+- Executes corresponding test file
+- **Blocks on test failures** (exit code 2)
+- **Blocks on line budget exceeded** (>1000 lines/session)
+
+### SessionStart
+
+- Initializes/resets line counter
+- Displays TDD reminder and current usage
+
+## File Patterns
+
+### Implementation Files (Enforced)
+
+- `*.ts`, `*.tsx`, `*.js`, `*.jsx`
+- Not in `node_modules`, `dist`, `build`
+- Not test files (`*.test.*`)
+- Not config files (`*.config.*`, `tsconfig.*`, `package.json`)
+
+### Test Files (Required)
+
+- `filename.test.ts` for `filename.ts`
+- Co-located in same directory
+- Must contain actual test cases (not empty)
+
+## Best Practices
+
+1. **Start with failing test**: Write test first, see it fail (red)
+2. **Minimal implementation**: Make test pass with simplest code (green)
+3. **Iterative improvement**: Refactor while keeping tests green
+4. **Small changes**: Stay within 1000-line session budget
+5. **Clear test names**: Describe behavior, not implementation details
+6. **Type safety**: Use TypeScript types in test cases for better validation
+
+## Common Patterns
+
+### Testing Functions
+
+```typescript
+import { test, expect } from 'bun:test';
+import { validateEmail } from './validation.js';
+
+type ValidationCase = [string, { input: string; isValid: boolean }];
+
+test.each<ValidationCase>([
+  ['accepts valid email format', { input: 'user@domain.com', isValid: true }],
+  ['rejects missing @ symbol', { input: 'userdomain.com', isValid: false }],
+  ['rejects empty string', { input: '', isValid: false }],
+])('%#. %s', (_name, { input, isValid }) => {
+  expect(validateEmail(input)).toBe(isValid);
+});
+```
+
+### Testing Classes/Objects
+
+```typescript
+import { test, expect } from 'bun:test';
+import { UserService } from './user-service.js';
+
+test('UserService creates user successfully', () => {
+  const service = new UserService();
+  const user = service.create({ email: 'test@example.com' });
+  
+  expect(user).toMatchObject({
+    email: 'test@example.com',
+    id: expect.any(String),
+    createdAt: expect.any(Date)
+  });
+});
+```
+
+### Testing Async Functions
+
+```typescript
+import { test, expect } from 'bun:test';
+import { fetchUserData } from './api.js';
+
+test('fetches user data successfully', async () => {
+  const result = await fetchUserData('user123');
+  
+  expect(result).toStrictEqual({
+    id: 'user123',
+    name: expect.any(String),
+    email: expect.any(String)
+  });
+});
+```
