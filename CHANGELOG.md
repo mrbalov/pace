@@ -18,7 +18,6 @@ See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+De
   - Event logging hook for debugging Claude Code interactions
   - Automatic code verification hook that runs ESLint fixes and tests on file changes
 - Claude Code project settings configuration with pre/post tool use hooks
-- `concurrently` package for parallel task execution support
 
 ### Changed
 - ESLint `no-console` rule severity from warning to error for stricter code quality
