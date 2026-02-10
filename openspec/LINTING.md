@@ -1,6 +1,22 @@
 # Linting Guide
 
-This project uses ESLint to enforce code quality and consistency rules defined in `project.md`.
+This project uses ESLint to enforce code quality and consistency rules.
+
+## ESLint Configuration
+
+- **Linter**: ESLint 9+ with TypeScript and JSDoc plugins (flat config format)
+- **Configuration**: `eslint.config.mjs` at project root (modern flat config)
+- **Run linting**: `bun run lint` from root directory
+- **Auto-fix issues**: `bun run lint:fix` from root directory
+- **Enforced Rules**:
+  - No `let` usage (always use `const`)
+  - No nested functions
+  - Explicit return types required
+  - JSDoc comments required for all functions
+  - Type annotations required
+  - Prefer arrow functions
+  - Node.js built-ins must use `node:` prefix
+- **Code Quality Requirements**: See "Code Quality Requirements" section below for requirements about running tests and linter together after code changes
 
 ## Quick Start
 
@@ -22,7 +38,7 @@ bun run lint:fix
 
 ## Enforced Rules
 
-The ESLint configuration enforces the following key rules from `project.md`:
+The ESLint configuration enforces the following key rules:
 
 ### ✅ Fully Automated
 

@@ -6,7 +6,32 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+Development+-+Changelog) for more details.
+## [1.7.0] - 2026-02-10
+
+### [28 Introduced Test-Driven Development (TDD) Enforcement and Enhanced Development Workflow](https://github.com/mrbalov/pace/issues/28)
+
+### Added
+- TDD skill documentation with comprehensive guidelines for test-first development approach
+- TDD enforcement hooks that require test files to exist before implementation files are created
+- Session line budget tracking (1000 lines per session) with automatic counter reset on new sessions
+- Line budget verification hook (`tddLineBudget.sh`) that tracks code changes and enforces limits
+- Session initialization hook (`initSession.sh`) that displays TDD workflow reminders and current line usage
+- Quick reference documentation files for project conventions (`.claude/rules/project-conventions.md`) and OpenSpec workflow (`.claude/rules/openspec-workflow.md`)
+- VSCode configuration with recommended extensions and format-on-save settings for TypeScript, JavaScript, and JSON files
+- Test failure blocking in verification hooks to ensure tests pass before proceeding
+
+### Changed
+- Updated Claude Code settings to integrate TDD enforcement hooks with PreToolUse triggers on Edit and Write operations
+- Modified startup hook from simple skip-acknowledgments message to session initialization with TDD reminders
+- Enhanced verification hooks to block on test failures instead of just reporting them
+- Simplified CLAUDE.md to reference external documentation files (@AGENTS.md and @openspec/project.md) for better maintainability
+- Updated create-changelog skill to include ticket IDs in changelog entry titles and improved documentation formatting
+- Applied Prettier formatting consistently across entire codebase (143 files) for uniform code style
+- Enhanced GitHub Actions workflow with more descriptive job names identifying tools used (Bun Test Runner, ESLint, Prettier)
+
+### Fixed
+- Test enforcement now properly blocks file writes when tests fail
+- Session line tracking properly handles null session IDs
 
 ## [1.6.1] - 2026-02-09
 

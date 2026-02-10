@@ -104,14 +104,18 @@ For a branch named `feature/526-add-user-authentication`:
 
 ## Important Notes
 
-- The main title MUST follow the format: `<Ticket-ID> Auto-Generated Title Based on the Change Details`
-- Extract the ticket ID from the branch name (usually the numeric part)
-- Each entry should start with a verb (Added, Removed, Fixed, etc.)
-- Group related changes together
-- Order sections by importance: Security > Removed > Deprecated > Fixed > Changed > Added
-- Include issue/PR numbers when available: `Fixed #123`
-- Date entries when creating releases: `## [1.0.0] - 2024-01-15`
-- Keep entries user-focused when possible, technical when necessary
+- The main title MUST follow the format: `<Ticket-ID> Auto-Generated Title Based on the Change Details`.
+- Extract the ticket ID from the branch name (usually the numeric part).
+- Each entry should start with a verb (Added, Removed, Fixed, etc.).
+- Group related changes together.
+- Order sections by importance: Security > Removed > Deprecated > Fixed > Changed > Added.
+- Include issue/PR numbers when available: `Fixed #123`.
+- Date entries when creating releases: `## [1.0.0] - 2024-01-15`.
+- Keep entries user-focused when possible, technical when necessary.
+- Avoid creating several changelog entries for the same branch.
+- Avoid bumping `package.json` version several times for the same branch.
+- When you face more than one changelog entry in git diff against the main branch, merge them into a single one.
+- When you face inconsistent `package.json`'s versions bumps in git diff against the main branch, set the consistent version.
 
 ## Execution Steps
 

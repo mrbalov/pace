@@ -1,106 +1,30 @@
+## Project Rules
 
-Default to using Bun instead of Node.js.
+- [AGENTS.md](./AGENTS.md)
+- [AGENTS.md](./openspec/AGENTS.md)
+- [project.md](./openspec/project.md)
+- [CODE_STYLE.md](./openspec/CODE_STYLE.md)
+- [LINTING.md](./openspec/LINTING.md)
+- [TESTING.md](./openspec/TESTING.md)
 
-- Use `bun <file>` instead of `node <file>` or `ts-node <file>`
-- Use `bun test` instead of `jest` or `vitest`
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`
-- Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
-- Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
-- Use `bunx <package> <command>` instead of `npx <package> <command>`
-- Bun automatically loads .env, so don't use dotenv.
+## Test-Driven Development
 
-## APIs
+1. Write tests FIRST before any implementation, follow [TESTING.md](./openspec/TESTING.md)
+2. Present tests to the user with: "Please review and approve tests"
+3. WAIT for explicit user approval before proceeding
+4. NEVER write implementation code until tests are approved
 
-- `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
-- `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
-- `Bun.redis` for Redis. Don't use `ioredis`.
-- `Bun.sql` for Postgres. Don't use `pg` or `postgres.js`.
-- `WebSocket` is built-in. Don't use `ws`.
-- Prefer `Bun.file` over `node:fs`'s readFile/writeFile
-- Bun.$`ls` instead of execa.
+## Critical Project Rules
 
-## Testing
+**NEVER use `let` - always use `const`**
+**Arrow functions only** - `const fn = () => {}` not `function fn() {}`
+**JSDoc required for ALL functions** - `/** @param {Type} param @returns {Type} */`
+**No nested functions** - define all functions at top level
+**No early returns** - use `if...else if...else` patterns
+**Entity folder** - always create entity folder to keep implementation and tests together
+**Module-scoped types** - prefix types with module name (e.g., `ActivityConfig`)
+**Run tests after code changes** - `bun run test` from root
+**Run linter after code changes** - `bun run lint` from root
+**Always pause for human approval after generating tests** — do not proceed until approved
 
-Use `bun test` to run tests.
-
-```ts#index.test.ts
-import { test, expect } from "bun:test";
-
-test("hello world", () => {
-  expect(1).toBe(1);
-});
-```
-
-## Frontend
-
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
-
-Server:
-
-```ts#index.ts
-import index from "./index.html"
-
-Bun.serve({
-  routes: {
-    "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
-  },
-  development: {
-    hmr: true,
-    console: true,
-  }
-})
-```
-
-HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
-
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
-```
-
-With the following `frontend.tsx`:
-
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
-
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
-```
-
-Then, run index.ts
-
-```sh
-bun --hot ./index.ts
-```
-
-For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+Default to using Bun and TypeScript instead of Node.js and JavaScript.
