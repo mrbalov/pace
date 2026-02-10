@@ -9,7 +9,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: StravaAuthError;
     expectedUrlContains?: string[];
-  }
+  },
 ];
 
 const parseError = (error: Error): StravaAuthError => JSON.parse(error.message) as StravaAuthError;
@@ -62,9 +62,7 @@ describe('get-authorization-url', () => {
           scope: 'activity:read_all',
         },
         shouldThrow: false,
-        expectedUrlContains: [
-          'scope=activity%3Aread_all',
-        ],
+        expectedUrlContains: ['scope=activity%3Aread_all'],
       },
     ],
     [

@@ -39,21 +39,19 @@ export const EMOJIS_WITH_SKIN_TONES_BASE = [
  * Emojis with skin tone variations.
  * Generated from base emojis supporting skin tones.
  */
-export const EMOJIS_WITH_SKIN_TONES = EMOJIS_WITH_SKIN_TONES_BASE.flatMap(
-  (emoji: string) => (
-    EMOJI_SKIN_TONES.map((tone) => {
-      if (tone === '') {
-        return emoji;
-      } else if (emoji.includes('️')) {
-        // Handle emojis with variation selector (️)
-        // Insert skin tone before the variation selector.
-        return emoji.replace('️', tone + '️');
-      } else {
-        // Regular emoji + skin tone.
-        return emoji + tone;
-      }
-    })
-  ),
+export const EMOJIS_WITH_SKIN_TONES = EMOJIS_WITH_SKIN_TONES_BASE.flatMap((emoji: string) =>
+  EMOJI_SKIN_TONES.map((tone) => {
+    if (tone === '') {
+      return emoji;
+    } else if (emoji.includes('️')) {
+      // Handle emojis with variation selector (️)
+      // Insert skin tone before the variation selector.
+      return emoji.replace('️', tone + '️');
+    } else {
+      // Regular emoji + skin tone.
+      return emoji + tone;
+    }
+  }),
 );
 
 /**

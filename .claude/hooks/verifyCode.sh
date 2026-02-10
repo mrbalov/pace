@@ -10,9 +10,13 @@ if [ -z "$IS_CODE_FILE" ]; then
 elif [ ! -f "$CHANGED_FILE_PATH" ]; then
   exit 0
 else
-  # Use bunx to ensure we use project-local eslint.
+  # Use bunx to ensure the project-local eslint is used.
   bunx eslint "$CHANGED_FILE_PATH" --fix 2>/dev/null || true
   bunx eslint "$CHANGED_FILE_PATH" || true
+
+  # Use bunx to ensure the project-local prettier is used.
+  bunx prettier --write "$CHANGED_FILE_PATH" 2>/dev/null || true
+  bunx prettier --check "$CHANGED_FILE_PATH" || true
   
   # Find and run corresponding test file if it exists.
   # For `file.ts`, look for `file.test.ts` or `file.test.tsx`.

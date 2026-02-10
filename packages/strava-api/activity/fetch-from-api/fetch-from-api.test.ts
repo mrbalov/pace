@@ -12,7 +12,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: StravaApiError;
     expectedData?: StravaActivity;
-  }
+  },
 ];
 
 const parseError = (error: Error): StravaApiError => JSON.parse(error.message) as StravaApiError;
@@ -43,7 +43,7 @@ describe('fetch-from-api', () => {
             sport_type: 'MountainBikeRide',
             name: 'Test Activity',
           }),
-          { status: 200 }
+          { status: 200 },
         ),
         shouldThrow: false,
         expectedData: {
@@ -180,7 +180,7 @@ describe('fetch-from-api', () => {
             type: 'Ride',
             sport_type: 'MountainBikeRide',
           }),
-          { status: 200 }
+          { status: 200 },
         ),
         shouldThrow: false,
         expectedData: {
@@ -190,33 +190,39 @@ describe('fetch-from-api', () => {
         },
       },
     ],
-  ])('%#. %s', async (_name, { activityId, config, mockResponse, shouldThrow, expectedError, expectedData }) => {
-    if (mockResponse instanceof Error) {
-      // @ts-expect-error - mockResponse is an Error
-      globalThis.fetch = () => {
-        throw mockResponse;
-      };
-    } else {
-      // @ts-expect-error - mockResponse is a Response
-      globalThis.fetch = () => Promise.resolve(mockResponse);
-    }
-
-    if (shouldThrow) {
-      expect(async () => {
-        await fetchFromApi(activityId, config);
-      }).toThrow();
-
-      try {
-        await fetchFromApi(activityId, config);
-      } catch (error) {
-        const parsedError = parseError(error as Error);
-        expect(parsedError.code).toStrictEqual(expectedError!.code);
-        expect(parsedError.message).toStrictEqual(expectedError!.message);
-        expect(parsedError.retryable).toStrictEqual(expectedError!.retryable);
+  ])(
+    '%#. %s',
+    async (
+      _name,
+      { activityId, config, mockResponse, shouldThrow, expectedError, expectedData },
+    ) => {
+      if (mockResponse instanceof Error) {
+        // @ts-expect-error - mockResponse is an Error
+        globalThis.fetch = () => {
+          throw mockResponse;
+        };
+      } else {
+        // @ts-expect-error - mockResponse is a Response
+        globalThis.fetch = () => Promise.resolve(mockResponse);
       }
-    } else {
-      const result = await fetchFromApi(activityId, config);
-      expect(result).toStrictEqual(expectedData ?? null);
-    }
-  });
+
+      if (shouldThrow) {
+        expect(async () => {
+          await fetchFromApi(activityId, config);
+        }).toThrow();
+
+        try {
+          await fetchFromApi(activityId, config);
+        } catch (error) {
+          const parsedError = parseError(error as Error);
+          expect(parsedError.code).toStrictEqual(expectedError!.code);
+          expect(parsedError.message).toStrictEqual(expectedError!.message);
+          expect(parsedError.retryable).toStrictEqual(expectedError!.retryable);
+        }
+      } else {
+        const result = await fetchFromApi(activityId, config);
+        expect(result).toStrictEqual(expectedData ?? null);
+      }
+    },
+  );
 });

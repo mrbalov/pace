@@ -11,7 +11,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: StravaAuthError;
     expectedTokens?: StravaAuthTokenRefreshResponse;
-  }
+  },
 ];
 
 const parseError = (error: Error): StravaAuthError => JSON.parse(error.message) as StravaAuthError;
@@ -45,7 +45,7 @@ describe('refresh-token', () => {
             expires_in: 21600,
             token_type: 'Bearer',
           }),
-          { status: 200 }
+          { status: 200 },
         ),
         shouldThrow: false,
         expectedTokens: {
@@ -73,7 +73,7 @@ describe('refresh-token', () => {
             expires_in: 21600,
             token_type: 'Bearer',
           }),
-          { status: 200 }
+          { status: 200 },
         ),
         shouldThrow: false,
         expectedTokens: {
@@ -147,7 +147,7 @@ describe('refresh-token', () => {
             refresh_token: 'new-refresh-token-123',
             expires_at: 1234567890,
           }),
-          { status: 200 }
+          { status: 200 },
         ),
         shouldThrow: true,
         expectedError: {
@@ -190,32 +190,38 @@ describe('refresh-token', () => {
         },
       },
     ],
-  ])('%#. %s', async (_name, { refreshToken: token, config, mockResponse, shouldThrow, expectedError, expectedTokens }) => {
-    if (mockResponse === undefined) {
-      // @ts-expect-error - mockResponse is an Error
-      globalThis.fetch = () => {
-        throw new Error('Network error');
-      };
-    } else {
-      // @ts-expect-error - mockResponse is a Response
-      globalThis.fetch = () => Promise.resolve(mockResponse);
-    }
-
-    if (shouldThrow) {
-      expect(async () => {
-        await refreshToken(token, config);
-      }).toThrow();
-
-      try {
-        await refreshToken(token, config);
-      } catch (error) {
-        const parsedError = parseError(error as Error);
-        expect(parsedError.code).toStrictEqual(expectedError!.code);
-        expect(parsedError.message).toStrictEqual(expectedError!.message);
+  ])(
+    '%#. %s',
+    async (
+      _name,
+      { refreshToken: token, config, mockResponse, shouldThrow, expectedError, expectedTokens },
+    ) => {
+      if (mockResponse === undefined) {
+        // @ts-expect-error - mockResponse is an Error
+        globalThis.fetch = () => {
+          throw new Error('Network error');
+        };
+      } else {
+        // @ts-expect-error - mockResponse is a Response
+        globalThis.fetch = () => Promise.resolve(mockResponse);
       }
-    } else {
-      const result = await refreshToken(token, config);
-      expect(result).toStrictEqual(expectedTokens ?? null);
-    }
-  });
+
+      if (shouldThrow) {
+        expect(async () => {
+          await refreshToken(token, config);
+        }).toThrow();
+
+        try {
+          await refreshToken(token, config);
+        } catch (error) {
+          const parsedError = parseError(error as Error);
+          expect(parsedError.code).toStrictEqual(expectedError!.code);
+          expect(parsedError.message).toStrictEqual(expectedError!.message);
+        }
+      } else {
+        const result = await refreshToken(token, config);
+        expect(result).toStrictEqual(expectedTokens ?? null);
+      }
+    },
+  );
 });

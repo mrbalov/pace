@@ -8,6 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+Development+-+Changelog) for more details.
 
+## [1.6.1] - 2026-02-09
+
+### [28 Added Prettier Code Formatting to Development Workflow](https://github.com/mrbalov/pace/issues/28)
+
+### Added
+- Prettier configuration (`.prettierrc`) for consistent code formatting across the monorepo
+- Prettier ignore patterns (`.prettierignore`) to exclude unnecessary files from formatting
+- Prettier formatting integration to the Claude Code development verification hook for automatic code formatting during development
+- Husky git hooks for enforcing code quality checks before pushing:
+  - Pre-push hook that runs ESLint linting and Prettier format checking before allowing pushes
+- Husky package as a dev dependency with initialize script
+
+### Changed
+- Enhanced code verification hook to run Prettier check alongside ESLint for comprehensive code quality checks
+- Applied Prettier formatting across the entire codebase for consistent style
+- Updated VSCode settings to integrate Prettier formatting
+- Refined ESLint configuration for better compatibility with Prettier
+- Added "prepare" npm script to automatically initialize Husky hooks on installation
+
 ## [1.6.0] - 2026-02-09
 
 ### [28 Added Claude Code Development Hooks and Cleanup](https://github.com/mrbalov/pace/issues/28)

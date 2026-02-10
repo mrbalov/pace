@@ -11,7 +11,7 @@ type Case = [
       systemPromptPath?: string;
       userPromptPath?: string;
     };
-  }
+  },
 ];
 
 describe('get-cli-args', () => {

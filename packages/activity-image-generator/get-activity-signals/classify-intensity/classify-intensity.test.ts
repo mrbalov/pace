@@ -7,7 +7,7 @@ type Case = [
   {
     activity: StravaActivity;
     expectedIntensity: 'low' | 'medium' | 'high';
-  }
+  },
 ];
 
 describe('classify-intensity', () => {

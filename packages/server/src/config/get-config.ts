@@ -53,7 +53,7 @@ const getConfig = (): ServerConfig => {
 
   if (!hasClientId || !hasClientSecret) {
     throw new Error(
-      'Missing required environment variables: STRAVA_CLIENT_ID and STRAVA_CLIENT_SECRET are required'
+      'Missing required environment variables: STRAVA_CLIENT_ID and STRAVA_CLIENT_SECRET are required',
     );
   }
 

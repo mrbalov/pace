@@ -14,22 +14,22 @@ import { StravaActivityValidationResult } from '../types';
 const validateActivityValues = (activity: StravaActivity): StravaActivityValidationResult => {
   const errors: string[] = [];
   const sanitized: StravaActivity = { ...activity };
-  
+
   // Validate distance
   if (sanitized.distance !== undefined && sanitized.distance <= 0) {
     errors.push('Distance must be greater than 0');
     sanitized.distance = undefined;
   }
-  
+
   // Validate heart rate
   if (sanitized.average_temp !== undefined) {
     // Note: average_temp might be temperature, not heart rate
     // We'll check has_heartrate and look for heart rate fields
   }
-  
+
   // For now, we'll assume heart rate validation happens elsewhere
   // as Strava API doesn't directly expose avg_hr in the base type
-  
+
   // Validate pace (derived from distance and moving_time)
   if (sanitized.distance !== undefined && sanitized.moving_time !== undefined) {
     const paceSecondsPerKm = sanitized.moving_time / (sanitized.distance / 1000);
@@ -37,15 +37,15 @@ const validateActivityValues = (activity: StravaActivity): StravaActivityValidat
       errors.push('Pace must be greater than 0');
     }
   }
-  
+
   // Validate elevation gain
   if (sanitized.total_elevation_gain !== undefined && sanitized.total_elevation_gain < 0) {
     errors.push('Elevation gain must be non-negative');
     sanitized.total_elevation_gain = 0;
   }
-  
+
   const valid = errors.length === 0;
-  
+
   return {
     valid,
     errors,
@@ -65,7 +65,7 @@ const validateActivityValues = (activity: StravaActivity): StravaActivityValidat
  */
 const validateActivitySemantics = (activity: StravaActivity): StravaActivityValidationResult => {
   const errors: string[] = [];
-  
+
   // Check for unrealistic pace (faster than human limits)
   if (activity.distance !== undefined && activity.moving_time !== undefined) {
     const paceSecondsPerKm = activity.moving_time / (activity.distance / 1000);
@@ -74,11 +74,11 @@ const validateActivitySemantics = (activity: StravaActivity): StravaActivityVali
       errors.push('Running pace is faster than realistic human limits');
     }
   }
-  
+
   // Additional semantic checks can be added here
-  
+
   const valid = errors.length === 0;
-  
+
   return {
     valid,
     errors,
@@ -101,18 +101,18 @@ const validateActivitySemantics = (activity: StravaActivity): StravaActivityVali
  */
 const validateActivity = (activity: StravaActivity): StravaActivityValidationResult => {
   const errors: string[] = [];
-  
+
   // Check required fields
   if (!activity.type || typeof activity.type !== 'string') {
     errors.push('Activity type is required and must be a string');
   }
-  
+
   if (!activity.sport_type || typeof activity.sport_type !== 'string') {
     errors.push('Activity sport_type is required and must be a string');
   }
-  
+
   const hasRequiredFields = errors.length === 0;
-  
+
   const result = (() => {
     if (!hasRequiredFields) {
       return {
@@ -122,7 +122,7 @@ const validateActivity = (activity: StravaActivity): StravaActivityValidationRes
     } else {
       // Validate value constraints
       const valueValidation = validateActivityValues(activity);
-      
+
       if (!valueValidation.valid) {
         return {
           valid: false,
@@ -132,7 +132,7 @@ const validateActivity = (activity: StravaActivity): StravaActivityValidationRes
       } else {
         // Validate semantic consistency
         const semanticValidation = validateActivitySemantics(activity);
-        
+
         if (!semanticValidation.valid) {
           // Semantic errors are warnings, prefer graceful degradation
           return {
@@ -148,7 +148,7 @@ const validateActivity = (activity: StravaActivity): StravaActivityValidationRes
       }
     }
   })();
-  
+
   return result;
 };
 

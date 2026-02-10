@@ -36,25 +36,28 @@ const fetchApiResponseWithErrorHandling = async (
   currentConfig: StravaApiConfig,
 ): Promise<StravaActivity[]> => {
   try {
-    return await fetchActivitiesFromApi(currentConfig) as StravaActivity[];
+    return (await fetchActivitiesFromApi(currentConfig)) as StravaActivity[];
   } catch (error) {
     const activityError = parseError(error as Error);
 
     if (activityError !== null && activityError.code === 'RATE_LIMITED') {
       // Use the actual response if available, otherwise create a mock with default wait
       const errorWithResponse = error as Error & { response?: Response };
-      const rateLimitResponse = errorWithResponse.response ?? new Response('Rate Limited', {
-        status: 429,
-        headers: { 'Retry-After': '60' },
-      });
+      const rateLimitResponse =
+        errorWithResponse.response ??
+        new Response('Rate Limited', {
+          status: 429,
+          headers: { 'Retry-After': '60' },
+        });
       await handleRateLimit(rateLimitResponse);
       throw error;
     }
 
     if (activityError !== null && activityError.code === 'UNAUTHORIZED') {
-      const canRefreshToken = currentConfig.refreshToken !== undefined 
-        && currentConfig.clientId !== undefined 
-        && currentConfig.clientSecret !== undefined;
+      const canRefreshToken =
+        currentConfig.refreshToken !== undefined &&
+        currentConfig.clientId !== undefined &&
+        currentConfig.clientSecret !== undefined;
 
       if (canRefreshToken) {
         try {
@@ -63,7 +66,7 @@ const fetchApiResponseWithErrorHandling = async (
             ...currentConfig,
             accessToken: newAccessToken,
           };
-          return await fetchActivitiesFromApi(refreshedConfig) as StravaActivity[];
+          return (await fetchActivitiesFromApi(refreshedConfig)) as StravaActivity[];
         } catch {
           throw error;
         }
@@ -87,7 +90,7 @@ const fetchApiResponseWithErrorHandling = async (
  */
 const fetchActivitiesWithTokenRefresh = async (
   currentConfig: StravaApiConfig,
-  _originalConfig: StravaApiConfig
+  _originalConfig: StravaApiConfig,
 ): Promise<StravaActivity[]> => {
   // _originalConfig reserved for future use (e.g., fallback scenarios)
   void _originalConfig;
@@ -103,7 +106,7 @@ const fetchActivitiesWithTokenRefresh = async (
  *
  * This function is typically called to retrieve a list of activities for display
  * or processing purposes.
- * 
+ *
  * The function implements the following flow:
  * 1. Fetches from API with automatic retry on retryable errors
  * 2. Handles rate limiting by waiting before retry
@@ -134,7 +137,8 @@ const fetchActivities = async (config: StravaApiConfig): Promise<StravaActivity[
    * Inner function to fetch activities with retry capability.
    * @returns {Promise<StravaActivity[]>} Array of activities
    */
-  const fetchWithRetry = async (): Promise<StravaActivity[]> => fetchActivitiesWithTokenRefresh(config, config);
+  const fetchWithRetry = async (): Promise<StravaActivity[]> =>
+    fetchActivitiesWithTokenRefresh(config, config);
 
   return handleRetry(fetchWithRetry, STRAVA_API_MAX_RETRIES, STRAVA_API_INITIAL_BACKOFF_MS);
 };

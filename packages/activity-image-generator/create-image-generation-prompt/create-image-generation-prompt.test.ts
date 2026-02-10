@@ -12,20 +12,20 @@ describe('generate-prompt', () => {
       timeOfDay: 'day',
       tags: [],
     };
-    
+
     const prompt = generatePrompt(signals);
-    
+
     expect(prompt.style).toBeDefined();
     expect(prompt.mood).toBeDefined();
     expect(prompt.subject).toBeDefined();
     expect(prompt.scene).toBeDefined();
     expect(prompt.text.length).toBeLessThanOrEqual(600);
-    
+
     // Validate the prompt
     const validation = validateActivityImagePrompt(prompt);
     expect(validation.valid).toBe(true);
   });
-  
+
   test('generates prompt with recovery tag', () => {
     const signals: StravaActivitySignals = {
       activityType: 'Run',
@@ -34,13 +34,13 @@ describe('generate-prompt', () => {
       timeOfDay: 'day',
       tags: ['recovery'],
     };
-    
+
     const prompt = generatePrompt(signals);
-    
+
     expect(prompt.style).toBe('minimal');
     expect(prompt.mood).toBe('calm');
   });
-  
+
   test('generates prompt with high intensity', () => {
     const signals: StravaActivitySignals = {
       activityType: 'Run',
@@ -49,9 +49,9 @@ describe('generate-prompt', () => {
       timeOfDay: 'day',
       tags: [],
     };
-    
+
     const prompt = generatePrompt(signals);
-    
+
     expect(prompt.style).toBe('illustrated');
     expect(prompt.mood).toBe('intense');
   });

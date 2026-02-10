@@ -10,12 +10,15 @@ import type { ServerConfig, ServerTokenResult } from '../../types';
  * @returns {StravaApiConfig} Strava API configuration
  * @internal
  */
-const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): StravaApiConfig => ({
-    accessToken: tokens.accessToken,
-    refreshToken: tokens.refreshToken,
-    clientId: config.strava.clientId,
-    clientSecret: config.strava.clientSecret,
-  });
+const createActivityConfig = (
+  tokens: ServerTokenResult,
+  config: ServerConfig,
+): StravaApiConfig => ({
+  accessToken: tokens.accessToken,
+  refreshToken: tokens.refreshToken,
+  clientId: config.strava.clientId,
+  clientSecret: config.strava.clientSecret,
+});
 
 /**
  * Creates error response for unauthorized requests.
@@ -23,7 +26,8 @@ const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): 
  * @returns {Response} 401 Unauthorized response
  * @internal
  */
-const createUnauthorizedResponse = (): Response => new Response(
+const createUnauthorizedResponse = (): Response =>
+  new Response(
     JSON.stringify({
       error: 'Unauthorized',
       message: 'Authentication required. Please authenticate with Strava.',
@@ -33,7 +37,7 @@ const createUnauthorizedResponse = (): Response => new Response(
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
 
 /**
@@ -46,7 +50,7 @@ const createUnauthorizedResponse = (): Response => new Response(
  */
 const determineErrorDetails = (
   code: string | undefined,
-  message: string | undefined
+  message: string | undefined,
 ): { statusCode: number; errorMessage: string } => {
   if (code === 'NOT_FOUND') {
     return {
@@ -108,7 +112,7 @@ const createErrorResponse = (error: Error): Response => {
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
 };
 
@@ -124,7 +128,7 @@ const createErrorResponse = (error: Error): Response => {
 const fetchActivityAndCreateResponse = async (
   activityId: string,
   tokens: ServerTokenResult,
-  config: ServerConfig
+  config: ServerConfig,
 ): Promise<Response> => {
   const activityConfig = createActivityConfig(tokens, config);
   const activity = await fetchStravaActivity(activityId, activityConfig);
@@ -143,7 +147,8 @@ const fetchActivityAndCreateResponse = async (
  * @returns {Response} 400 Bad Request response
  * @internal
  */
-const createBadRequestResponse = (): Response => new Response(
+const createBadRequestResponse = (): Response =>
+  new Response(
     JSON.stringify({
       error: 'Bad Request',
       message: 'Activity ID is required',
@@ -153,7 +158,7 @@ const createBadRequestResponse = (): Response => new Response(
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
 
 /**
@@ -168,7 +173,7 @@ const createBadRequestResponse = (): Response => new Response(
 const handleActivityFetch = async (
   activityId: string,
   tokens: ServerTokenResult,
-  config: ServerConfig
+  config: ServerConfig,
 ): Promise<Response> => {
   try {
     return await fetchActivityAndCreateResponse(activityId, tokens, config);

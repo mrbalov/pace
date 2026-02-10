@@ -36,9 +36,9 @@ const ActivityEmoji = (): JSX.Element => {
           }
         `}
       </style>
-      <span 
+      <span
         className="activity-emoji"
-        role="img" 
+        role="img"
         aria-label={`Activity emoji: ${emoji}`}
         title="Rotating sport activity emoji"
       >

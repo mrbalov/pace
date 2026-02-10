@@ -22,7 +22,7 @@ describe('get-activity-signals', () => {
     expect(signals.timeOfDay).toBeDefined();
     expect(Array.isArray(signals.tags)).toBe(true);
   });
-  
+
   test('throws error for invalid activity', () => {
     const activity: StravaActivity = {
       id: 123456,

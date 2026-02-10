@@ -35,7 +35,7 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(401);
-    const body = await response.json() as { error: string; message: string };
+    const body = (await response.json()) as { error: string; message: string };
     expect(body.error).toBe('Unauthorized');
     expect(body.message).toBe('Authentication required. Please authenticate with Strava.');
   });
@@ -50,7 +50,7 @@ describe('stravaActivity', () => {
     const response = await stravaActivity(request, mockConfig);
 
     expect(response.status).toBe(400);
-    const body = await response.json() as { error: string; message: string };
+    const body = (await response.json()) as { error: string; message: string };
     expect(body.error).toBe('Bad Request');
     expect(body.message).toBe('Activity ID is required');
   });

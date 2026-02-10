@@ -7,7 +7,7 @@ type Case = [
     response: Response;
     expectedWaitMs: number;
     useShortWait?: boolean;
-  }
+  },
 ];
 
 describe('handle-rate-limit', () => {
@@ -102,19 +102,23 @@ describe('handle-rate-limit', () => {
         expectedWaitMs: 1000,
       },
     ],
-  ])('%#. %s', async (_name, { response, expectedWaitMs, useShortWait }) => {
-    if (useShortWait) {
-      expect(response.status).toBe(429);
-      return;
-    }
+  ])(
+    '%#. %s',
+    async (_name, { response, expectedWaitMs, useShortWait }) => {
+      if (useShortWait) {
+        expect(response.status).toBe(429);
+        return;
+      }
 
-    const startTime = Date.now();
-    await handleRateLimit(response);
-    const endTime = Date.now();
-    const actualWaitMs = endTime - startTime;
+      const startTime = Date.now();
+      await handleRateLimit(response);
+      const endTime = Date.now();
+      const actualWaitMs = endTime - startTime;
 
-    const tolerance = Math.max(100, expectedWaitMs * 0.1);
-    expect(actualWaitMs).toBeGreaterThanOrEqual(expectedWaitMs - tolerance);
-    expect(actualWaitMs).toBeLessThan(expectedWaitMs + tolerance + 1000);
-  }, 10000);
+      const tolerance = Math.max(100, expectedWaitMs * 0.1);
+      expect(actualWaitMs).toBeGreaterThanOrEqual(expectedWaitMs - tolerance);
+      expect(actualWaitMs).toBeLessThan(expectedWaitMs + tolerance + 1000);
+    },
+    10000,
+  );
 });

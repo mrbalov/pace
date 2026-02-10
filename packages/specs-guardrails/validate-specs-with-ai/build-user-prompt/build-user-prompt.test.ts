@@ -10,7 +10,7 @@ type Case = [
     specContents: string[];
     userPrompt: string;
     expectedContains: string[];
-  }
+  },
 ];
 
 describe('build-user-prompt', () => {
@@ -45,11 +45,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Check the rules'],
         userPrompt: 'Check the rules',
-        expectedContains: [
-          'Check the rules',
-          '[SPEC 1]',
-          'Check the rules',
-        ],
+        expectedContains: ['Check the rules', '[SPEC 1]', 'Check the rules'],
       },
     ],
     [
@@ -73,9 +69,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Test content'],
         userPrompt: 'Please validate the following specifications carefully',
-        expectedContains: [
-          'Please validate the following specifications carefully',
-        ],
+        expectedContains: ['Please validate the following specifications carefully'],
       },
     ],
     [
@@ -83,9 +77,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['   \n  Content with whitespace  \n  '],
         userPrompt: 'Test prompt',
-        expectedContains: [
-          'Content with whitespace',
-        ],
+        expectedContains: ['Content with whitespace'],
       },
     ],
     [
@@ -93,11 +85,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['One', 'Two', 'Three'],
         userPrompt: 'Validate',
-        expectedContains: [
-          '[SPEC 1]',
-          '[SPEC 2]',
-          '[SPEC 3]',
-        ],
+        expectedContains: ['[SPEC 1]', '[SPEC 2]', '[SPEC 3]'],
       },
     ],
     [
@@ -105,9 +93,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Path test'],
         userPrompt: 'Check paths',
-        expectedContains: [
-          'PATH:',
-        ],
+        expectedContains: ['PATH:'],
       },
     ],
     [
@@ -115,9 +101,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Some content'],
         userPrompt: '',
-        expectedContains: [
-          '--- BEGIN SPECIFICATIONS ---',
-        ],
+        expectedContains: ['--- BEGIN SPECIFICATIONS ---'],
       },
     ],
     [
@@ -125,9 +109,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Content'],
         userPrompt: 'Line one\nLine two\nLine three',
-        expectedContains: [
-          'Line one\nLine two\nLine three',
-        ],
+        expectedContains: ['Line one\nLine two\nLine three'],
       },
     ],
     [
@@ -135,9 +117,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Content'],
         userPrompt: 'Check for @#$%^&*() characters',
-        expectedContains: [
-          'Check for @#$%^&*() characters',
-        ],
+        expectedContains: ['Check for @#$%^&*() characters'],
       },
     ],
     [
@@ -145,9 +125,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Content'],
         userPrompt: 'A'.repeat(1000),
-        expectedContains: [
-          'A'.repeat(1000),
-        ],
+        expectedContains: ['A'.repeat(1000)],
       },
     ],
     [
@@ -155,9 +133,7 @@ describe('build-user-prompt', () => {
       {
         specContents: ['Content'],
         userPrompt: 'Validate 测试 🚀 émojis',
-        expectedContains: [
-          'Validate 测试 🚀 émojis',
-        ],
+        expectedContains: ['Validate 测试 🚀 émojis'],
       },
     ],
   ])('%#. %s', async (_name, { specContents, userPrompt, expectedContains }) => {
@@ -165,11 +141,11 @@ describe('build-user-prompt', () => {
       specContents.map(async (content, i) => {
         const specFile = join(testState.tempDir, `spec${Number(i) + 1}.spec.md`);
         await writeFile(specFile, content);
-      })
+      }),
     );
-    
+
     const specFilePaths = Array.from({ length: specContents.length }, (_, i) =>
-      join(testState.tempDir, `spec${Number(i) + 1}.spec.md`)
+      join(testState.tempDir, `spec${Number(i) + 1}.spec.md`),
     );
 
     const result = await buildUserPrompt(specFilePaths, userPrompt);
@@ -193,7 +169,8 @@ describe('build-user-prompt', () => {
 
   test('handles specification files with complex markdown content', async () => {
     const specFile = join(testState.tempDir, 'complex.spec.md');
-    const specContent = '# Title\n\n## Section\n\n- Item 1\n- Item 2\n\n```typescript\ncode block\n```';
+    const specContent =
+      '# Title\n\n## Section\n\n- Item 1\n- Item 2\n\n```typescript\ncode block\n```';
     await writeFile(specFile, specContent);
 
     const result = await buildUserPrompt([specFile], 'Check complex');

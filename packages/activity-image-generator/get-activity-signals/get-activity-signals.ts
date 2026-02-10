@@ -34,49 +34,47 @@ import normalizeText from './normalize-text';
 const getActivitySignals = (activity: StravaActivity): StravaActivitySignals => {
   // Validate activity first
   const activityValidation = validateActivity(activity);
-  
+
   const result = (() => {
     if (!activityValidation.valid) {
       throw new Error(`Activity validation failed: ${activityValidation.errors.join(', ')}`);
     } else {
       // Extract activity type
       const activityType = activity.sport_type ?? activity.type ?? 'Unknown';
-      
+
       // Classify intensity
       const intensity = classifyIntensity(activity);
-      
+
       // Classify elevation
       const elevation = classifyElevation(activity);
-      
+
       // Extract time of day
       const timeOfDay = extractTimeSignals(activity);
-      
+
       // Extract weather (optional)
       const weather = extractWeatherSignals(activity);
-      
+
       // Extract tags
       const tags = extractTagSignals(activity);
-      
+
       // Extract semantic context from user text
       const semanticContextParts: string[] = [];
-      
+
       if (activity.name) {
         const nameSignals = normalizeText(activity.name);
         semanticContextParts.push(...nameSignals);
       }
-      
+
       if (activity.description) {
         const descSignals = normalizeText(activity.description);
         semanticContextParts.push(...descSignals);
       }
-      
+
       const semanticContext = semanticContextParts.length > 0 ? semanticContextParts : undefined;
-      
+
       // Extract brands from gear (if available and compliant)
-      const brands: string[] | undefined = activity.gear?.name
-        ? [activity.gear.name]
-        : undefined;
-      
+      const brands: string[] | undefined = activity.gear?.name ? [activity.gear.name] : undefined;
+
       // Build signals object
       const signals: StravaActivitySignals = {
         activityType,
@@ -88,10 +86,10 @@ const getActivitySignals = (activity: StravaActivity): StravaActivitySignals => 
         brands,
         semanticContext,
       };
-      
+
       // Validate signals
       const signalsValidation = validateActivitySignals(signals);
-      
+
       if (!signalsValidation.valid) {
         if (signalsValidation.sanitized) {
           return signalsValidation.sanitized;
@@ -103,7 +101,7 @@ const getActivitySignals = (activity: StravaActivity): StravaActivitySignals => 
       }
     }
   })();
-  
+
   return result;
 };
 

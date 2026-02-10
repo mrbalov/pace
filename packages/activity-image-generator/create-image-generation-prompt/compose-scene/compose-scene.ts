@@ -27,23 +27,23 @@ const ACTIVITY_SUBJECTS: Record<string, string> = {
  * 3. Weather elements (if applicable)
  * 4. Lighting (from time of day)
  * 5. Atmosphere (from mood)
- * 
+ *
  * @param {StravaActivitySignals} signals - Activity signals to compose scene from
  * @returns {{ subject: string; scene: string }} Subject and scene description
  */
 const composeScene = (signals: StravaActivitySignals): { subject: string; scene: string } => {
   // Determine subject from activity type
   const subject = ACTIVITY_SUBJECTS[signals.activityType] ?? 'athlete';
-  
+
   // Build scene components
   const sceneParts: string[] = [];
-  
+
   // Base environment
   const baseEnvironment = signals.activityType.includes('Virtual')
     ? 'indoor training space'
     : 'outdoor setting';
   sceneParts.push(baseEnvironment);
-  
+
   // Terrain features
   if (signals.elevation === 'mountainous') {
     sceneParts.push('mountainous terrain');
@@ -52,7 +52,7 @@ const composeScene = (signals: StravaActivitySignals): { subject: string; scene:
   } else {
     sceneParts.push('flat terrain');
   }
-  
+
   // Weather elements
   if (signals.weather === 'sunny') {
     sceneParts.push('bright clear sky');
@@ -63,7 +63,7 @@ const composeScene = (signals: StravaActivitySignals): { subject: string; scene:
   } else if (signals.weather === 'foggy') {
     sceneParts.push('misty fog');
   }
-  
+
   // Lighting from time of day
   if (signals.timeOfDay === 'morning') {
     sceneParts.push('soft morning light');
@@ -74,10 +74,10 @@ const composeScene = (signals: StravaActivitySignals): { subject: string; scene:
   } else if (signals.timeOfDay === 'night') {
     sceneParts.push('dark night atmosphere');
   }
-  
+
   // Compose scene string
   const scene = sceneParts.join(', ');
-  
+
   return { subject, scene };
 };
 

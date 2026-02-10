@@ -16,7 +16,7 @@ const setTokens = (
   accessToken: string,
   refreshToken: string,
   expiresAt: number,
-  cookieConfig: ServerConfig['cookies']
+  cookieConfig: ServerConfig['cookies'],
 ): Response => {
   const cookieOptions: string[] = [];
 
@@ -40,11 +40,17 @@ const setTokens = (
 
   // Clone response to add headers
   const newResponse = response.clone();
-  newResponse.headers.append('Set-Cookie', `${COOKIE_NAMES.ACCESS_TOKEN}=${accessToken}; ${cookieOptionsString}`);
-  newResponse.headers.append('Set-Cookie', `${COOKIE_NAMES.REFRESH_TOKEN}=${refreshToken}; ${cookieOptionsString}`);
   newResponse.headers.append(
     'Set-Cookie',
-    `${COOKIE_NAMES.TOKEN_EXPIRES_AT}=${expiresAt}; ${cookieOptionsString}`
+    `${COOKIE_NAMES.ACCESS_TOKEN}=${accessToken}; ${cookieOptionsString}`,
+  );
+  newResponse.headers.append(
+    'Set-Cookie',
+    `${COOKIE_NAMES.REFRESH_TOKEN}=${refreshToken}; ${cookieOptionsString}`,
+  );
+  newResponse.headers.append(
+    'Set-Cookie',
+    `${COOKIE_NAMES.TOKEN_EXPIRES_AT}=${expiresAt}; ${cookieOptionsString}`,
   );
 
   return newResponse;

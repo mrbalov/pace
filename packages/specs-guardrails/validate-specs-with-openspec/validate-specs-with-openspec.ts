@@ -24,7 +24,9 @@ const findOpenSpecBinRecursive = (currentDir: string, startDir: string): string 
   }
 
   if (isRoot) {
-    throw new Error(`Could not find openspec binary in node_modules. Searched from ${startDir} up to ${currentDir}`);
+    throw new Error(
+      `Could not find openspec binary in node_modules. Searched from ${startDir} up to ${currentDir}`,
+    );
   }
 
   return findOpenSpecBinRecursive(parentDir, startDir);
@@ -68,7 +70,9 @@ const parseValidationData = (stdout: string): ParsedValidationData => {
   try {
     return JSON.parse(stdout.trim()) as ParsedValidationData;
   } catch (error) {
-    throw new Error(`Failed to parse openspec JSON output: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to parse openspec JSON output: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 };
 
@@ -99,14 +103,14 @@ const parseValidationData = (stdout: string): ParsedValidationData => {
  */
 const validateSpecsWithOpenspec = async (rootDir: string): Promise<Output> => {
   const openspecBin = getOpenSpecBin(rootDir);
-  
+
   const proc = Bun.spawn(
     ['bun', openspecBin, 'validate', '--all', '--strict', '--no-interactive', '--json'],
     {
       cwd: rootDir,
       stdout: 'pipe',
       stderr: 'pipe',
-    }
+    },
   );
 
   const [stdout, stderr] = await Promise.all([

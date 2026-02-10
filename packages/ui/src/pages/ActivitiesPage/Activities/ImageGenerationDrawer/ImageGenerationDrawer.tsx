@@ -49,11 +49,7 @@ interface ImageGenerationResultProps {
  * @param {Function} props.onClose - Function to handle drawer close.
  * @returns {JSX.Element} Drawer title component.
  */
-const Title = ({
-  generatingImage,
-  generatedImageData,
-  onClose,
-}: TitleProps) => {
+const Title = ({ generatingImage, generatedImageData, onClose }: TitleProps) => {
   const title = useMemo(() => {
     if (generatingImage) {
       return 'Generating Image...';
@@ -70,14 +66,15 @@ const Title = ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-      }}>
+      }}
+    >
       {title}
       <Button
         onClick={onClose}
         auto
         scale={0.6}
         icon={<X />}
-        placeholder='Close'
+        placeholder="Close"
         onPointerEnterCapture={() => undefined}
         onPointerLeaveCapture={() => undefined}
       />
@@ -91,9 +88,7 @@ const Title = ({
  */
 const ImageGenerationPreloader = () => (
   <Grid xs={24}>
-    <Preloader
-      message='Creating your activity image...'
-      withFullHeight={false} />
+    <Preloader message="Creating your activity image..." withFullHeight={false} />
   </Grid>
 );
 
@@ -106,16 +101,14 @@ const ImageGenerationPreloader = () => (
  */
 const ImageGenerationError = ({ error, onRetry }: ImageGenerationErrorProps) => (
   <Grid xs={24}>
-    <Note type='error' label='Error'>
-      <Text>
-        {error}
-      </Text>
+    <Note type="error" label="Error">
+      <Text>{error}</Text>
       <Spacer h={1} />
       <Button
         onClick={onRetry}
-        type='success'
-        width='100%'
-        placeholder='Try Again'
+        type="success"
+        width="100%"
+        placeholder="Try Again"
         onPointerEnterCapture={() => undefined}
         onPointerLeaveCapture={() => undefined}
       >
@@ -142,7 +135,7 @@ const ImageGenerationResult = ({
     <Grid xs={24}>
       <img
         src={imageData}
-        alt='Generated activity image'
+        alt="Generated activity image"
         style={{
           width: '100%',
           height: 'auto',
@@ -164,10 +157,10 @@ const ImageGenerationResult = ({
         onClick={() => {
           downloadImage(imageData).catch(console.error);
         }}
-        type='default'
-        width='100%'
+        type="default"
+        width="100%"
         icon={<Download />}
-        placeholder='Download Image'
+        placeholder="Download Image"
         onPointerEnterCapture={() => undefined}
         onPointerLeaveCapture={() => undefined}
       >
@@ -197,15 +190,13 @@ const Content = ({
   downloadImage,
 }: ContentProps) => (
   <Drawer.Content>
-    <Grid.Container gap={2} justify='center'>
+    <Grid.Container gap={2} justify="center">
       <Grid xs={24}>
         <Card>
-          <Text small type='warning'>
-            The activity image is being generated using an external AI service.
-            {' '}
-            <strong>AI is not a human, so it makes mistakes.</strong>
-            {' '}
-            Please make sure the generated image is appropriate before publishing it to your Strava profile.
+          <Text small type="warning">
+            The activity image is being generated using an external AI service.{' '}
+            <strong>AI is not a human, so it makes mistakes.</strong> Please make sure the generated
+            image is appropriate before publishing it to your Strava profile.
           </Text>
         </Card>
       </Grid>
@@ -247,12 +238,7 @@ const ImageGenerationDrawer = ({
   setError,
   downloadImage,
 }: ImageGenerationDrawerProps) => (
-  <Drawer
-    visible={visible}
-    onClose={onClose}
-    placement='right'
-    width='500px'
-  >
+  <Drawer visible={visible} onClose={onClose} placement="right" width="500px">
     <Title
       generatingImage={generatingImage}
       generatedImageData={generatedImageData}

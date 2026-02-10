@@ -34,7 +34,7 @@ export function useActivities(): UseActivitiesResult {
       setIsUnauthorized(false);
       const startTime = Date.now();
       const MIN_LOADING_TIME = 400; // Minimum 400ms for smooth transition
-      
+
       try {
         const data = await fetchActivities();
         if (mountedRef.current) {

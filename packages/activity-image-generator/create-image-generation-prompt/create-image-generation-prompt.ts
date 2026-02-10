@@ -12,7 +12,7 @@ import { DEFAULT_PROMPT } from './constants';
  * structure by selecting style, mood, and composing scene based on
  * activity signals. Validates the prompt and falls back to safe default
  * if validation fails.
- * 
+ *
  * Prompt generation process:
  * 1. Select visual style (deterministic)
  * 2. Select mood descriptor
@@ -27,13 +27,13 @@ import { DEFAULT_PROMPT } from './constants';
 const createImageGenerationPrompt = (signals: StravaActivitySignals): StravaActivityImagePrompt => {
   // Select style
   const style = selectStyle(signals);
-  
+
   // Select mood
   const mood = selectMood(signals);
-  
+
   // Compose scene
   const { subject, scene } = composeScene(signals);
-  
+
   // Assemble prompt
   const text = assemblePrompt({
     style,
@@ -41,7 +41,7 @@ const createImageGenerationPrompt = (signals: StravaActivitySignals): StravaActi
     subject,
     scene,
   });
-  
+
   // Create prompt object
   const prompt: StravaActivityImagePrompt = {
     style,
@@ -50,10 +50,10 @@ const createImageGenerationPrompt = (signals: StravaActivitySignals): StravaActi
     scene,
     text,
   };
-  
+
   // Validate prompt
   const validation = validateActivityImagePrompt(prompt);
-  
+
   const result = (() => {
     if (!validation.valid) {
       if (validation.sanitized) {
@@ -65,7 +65,7 @@ const createImageGenerationPrompt = (signals: StravaActivitySignals): StravaActi
       return prompt;
     }
   })();
-  
+
   return result;
 };
 

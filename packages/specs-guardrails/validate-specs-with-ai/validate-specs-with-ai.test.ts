@@ -13,7 +13,7 @@ type Case = [
     userPrompt: string;
     shouldThrow: boolean;
     expectedError?: string;
-  }
+  },
 ];
 
 describe('validate-specs-with-ai', () => {
@@ -139,47 +139,57 @@ describe('validate-specs-with-ai', () => {
         shouldThrow: false,
       },
     ],
-  ])('%#. %s', async (_name, { rootDir, specFilePaths, systemPrompt, userPrompt, shouldThrow, expectedError }) => {
-    const mockGetSpecFilePaths = mock(() => Promise.resolve(['/mock1.spec.md', '/mock2.spec.md']));
-    const mockBuildUserPrompt = mock(() => Promise.resolve('Built prompt'));
-    const mockAskDial = mock(() => Promise.resolve({
-      validated_scope: 'FULL_SPECIFICATION_SET',
-      result: 'VALID',
-      spec_count: 2,
-    } as Output));
+  ])(
+    '%#. %s',
+    async (
+      _name,
+      { rootDir, specFilePaths, systemPrompt, userPrompt, shouldThrow, expectedError },
+    ) => {
+      const mockGetSpecFilePaths = mock(() =>
+        Promise.resolve(['/mock1.spec.md', '/mock2.spec.md']),
+      );
+      const mockBuildUserPrompt = mock(() => Promise.resolve('Built prompt'));
+      const mockAskDial = mock(() =>
+        Promise.resolve({
+          validated_scope: 'FULL_SPECIFICATION_SET',
+          result: 'VALID',
+          spec_count: 2,
+        } as Output),
+      );
 
-    // Use mock.module to mock ES modules
-    void mock.module('./get-spec-file-paths', () => ({
-      default: mockGetSpecFilePaths,
-    }));
+      // Use mock.module to mock ES modules
+      void mock.module('./get-spec-file-paths', () => ({
+        default: mockGetSpecFilePaths,
+      }));
 
-    void mock.module('./build-user-prompt', () => ({
-      default: mockBuildUserPrompt,
-    }));
+      void mock.module('./build-user-prompt', () => ({
+        default: mockBuildUserPrompt,
+      }));
 
-    void mock.module('./ask-dial', () => ({
-      default: mockAskDial,
-    }));
+      void mock.module('./ask-dial', () => ({
+        default: mockAskDial,
+      }));
 
-    // Re-import the function to get the mocked version
-    const { default: validateSpecsWithAI } = await import('./validate-specs-with-ai');
+      // Re-import the function to get the mocked version
+      const { default: validateSpecsWithAI } = await import('./validate-specs-with-ai');
 
-    if (shouldThrow) {
-      expect(
-        validateSpecsWithAI(systemPrompt, userPrompt, rootDir, specFilePaths)
-      ).rejects.toThrow(expectedError);
-    } else {
-      const result = await validateSpecsWithAI(systemPrompt, userPrompt, rootDir, specFilePaths);
+      if (shouldThrow) {
+        expect(
+          validateSpecsWithAI(systemPrompt, userPrompt, rootDir, specFilePaths),
+        ).rejects.toThrow(expectedError);
+      } else {
+        const result = await validateSpecsWithAI(systemPrompt, userPrompt, rootDir, specFilePaths);
 
-      expect(result).toBeDefined();
-      if (rootDir) {
-        expect(mockGetSpecFilePaths).toHaveBeenCalledWith(rootDir);
+        expect(result).toBeDefined();
+        if (rootDir) {
+          expect(mockGetSpecFilePaths).toHaveBeenCalledWith(rootDir);
+        }
+        if (specFilePaths) {
+          expect(mockBuildUserPrompt).toHaveBeenCalledWith(specFilePaths, userPrompt);
+        }
       }
-      if (specFilePaths) {
-        expect(mockBuildUserPrompt).toHaveBeenCalledWith(specFilePaths, userPrompt);
-      }
-    }
-  });
+    },
+  );
 
   test('calls getSpecFilePaths when rootDir is provided', async () => {
     const mockGetSpecFilePaths = mock(() => Promise.resolve(['/mock.spec.md']));

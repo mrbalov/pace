@@ -11,7 +11,7 @@ type Case = [
     directories: string[];
     expectedCount: number;
     expectedPaths: string[];
-  }
+  },
 ];
 
 describe('get-spec-file-paths', () => {
@@ -170,7 +170,12 @@ describe('get-spec-file-paths', () => {
             content: 'deep',
           },
         ],
-        directories: ['level1', 'level1/level2', 'level1/level2/level3', 'level1/level2/level3/level4'],
+        directories: [
+          'level1',
+          'level1/level2',
+          'level1/level2/level3',
+          'level1/level2/level3/level4',
+        ],
         expectedCount: 1,
         expectedPaths: ['level1/level2/level3/level4/file.spec.md'],
       },

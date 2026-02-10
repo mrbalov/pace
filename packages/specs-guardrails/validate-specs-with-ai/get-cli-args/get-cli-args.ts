@@ -42,10 +42,13 @@ const getCliArg = (name: string): string | undefined => {
 const getCliArgs = () => {
   const rootDirArg = getCliArg('--rootDir');
   const specFilePathsArg = getCliArg('--specFilePaths');
-  
+
   return {
     rootDir: rootDirArg ?? undefined,
-    specFilePaths: specFilePathsArg !== undefined ? specFilePathsArg.split(',').map(path => path.trim()) : undefined,
+    specFilePaths:
+      specFilePathsArg !== undefined
+        ? specFilePathsArg.split(',').map((path) => path.trim())
+        : undefined,
     systemPromptPath: getCliArg('--systemPrompt'),
     userPromptPath: getCliArg('--userPrompt'),
   };

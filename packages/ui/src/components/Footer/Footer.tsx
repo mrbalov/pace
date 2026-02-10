@@ -31,46 +31,46 @@ const Footer = () => {
             gap: '32px',
           }}
         >
-          <Text span type='secondary'>
+          <Text span type="secondary">
             © {new Date().getFullYear()} PACE by Mr.B.
           </Text>
           <div style={{ display: 'flex', gap: '8px' }}>
             <Link
               href={LINKS.PROJECT_GITHUB}
-              type='secondary'
-              target='_blank'
+              type="secondary"
+              target="_blank"
               onPointerEnterCapture={() => undefined}
               onPointerLeaveCapture={() => undefined}
-              placeholder='Go to PACE GitHub'
+              placeholder="Go to PACE GitHub"
             >
               <Button
                 auto
-                type='default'
+                type="default"
                 scale={0.6}
                 icon={<Github />}
-                aria-label='Go to PACE GitHub'
-                title='Go to PACE GitHub'
-                placeholder='Go to PACE GitHub'
+                aria-label="Go to PACE GitHub"
+                title="Go to PACE GitHub"
+                placeholder="Go to PACE GitHub"
                 onPointerEnterCapture={() => undefined}
                 onPointerLeaveCapture={() => undefined}
               />
             </Link>
             <Link
               href={LINKS.AUTHOR_BLOG}
-              type='secondary'
-              target='_blank'
+              type="secondary"
+              target="_blank"
               onPointerEnterCapture={() => undefined}
               onPointerLeaveCapture={() => undefined}
-              placeholder='Go to Mr.B. Blog'
+              placeholder="Go to Mr.B. Blog"
             >
               <Button
                 auto
-                type='default'
+                type="default"
                 scale={0.6}
                 icon={<Globe />}
-                aria-label='Go to Mr.B. Blog'
-                title='Go to Mr.B. Blog'
-                placeholder='Go to Mr.B. Blog'
+                aria-label="Go to Mr.B. Blog"
+                title="Go to Mr.B. Blog"
+                placeholder="Go to Mr.B. Blog"
                 onPointerEnterCapture={() => undefined}
                 onPointerLeaveCapture={() => undefined}
               />
@@ -86,47 +86,53 @@ const Footer = () => {
             flexDirection: 'column',
           }}
         >
-          <Text h4 type='secondary'>
+          <Text h4 type="secondary">
             Powered by
           </Text>
           <Link
             href={LINKS.POLLINATIONS_AI}
-            type='secondary'
-            target='_blank'
+            type="secondary"
+            target="_blank"
             onPointerEnterCapture={() => undefined}
             onPointerLeaveCapture={() => undefined}
-            placeholder='Go to Pollinations AI'
+            placeholder="Go to Pollinations AI"
             style={{
               textDecoration: 'underline dotted',
             }}
           >
-            <Text span small>Pollinations.AI</Text>
+            <Text span small>
+              Pollinations.AI
+            </Text>
           </Link>
           <Link
             href={LINKS.NETLIFY}
-            type='secondary'
-            target='_blank'
+            type="secondary"
+            target="_blank"
             onPointerEnterCapture={() => undefined}
             onPointerLeaveCapture={() => undefined}
-            placeholder='Go to Netlify'
+            placeholder="Go to Netlify"
             style={{
               textDecoration: 'underline dotted',
             }}
           >
-            <Text span small>Netlify</Text>
+            <Text span small>
+              Netlify
+            </Text>
           </Link>
           <Link
             href={LINKS.CODEMIE}
-            type='secondary'
-            target='_blank'
+            type="secondary"
+            target="_blank"
             onPointerEnterCapture={() => undefined}
             onPointerLeaveCapture={() => undefined}
-            placeholder='Go to EPAM CodeMie'
+            placeholder="Go to EPAM CodeMie"
             style={{
               textDecoration: 'underline dotted',
             }}
           >
-            <Text span small>EPAM CodeMie</Text>
+            <Text span small>
+              EPAM CodeMie
+            </Text>
           </Link>
         </Grid>
       </Grid.Container>

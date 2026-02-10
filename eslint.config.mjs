@@ -1,11 +1,12 @@
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
+import prettierConfig from 'eslint-config-prettier';
 
-export default tseslint.config(
+export default defineConfig([
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
+  tseslint.configs.recommended,
   {
     files: ['packages/**/*.{ts,tsx}'],
     languageOptions: {
@@ -20,7 +21,6 @@ export default tseslint.config(
       jsdoc: jsdocPlugin,
     },
     rules: {
-      // Never use let - always use const
       'no-restricted-syntax': [
         'error',
         {
@@ -39,14 +39,36 @@ export default tseslint.config(
       'prefer-const': 'error',
       'no-var': 'error',
       'no-inner-declarations': 'error',
-      // 'max-len': ['error', { code: 80 }],
+      'max-len': ['error', { code: 100 }],
+      'consistent-return': 'off',
+      'no-else-return': 'off',
+      'no-console': [
+        'error',
+        {
+          allow: ['info', 'warn', 'error'],
+        },
+      ],
+      'prefer-arrow-callback': 'error',
+      'arrow-body-style': [
+        'error',
+        'as-needed',
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['fs', 'fs/promises', 'path'],
+              message: "Use 'node:' prefix for Node.js built-ins: import { readFile } from 'node:fs/promises'",
+            },
+          ],
+        },
+      ],
 
-      // TypeScript specific rules
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-inferrable-types': 'off',
       '@typescript-eslint/typedef': 'off',
 
-      // JSDoc requirements
       'jsdoc/require-jsdoc': [
         'error',
         {
@@ -75,36 +97,6 @@ export default tseslint.config(
       'jsdoc/check-param-names': 'error',
       'jsdoc/check-types': 'error',
       'jsdoc/check-tag-names': 'error',
-
-      // No early returns - use explicit if/else
-      'consistent-return': 'off',
-      'no-else-return': 'off',
-
-      // Code style
-      'no-console': [
-        'error',
-        {
-          allow: ['info', 'warn', 'error'],
-        },
-      ],
-      'prefer-arrow-callback': 'error',
-      'arrow-body-style': [
-        'error',
-        'as-needed',
-      ],
-
-      // Import patterns
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: ['fs', 'fs/promises', 'path'],
-              message: "Use 'node:' prefix for Node.js built-ins: import { readFile } from 'node:fs/promises'",
-            },
-          ],
-        },
-      ],
     },
   },
   {
@@ -123,4 +115,5 @@ export default tseslint.config(
       'actions-runner/**',
     ],
   },
-);
+  prettierConfig,
+]);

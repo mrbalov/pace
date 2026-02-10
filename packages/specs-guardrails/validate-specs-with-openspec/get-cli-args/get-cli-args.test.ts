@@ -6,7 +6,7 @@ type Case = [
   {
     argv: string[];
     expectedRootDir: string;
-  }
+  },
 ];
 
 describe('get-cli-args', () => {
@@ -89,7 +89,12 @@ describe('get-cli-args', () => {
     [
       'handles very long path',
       {
-        argv: ['node', 'script.js', '--rootDir', '/very/long/path/with/many/segments/that/goes/on/and/on'],
+        argv: [
+          'node',
+          'script.js',
+          '--rootDir',
+          '/very/long/path/with/many/segments/that/goes/on/and/on',
+        ],
         expectedRootDir: '/very/long/path/with/many/segments/that/goes/on/and/on',
       },
     ],

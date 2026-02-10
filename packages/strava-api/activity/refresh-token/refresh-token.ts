@@ -49,11 +49,16 @@ const fetchTokenRefreshResponse = async (url: string, body: string): Promise<Res
  * @throws {Error} Throws ActivityError with 'MALFORMED_RESPONSE' code if JSON parsing fails
  * @internal
  */
-const parseTokenRefreshJsonData = async (clonedResponse: Response): Promise<StravaActivityTokenRefreshResponse> => {
+const parseTokenRefreshJsonData = async (
+  clonedResponse: Response,
+): Promise<StravaActivityTokenRefreshResponse> => {
   try {
     return (await clonedResponse.json()) as StravaActivityTokenRefreshResponse;
   } catch {
-    throw createActivityError('MALFORMED_RESPONSE', 'Invalid response format from token refresh endpoint');
+    throw createActivityError(
+      'MALFORMED_RESPONSE',
+      'Invalid response format from token refresh endpoint',
+    );
   }
 };
 
@@ -91,7 +96,10 @@ const refreshToken = async (config: StravaApiConfig): Promise<string> => {
   }
 
   if (config.clientId === undefined || config.clientSecret === undefined) {
-    throw createActivityError('UNAUTHORIZED', 'Client ID and client secret are required for token refresh');
+    throw createActivityError(
+      'UNAUTHORIZED',
+      'Client ID and client secret are required for token refresh',
+    );
   }
 
   const url = 'https://www.strava.com/oauth/token';

@@ -37,7 +37,7 @@ const validateSpecsWithAI = async (
   systemPrompt: string,
   userPrompt: string,
   rootDir?: string,
-  specFilePaths?: string[]
+  specFilePaths?: string[],
 ): Promise<Output> => {
   // Validate that exactly one of rootDir or specFilePaths is provided
   const hasRootDir = rootDir !== undefined;
@@ -52,9 +52,7 @@ const validateSpecsWithAI = async (
   }
 
   // Get spec file paths either from rootDir or use provided specFilePaths
-  const finalSpecFilePaths = hasRootDir
-    ? await getSpecFilePaths(rootDir)
-    : specFilePaths!;
+  const finalSpecFilePaths = hasRootDir ? await getSpecFilePaths(rootDir) : specFilePaths!;
 
   const userPromptWithSpecs = await buildUserPrompt(finalSpecFilePaths, userPrompt);
 

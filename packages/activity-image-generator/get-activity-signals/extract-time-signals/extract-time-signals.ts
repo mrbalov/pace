@@ -19,26 +19,32 @@ import { CONFIG } from '../../constants';
 const extractTimeSignals = (activity: StravaActivity): 'morning' | 'day' | 'evening' | 'night' => {
   // Prefer local time, fall back to UTC
   const timeString = activity.start_date_local ?? activity.start_date;
-  
+
   const result = (() => {
     if (!timeString) {
       return 'day'; // Default to day if no time available
     } else {
       const date = new Date(timeString);
       const hour = date.getHours();
-      
+
       if (hour >= CONFIG.TIME_OF_DAY.MORNING_START && hour < CONFIG.TIME_OF_DAY.MORNING_END) {
         return 'morning';
-      } else if (hour >= CONFIG.TIME_OF_DAY.MORNING_END && hour < CONFIG.TIME_OF_DAY.EVENING_START) {
+      } else if (
+        hour >= CONFIG.TIME_OF_DAY.MORNING_END &&
+        hour < CONFIG.TIME_OF_DAY.EVENING_START
+      ) {
         return 'day';
-      } else if (hour >= CONFIG.TIME_OF_DAY.EVENING_START && hour < CONFIG.TIME_OF_DAY.NIGHT_START) {
+      } else if (
+        hour >= CONFIG.TIME_OF_DAY.EVENING_START &&
+        hour < CONFIG.TIME_OF_DAY.NIGHT_START
+      ) {
         return 'evening';
       } else {
         return 'night';
       }
     }
   })();
-  
+
   return result;
 };
 

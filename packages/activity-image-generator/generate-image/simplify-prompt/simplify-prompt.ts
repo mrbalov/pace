@@ -32,9 +32,10 @@ const simplifyPrompt = (
     return {
       ...prompt,
       scene: '',
-      text: simplifiedText.length <= CONFIG.MAX_PROMPT_LENGTH
-        ? simplifiedText
-        : simplifiedText.substring(0, CONFIG.MAX_PROMPT_LENGTH),
+      text:
+        simplifiedText.length <= CONFIG.MAX_PROMPT_LENGTH
+          ? simplifiedText
+          : simplifiedText.substring(0, CONFIG.MAX_PROMPT_LENGTH),
     };
   } else {
     const basicSubject = prompt.subject.split(',')[0]?.trim() ?? prompt.subject;
@@ -44,9 +45,10 @@ const simplifyPrompt = (
       ...prompt,
       mood: '',
       scene: '',
-      text: simplifiedText.length <= CONFIG.MAX_PROMPT_LENGTH
-        ? simplifiedText
-        : simplifiedText.substring(0, CONFIG.MAX_PROMPT_LENGTH),
+      text:
+        simplifiedText.length <= CONFIG.MAX_PROMPT_LENGTH
+          ? simplifiedText
+          : simplifiedText.substring(0, CONFIG.MAX_PROMPT_LENGTH),
     };
   }
 };

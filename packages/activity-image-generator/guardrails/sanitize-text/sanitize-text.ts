@@ -13,14 +13,14 @@ import checkForbiddenContent from '../check-forbidden-content';
  */
 const sanitizeText = (text: string): string => {
   const hasText = text !== undefined && text !== null && text.trim().length > 0;
-  
+
   const result = (() => {
     if (!hasText) {
       return '';
     } else {
       // Remove forbidden content patterns
       const hasForbidden = checkForbiddenContent(text);
-      
+
       if (hasForbidden) {
         // Return empty string if forbidden content detected
         // In a real implementation, we might extract safe semantic signals
@@ -33,7 +33,7 @@ const sanitizeText = (text: string): string => {
       }
     }
   })();
-  
+
   return result;
 };
 

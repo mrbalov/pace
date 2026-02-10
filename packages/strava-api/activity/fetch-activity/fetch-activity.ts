@@ -46,18 +46,21 @@ const fetchApiResponseWithErrorHandling = async (
     if (activityError !== null && activityError.code === 'RATE_LIMITED') {
       // Use the actual response if available, otherwise create a mock with default wait
       const errorWithResponse = error as Error & { response?: Response };
-      const rateLimitResponse = errorWithResponse.response ?? new Response('Rate Limited', {
-        status: 429,
-        headers: { 'Retry-After': '60' },
-      });
+      const rateLimitResponse =
+        errorWithResponse.response ??
+        new Response('Rate Limited', {
+          status: 429,
+          headers: { 'Retry-After': '60' },
+        });
       await handleRateLimit(rateLimitResponse);
       throw error;
     }
 
     if (activityError !== null && activityError.code === 'UNAUTHORIZED') {
-      const canRefreshToken = currentConfig.refreshToken !== undefined 
-        && currentConfig.clientId !== undefined 
-        && currentConfig.clientSecret !== undefined;
+      const canRefreshToken =
+        currentConfig.refreshToken !== undefined &&
+        currentConfig.clientId !== undefined &&
+        currentConfig.clientSecret !== undefined;
 
       if (canRefreshToken) {
         try {
@@ -92,7 +95,7 @@ const fetchApiResponseWithErrorHandling = async (
 const fetchActivityWithTokenRefresh = async (
   activityId: string,
   currentConfig: StravaApiConfig,
-  originalConfig: StravaApiConfig
+  originalConfig: StravaApiConfig,
 ): Promise<StravaActivity | null> => {
   const activity = await fetchApiResponseWithErrorHandling(activityId, currentConfig);
 
@@ -124,7 +127,7 @@ const fetchActivityWithTokenRefresh = async (
  *
  * This function is typically called when a Strava webhook notification is
  * received containing an activity ID, initiating the activity processing pipeline.
- * 
+ *
  * The function implements the following flow:
  * 1. Validates activity ID format
  * 2. Fetches from API with automatic retry on retryable errors
@@ -159,14 +162,18 @@ const fetchActivityWithTokenRefresh = async (
  * });
  * ```
  */
-const fetchActivity = async (activityId: string, config: StravaApiConfig): Promise<StravaActivity | null> => {
+const fetchActivity = async (
+  activityId: string,
+  config: StravaApiConfig,
+): Promise<StravaActivity | null> => {
   validateActivityId(activityId);
 
   /**
    * Inner function to fetch activity with retry capability.
    * @returns {Promise<StravaActivity | null>} The activity data or null if not found
    */
-  const fetchWithRetry = async (): Promise<StravaActivity | null> => fetchActivityWithTokenRefresh(activityId, config, config);
+  const fetchWithRetry = async (): Promise<StravaActivity | null> =>
+    fetchActivityWithTokenRefresh(activityId, config, config);
 
   return handleRetry(fetchWithRetry, STRAVA_API_MAX_RETRIES, STRAVA_API_INITIAL_BACKOFF_MS);
 };

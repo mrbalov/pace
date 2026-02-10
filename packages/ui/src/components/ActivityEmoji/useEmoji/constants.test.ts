@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'bun:test';
-import { 
-  EMOJI_ANIMATION_TIMEOUT, 
-  EMOJI_ANIMATION_TIMEOUT_HALF, 
-  EMOJIS, 
+import {
+  EMOJI_ANIMATION_TIMEOUT,
+  EMOJI_ANIMATION_TIMEOUT_HALF,
+  EMOJIS,
   EMOJIS_WITH_SKIN_TONES,
   EMOJIS_WITH_SKIN_TONES_BASE,
   EMOJIS_WO_SKIN_TONES,
-  EMOJI_SKIN_TONES 
+  EMOJI_SKIN_TONES,
 } from './constants';
 
 /**
@@ -90,16 +90,16 @@ describe('ActivityEmoji Constants', () => {
 
   test('EMOJIS should not contain only valid emojis', () => {
     // Test that all emojis in the final array are valid grapheme clusters.
-    const invalidEmojis = EMOJIS.filter(emoji => !getIsValidEmojiGraphemeCluster(emoji));
-    
+    const invalidEmojis = EMOJIS.filter((emoji) => !getIsValidEmojiGraphemeCluster(emoji));
+
     expect(invalidEmojis).toHaveLength(0);
   });
 
   test('EMOJIS should not contain fencing or horse racing emojis with skin tones', () => {
     const problematicEmojis = EMOJIS.filter(
-      emoji => emoji.includes('🤺') || emoji.includes('🏇'),
+      (emoji) => emoji.includes('🤺') || emoji.includes('🏇'),
     );
-    
+
     // The only valid ones should be the base emojis without skin tones.
     expect(problematicEmojis).toEqual(['🏇', '🤺']);
   });
@@ -234,8 +234,8 @@ describe('ActivityEmoji Constants', () => {
   });
 
   test('All emojis with variation selector should be handled correctly', () => {
-    const emojisWithVariationSelector = EMOJIS_WITH_SKIN_TONES_BASE.filter(
-      emoji => emoji.includes('️')
+    const emojisWithVariationSelector = EMOJIS_WITH_SKIN_TONES_BASE.filter((emoji) =>
+      emoji.includes('️'),
     );
     expect(emojisWithVariationSelector.length).toBeGreaterThan(0);
   });

@@ -25,7 +25,7 @@ const attemptGeneration = async (
   providerApiKeys?: ImageGenerationProviderApiKeys,
 ): Promise<string> => {
   const provider = getProvider(providerName, providerApiKeys);
-  
+
   try {
     return await provider(prompt.text);
   } catch (error) {
@@ -77,11 +77,11 @@ const attemptGeneration = async (
  * console.log('Used fallback:', result.fallback);
  * ```
  */
-const generateImage = async (
-  input: GenerateImageInput,
-): Promise<GenerateImageOutput> => {
+const generateImage = async (input: GenerateImageInput): Promise<GenerateImageOutput> => {
   if (input.prompt.text.length > CONFIG.MAX_PROMPT_LENGTH) {
-    throw new Error(`Prompt text exceeds ${CONFIG.MAX_PROMPT_LENGTH} character limit: ${input.prompt.text.length} characters`);
+    throw new Error(
+      `Prompt text exceeds ${CONFIG.MAX_PROMPT_LENGTH} character limit: ${input.prompt.text.length} characters`,
+    );
   } else {
     const attempts = input.attempts ?? 0;
 

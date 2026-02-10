@@ -12,7 +12,9 @@ import { StravaActivity } from '@pace/strava-api';
  * @param {StravaActivity} _activity - Activity data to extract weather from (unused)
  * @returns {'sunny' | 'rainy' | 'cloudy' | 'foggy' | undefined} Weather classification or undefined if not available
  */
-const extractWeatherSignals = (_activity: StravaActivity): 'sunny' | 'rainy' | 'cloudy' | 'foggy' | undefined => {
+const extractWeatherSignals = (
+  _activity: StravaActivity,
+): 'sunny' | 'rainy' | 'cloudy' | 'foggy' | undefined => {
   // Strava API doesn't directly expose weather in the base activity response
   // Weather might be available in extended metadata or user-provided descriptions
   // For now, we'll return undefined as weather is optional

@@ -11,7 +11,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: StravaApiError;
     expectedActivities?: StravaActivity[];
-  }
+  },
 ];
 
 // Set longer timeout for tests that involve retries (default is 5000ms)
@@ -39,33 +39,35 @@ describe('fetch-activities', () => {
           accessToken: 'test-token',
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify([
-              {
-                id: 123456,
-                type: 'Ride',
-                sport_type: 'MountainBikeRide',
-                name: 'Test Activity 1',
-                distance: 10000,
-                moving_time: 3600,
-                elapsed_time: 3800,
-                start_date: '2024-01-01T10:00:00Z',
-                total_elevation_gain: 500,
-              },
-              {
-                id: 123457,
-                type: 'Run',
-                sport_type: 'Run',
-                name: 'Test Activity 2',
-                distance: 5000,
-                moving_time: 1800,
-                elapsed_time: 1900,
-                start_date: '2024-01-02T08:00:00Z',
-                total_elevation_gain: 100,
-              },
-            ]),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify([
+                {
+                  id: 123456,
+                  type: 'Ride',
+                  sport_type: 'MountainBikeRide',
+                  name: 'Test Activity 1',
+                  distance: 10000,
+                  moving_time: 3600,
+                  elapsed_time: 3800,
+                  start_date: '2024-01-01T10:00:00Z',
+                  total_elevation_gain: 500,
+                },
+                {
+                  id: 123457,
+                  type: 'Run',
+                  sport_type: 'Run',
+                  name: 'Test Activity 2',
+                  distance: 5000,
+                  moving_time: 1800,
+                  elapsed_time: 1900,
+                  start_date: '2024-01-02T08:00:00Z',
+                  total_elevation_gain: 100,
+                },
+              ]),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: false,
         expectedActivities: [
           {
@@ -136,23 +138,27 @@ describe('fetch-activities', () => {
               return Promise.resolve(new Response('Unauthorized', { status: 401 }));
             }
             if (callCounter.count === 2) {
-              return Promise.resolve(new Response(
-                JSON.stringify({
-                  access_token: 'new-access-token',
-                }),
-                { status: 200 }
-              ));
+              return Promise.resolve(
+                new Response(
+                  JSON.stringify({
+                    access_token: 'new-access-token',
+                  }),
+                  { status: 200 },
+                ),
+              );
             }
-            return Promise.resolve(new Response(
-              JSON.stringify([
-                {
-                  id: 123456,
-                  type: 'Ride',
-                  sport_type: 'Ride',
-                },
-              ]),
-              { status: 200 }
-            ));
+            return Promise.resolve(
+              new Response(
+                JSON.stringify([
+                  {
+                    id: 123456,
+                    type: 'Ride',
+                    sport_type: 'Ride',
+                  },
+                ]),
+                { status: 200 },
+              ),
+            );
           };
         })(),
         shouldThrow: false,
@@ -191,23 +197,27 @@ describe('fetch-activities', () => {
           return () => {
             callCounter.count = callCounter.count + 1;
             if (callCounter.count === 1) {
-              return Promise.resolve(new Response('Rate Limited', {
-                status: 429,
-                headers: {
-                  'Retry-After': '0.1',
-                },
-              }));
+              return Promise.resolve(
+                new Response('Rate Limited', {
+                  status: 429,
+                  headers: {
+                    'Retry-After': '0.1',
+                  },
+                }),
+              );
             }
-            return Promise.resolve(new Response(
-              JSON.stringify([
-                {
-                  id: 123456,
-                  type: 'Ride',
-                  sport_type: 'Ride',
-                },
-              ]),
-              { status: 200 }
-            ));
+            return Promise.resolve(
+              new Response(
+                JSON.stringify([
+                  {
+                    id: 123456,
+                    type: 'Ride',
+                    sport_type: 'Ride',
+                  },
+                ]),
+                { status: 200 },
+              ),
+            );
           };
         })(),
         shouldThrow: false,
@@ -233,16 +243,18 @@ describe('fetch-activities', () => {
             if (callCounter.count === 1) {
               return Promise.resolve(new Response('Server Error', { status: 500 }));
             }
-            return Promise.resolve(new Response(
-              JSON.stringify([
-                {
-                  id: 123456,
-                  type: 'Ride',
-                  sport_type: 'Ride',
-                },
-              ]),
-              { status: 200 }
-            ));
+            return Promise.resolve(
+              new Response(
+                JSON.stringify([
+                  {
+                    id: 123456,
+                    type: 'Ride',
+                    sport_type: 'Ride',
+                  },
+                ]),
+                { status: 200 },
+              ),
+            );
           };
         })(),
         shouldThrow: false,
@@ -294,13 +306,15 @@ describe('fetch-activities', () => {
           accessToken: 'test-token',
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify({
-              id: 123456,
-              type: 'Ride',
-            }),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify({
+                id: 123456,
+                type: 'Ride',
+              }),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: true,
         expectedError: {
           code: 'MALFORMED_RESPONSE',
@@ -317,16 +331,18 @@ describe('fetch-activities', () => {
           baseUrl: 'https://custom-api.example.com/api/v3',
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify([
-              {
-                id: 123456,
-                type: 'Ride',
-                sport_type: 'MountainBikeRide',
-              },
-            ]),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify([
+                {
+                  id: 123456,
+                  type: 'Ride',
+                  sport_type: 'MountainBikeRide',
+                },
+              ]),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: false,
         expectedActivities: [
           {
@@ -337,49 +353,53 @@ describe('fetch-activities', () => {
         ],
       },
     ],
-  ])('%#. %s', async (_name, { config, mockFetch, shouldThrow, expectedError, expectedActivities }) => {
-    // Use longer timeout for network failure test to account for retries with backoff
-    const timeout = _name === 'throws error for network failure' ? TEST_TIMEOUT : undefined;
-    
-    if (mockFetch !== undefined) {
-      // @ts-expect-error - mockFetch is a function
-      globalThis.fetch = mockFetch;
-    }
+  ])(
+    '%#. %s',
+    async (_name, { config, mockFetch, shouldThrow, expectedError, expectedActivities }) => {
+      // Use longer timeout for network failure test to account for retries with backoff
+      const timeout = _name === 'throws error for network failure' ? TEST_TIMEOUT : undefined;
 
-    const testFn = async () => {
-      if (shouldThrow) {
-        expect(async () => {
-          await fetchActivities(config);
-        }).toThrow();
-
-        try {
-          await fetchActivities(config);
-        } catch (error) {
-          const parsedError = parseError(error as Error);
-          expect(parsedError.code).toStrictEqual(expectedError!.code);
-          expect(parsedError.message).toStrictEqual(expectedError!.message);
-          if (expectedError!.retryable !== undefined) {
-            expect(parsedError.retryable).toStrictEqual(expectedError!.retryable);
-          }
-        }
-      } else {
-        const result = await fetchActivities(config);
-        expect(result).toStrictEqual(expectedActivities ?? []);
+      if (mockFetch !== undefined) {
+        // @ts-expect-error - mockFetch is a function
+        globalThis.fetch = mockFetch;
       }
-    };
 
-    if (timeout !== undefined) {
-      await Promise.race([
-        testFn(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Test timeout')), timeout))
-      ]).catch((error: unknown) => {
-        if ((error as Error).message === 'Test timeout') {
-          throw new Error(`Test timed out after ${timeout}ms`);
+      const testFn = async () => {
+        if (shouldThrow) {
+          expect(async () => {
+            await fetchActivities(config);
+          }).toThrow();
+
+          try {
+            await fetchActivities(config);
+          } catch (error) {
+            const parsedError = parseError(error as Error);
+            expect(parsedError.code).toStrictEqual(expectedError!.code);
+            expect(parsedError.message).toStrictEqual(expectedError!.message);
+            if (expectedError!.retryable !== undefined) {
+              expect(parsedError.retryable).toStrictEqual(expectedError!.retryable);
+            }
+          }
+        } else {
+          const result = await fetchActivities(config);
+          expect(result).toStrictEqual(expectedActivities ?? []);
         }
-        throw error;
-      });
-    } else {
-      await testFn();
-    }
-  }, TEST_TIMEOUT);
+      };
+
+      if (timeout !== undefined) {
+        await Promise.race([
+          testFn(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Test timeout')), timeout)),
+        ]).catch((error: unknown) => {
+          if ((error as Error).message === 'Test timeout') {
+            throw new Error(`Test timed out after ${timeout}ms`);
+          }
+          throw error;
+        });
+      } else {
+        await testFn();
+      }
+    },
+    TEST_TIMEOUT,
+  );
 });

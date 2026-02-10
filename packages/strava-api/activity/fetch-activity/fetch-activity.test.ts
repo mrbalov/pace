@@ -12,7 +12,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: StravaApiError;
     expectedActivity?: StravaActivity;
-  }
+  },
 ];
 
 const parseError = (error: Error): StravaApiError => JSON.parse(error.message) as StravaApiError;
@@ -37,15 +37,17 @@ describe('fetch-activity', () => {
           accessToken: 'test-token',
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify({
-              id: 123456,
-              type: 'Ride',
-              sport_type: 'MountainBikeRide',
-              name: 'Test Activity',
-            }),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify({
+                id: 123456,
+                type: 'Ride',
+                sport_type: 'MountainBikeRide',
+                name: 'Test Activity',
+              }),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -135,21 +137,25 @@ describe('fetch-activity', () => {
               return Promise.resolve(new Response('Unauthorized', { status: 401 }));
             }
             if (callCounter.count === 2) {
-              return Promise.resolve(new Response(
-                JSON.stringify({
-                  access_token: 'new-access-token',
-                }),
-                { status: 200 }
-              ));
+              return Promise.resolve(
+                new Response(
+                  JSON.stringify({
+                    access_token: 'new-access-token',
+                  }),
+                  { status: 200 },
+                ),
+              );
             }
-            return Promise.resolve(new Response(
-              JSON.stringify({
-                id: 123456,
-                type: 'Ride',
-                sport_type: 'Ride',
-              }),
-              { status: 200 }
-            ));
+            return Promise.resolve(
+              new Response(
+                JSON.stringify({
+                  id: 123456,
+                  type: 'Ride',
+                  sport_type: 'Ride',
+                }),
+                { status: 200 },
+              ),
+            );
           };
         })(),
         shouldThrow: false,
@@ -188,21 +194,25 @@ describe('fetch-activity', () => {
           return () => {
             callCounter.count = callCounter.count + 1;
             if (callCounter.count === 1) {
-              return Promise.resolve(new Response('Rate Limited', {
-                status: 429,
-                headers: {
-                  'Retry-After': '0.1',
-                },
-              }));
+              return Promise.resolve(
+                new Response('Rate Limited', {
+                  status: 429,
+                  headers: {
+                    'Retry-After': '0.1',
+                  },
+                }),
+              );
             }
-            return Promise.resolve(new Response(
-              JSON.stringify({
-                id: 123456,
-                type: 'Ride',
-                sport_type: 'Ride',
-              }),
-              { status: 200 }
-            ));
+            return Promise.resolve(
+              new Response(
+                JSON.stringify({
+                  id: 123456,
+                  type: 'Ride',
+                  sport_type: 'Ride',
+                }),
+                { status: 200 },
+              ),
+            );
           };
         })(),
         shouldThrow: false,
@@ -227,14 +237,16 @@ describe('fetch-activity', () => {
             if (callCounter.count === 1) {
               return Promise.resolve(new Response('Server Error', { status: 500 }));
             }
-            return Promise.resolve(new Response(
-              JSON.stringify({
-                id: 123456,
-                type: 'Ride',
-                sport_type: 'Ride',
-              }),
-              { status: 200 }
-            ));
+            return Promise.resolve(
+              new Response(
+                JSON.stringify({
+                  id: 123456,
+                  type: 'Ride',
+                  sport_type: 'Ride',
+                }),
+                { status: 200 },
+              ),
+            );
           };
         })(),
         shouldThrow: false,
@@ -262,14 +274,16 @@ describe('fetch-activity', () => {
           },
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify({
-              id: 123456,
-              type: 'Ride',
-              sport_type: 'Ride',
-            }),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify({
+                id: 123456,
+                type: 'Ride',
+                sport_type: 'Ride',
+              }),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -292,14 +306,16 @@ describe('fetch-activity', () => {
           },
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify({
-              id: 123456,
-              type: 'Ride',
-              sport_type: 'Ride',
-            }),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify({
+                id: 123456,
+                type: 'Ride',
+                sport_type: 'Ride',
+              }),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: true,
         expectedError: {
           code: 'VALIDATION_FAILED',
@@ -316,14 +332,16 @@ describe('fetch-activity', () => {
           accessToken: 'test-token',
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify({
-              id: 123456,
-              type: 'Run',
-              sport_type: 'Run',
-            }),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify({
+                id: 123456,
+                type: 'Run',
+                sport_type: 'Run',
+              }),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: false,
         expectedActivity: {
           type: 'Run',
@@ -340,21 +358,23 @@ describe('fetch-activity', () => {
           accessToken: 'test-token',
         },
         mockFetch: () =>
-          Promise.resolve(new Response(
-            JSON.stringify({
-              id: 123456,
-              type: 'Ride',
-              sport_type: 'Road',
-              name: 'Morning Ride',
-              description: 'Great ride',
-              distance: 50000,
-              total_elevation_gain: 500,
-              start_date: '2024-01-01T08:00:00Z',
-              average_speed: 25.5,
-              calories: 800,
-            }),
-            { status: 200 }
-          )),
+          Promise.resolve(
+            new Response(
+              JSON.stringify({
+                id: 123456,
+                type: 'Ride',
+                sport_type: 'Road',
+                name: 'Morning Ride',
+                description: 'Great ride',
+                distance: 50000,
+                total_elevation_gain: 500,
+                start_date: '2024-01-01T08:00:00Z',
+                average_speed: 25.5,
+                calories: 800,
+              }),
+              { status: 200 },
+            ),
+          ),
         shouldThrow: false,
         expectedActivity: {
           type: 'Ride',
@@ -370,30 +390,36 @@ describe('fetch-activity', () => {
         },
       },
     ],
-  ])('%#. %s', async (_name, { activityId, config, mockFetch, shouldThrow, expectedError, expectedActivity }) => {
-    if (mockFetch !== undefined) {
-      // @ts-expect-error - mockFetch is a function
-      globalThis.fetch = mockFetch;
-    }
-
-    if (shouldThrow) {
-      expect(async () => {
-        await fetchActivity(activityId, config);
-      }).toThrow();
-
-      try {
-        await fetchActivity(activityId, config);
-      } catch (error) {
-        const parsedError = parseError(error as Error);
-        expect(parsedError.code).toStrictEqual(expectedError!.code);
-        expect(parsedError.message).toStrictEqual(expectedError!.message);
-        if (expectedError!.retryable !== undefined) {
-          expect(parsedError.retryable).toStrictEqual(expectedError!.retryable);
-        }
+  ])(
+    '%#. %s',
+    async (
+      _name,
+      { activityId, config, mockFetch, shouldThrow, expectedError, expectedActivity },
+    ) => {
+      if (mockFetch !== undefined) {
+        // @ts-expect-error - mockFetch is a function
+        globalThis.fetch = mockFetch;
       }
-    } else {
-      const result = await fetchActivity(activityId, config);
-      expect(result).toStrictEqual(expectedActivity ?? null);
-    }
-  });
+
+      if (shouldThrow) {
+        expect(async () => {
+          await fetchActivity(activityId, config);
+        }).toThrow();
+
+        try {
+          await fetchActivity(activityId, config);
+        } catch (error) {
+          const parsedError = parseError(error as Error);
+          expect(parsedError.code).toStrictEqual(expectedError!.code);
+          expect(parsedError.message).toStrictEqual(expectedError!.message);
+          if (expectedError!.retryable !== undefined) {
+            expect(parsedError.retryable).toStrictEqual(expectedError!.retryable);
+          }
+        }
+      } else {
+        const result = await fetchActivity(activityId, config);
+        expect(result).toStrictEqual(expectedActivity ?? null);
+      }
+    },
+  );
 });

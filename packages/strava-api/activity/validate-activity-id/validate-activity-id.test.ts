@@ -8,7 +8,7 @@ type Case = [
     activityId: string | undefined | null;
     shouldThrow: boolean;
     expectedError?: StravaApiError;
-  }
+  },
 ];
 
 const parseError = (error: Error): StravaApiError => JSON.parse(error.message) as StravaApiError;

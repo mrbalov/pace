@@ -7,7 +7,7 @@ type Case = [
   {
     config: StravaApiConfig;
     expected: HeadersInit;
-  }
+  },
 ];
 
 describe('get-auth-headers', () => {

@@ -79,11 +79,9 @@ const nodeRequestToWebRequest = async (req: IncomingMessage): Promise<Request> =
  * @returns {string} Allowed origin URL
  * @internal
  */
-const getAllowedOrigin = (): string => 
+const getAllowedOrigin = (): string =>
   // Allow UI origin from environment variable, default to localhost:3001 for dev
-   process.env.UI_ORIGIN ?? 'http://localhost:3001'
-;
-
+  process.env.UI_ORIGIN ?? 'http://localhost:3001';
 /**
  * Adds CORS headers to response.
  *
@@ -110,7 +108,7 @@ const isBinaryContentType = (contentType: string | null): boolean => {
   if (!contentType) {
     return false;
   }
-  
+
   const binaryTypes = [
     'image/',
     'video/',
@@ -119,8 +117,8 @@ const isBinaryContentType = (contentType: string | null): boolean => {
     'application/pdf',
     'application/zip',
   ];
-  
-  return binaryTypes.some(type => contentType.toLowerCase().startsWith(type));
+
+  return binaryTypes.some((type) => contentType.toLowerCase().startsWith(type));
 };
 
 /**
@@ -133,7 +131,7 @@ const isBinaryContentType = (contentType: string | null): boolean => {
  */
 const webResponseToNodeResponse = async (
   webResponse: Response,
-  nodeResponse: ServerResponse
+  nodeResponse: ServerResponse,
 ): Promise<void> => {
   nodeResponse.statusCode = webResponse.status;
 
@@ -157,7 +155,7 @@ const webResponseToNodeResponse = async (
   const hasBody = webResponse.body !== null;
   if (hasBody) {
     const contentType = webResponse.headers.get('Content-Type');
-    
+
     if (isBinaryContentType(contentType)) {
       // For binary content, use arrayBuffer to preserve data integrity
       const arrayBuffer = await webResponse.arrayBuffer();
@@ -206,7 +204,8 @@ const matchesActivityImageGeneratorRoute = (pathname: string): boolean => {
 const handleRoute = async (request: Request): Promise<Response> => {
   const url = new URL(request.url);
   const pathname = url.pathname;
-  const promise = pathname === '/strava/auth'
+  const promise =
+    pathname === '/strava/auth'
       ? Promise.resolve(stravaAuth(request, config))
       : pathname === '/strava/auth/callback'
         ? stravaAuthCallback(request, config)
@@ -246,7 +245,8 @@ const handleServerError = (error: unknown, res: ServerResponse): void => {
  * @returns {Promise<Response | null>} Response if successful, null if error occurred
  * @internal
  */
-const processRequest = async (req: IncomingMessage): Promise<Response | null> => await (async () => {
+const processRequest = async (req: IncomingMessage): Promise<Response | null> =>
+  await (async () => {
     try {
       const request = await nodeRequestToWebRequest(req);
       return await handleRoute(request);

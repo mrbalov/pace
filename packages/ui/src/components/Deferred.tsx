@@ -11,7 +11,7 @@ const TIMEOUT_DEFAULT = 600;
 
 /**
  * Defers rendering of children.
- * 
+ *
  * @param {DeferredProps} props - Component props.
  * @param {ReactNode} props.children - Children to render.
  * @param {ReactNode} [props.fallback] - Optional fallback content.

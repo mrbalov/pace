@@ -33,7 +33,10 @@ import { DialResponse } from './types';
  * );
  * ```
  */
-const askDial = async <T extends Record<string, unknown>>(systemPrompt: string, userPrompt: string): Promise<T> => {
+const askDial = async <T extends Record<string, unknown>>(
+  systemPrompt: string,
+  userPrompt: string,
+): Promise<T> => {
   if (!process.env.DIAL_KEY) {
     throw new Error('DIAL_KEY is not set');
   }
@@ -55,11 +58,11 @@ const askDial = async <T extends Record<string, unknown>>(systemPrompt: string, 
         'Content-Length': Buffer.byteLength(body).toString(),
       },
       body,
-    }
+    },
   );
-  const json = await response.json() as DialResponse;
+  const json = (await response.json()) as DialResponse;
   const contentRaw = json.choices?.[0]?.message?.content;
-  const content = contentRaw ? JSON.parse(contentRaw) as T : null;
+  const content = contentRaw ? (JSON.parse(contentRaw) as T) : null;
 
   if (json.error) {
     throw new Error(json.error.message ?? 'Unknown DIAL error.');

@@ -7,7 +7,7 @@ type Case = [
     activityType: string;
     expectedSubject: string;
     expectedMood: string;
-  }
+  },
 ];
 
 describe('get-fallback-prompt', () => {
@@ -56,10 +56,10 @@ describe('get-fallback-prompt', () => {
     const result1 = getFallbackPrompt('Run');
     const result2 = getFallbackPrompt('Ride');
     const result3 = getFallbackPrompt('Swim');
-    
+
     const styles = [result1.style, result2.style, result3.style];
     const uniqueStyles = new Set(styles);
-    
+
     expect(uniqueStyles.size).toBeGreaterThanOrEqual(1);
     expect(uniqueStyles.size).toBeLessThanOrEqual(2);
   });

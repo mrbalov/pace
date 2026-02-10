@@ -7,7 +7,7 @@ type Case = [
   {
     signals: StravaActivitySignals;
     expectedMood: string;
-  }
+  },
 ];
 
 describe('select-mood', () => {

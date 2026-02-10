@@ -12,18 +12,10 @@ import Deferred from '../../components/Deferred';
  * @returns {JSX.Element} Activities page component
  */
 const ActivitiesPage = (): JSX.Element => {
-  const {
-    activities,
-    loading,
-    error,
-    isUnauthorized,
-    refetch,
-  } = useActivities();
+  const { activities, loading, error, isUnauthorized, refetch } = useActivities();
 
   return (
-    <Deferred
-      ready={!loading}
-      fallback={<Preloader message='Loading your activities...' />}>
+    <Deferred ready={!loading} fallback={<Preloader message="Loading your activities..." />}>
       {(() => {
         if (isUnauthorized) {
           return <Guest />;

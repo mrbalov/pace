@@ -7,7 +7,7 @@ import formatActivityType from './formatActivityType';
 interface ActivitiesListProps {
   activities: Activity[];
   generateImage: (activityId: number) => Promise<void>;
-};
+}
 
 /**
  * Activities list view.
@@ -16,20 +16,25 @@ interface ActivitiesListProps {
  * @param {Function} props.generateImage - Function to generate image for an activity.
  * @returns {JSX.Element} Activities list view.
  */
-const ActivitiesList = ({
-  activities,
-  generateImage,
-}: ActivitiesListProps) => (
+const ActivitiesList = ({ activities, generateImage }: ActivitiesListProps) =>
   activities.map((activity) => (
     <Grid xs={24} sm={12} md={8} key={activity.id}>
-      <Card width='100%' hoverable>
+      <Card width="100%" hoverable>
         <Card.Content>
           <Text h4>{activity.name}</Text>
-          <Text type='secondary' small>
+          <Text type="secondary" small>
             {formatActivityType(activity.type)}
           </Text>
           <Spacer h={0.5} />
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              gap: '0.75rem',
+              alignItems: 'center',
+            }}
+          >
             {activity.type && (
               <Text small>
                 <ActivityIcon size={14} /> {formatActivityType(activity.type)}
@@ -53,15 +58,15 @@ const ActivitiesList = ({
           </div>
         </Card.Content>
         <Card.Footer>
-          <Button 
-            type='success' 
-            width='100%' 
+          <Button
+            type="success"
+            width="100%"
             scale={0.8}
             icon={<Zap />}
             onClick={() => {
               generateImage(activity.id).catch(console.error);
             }}
-            placeholder='Generate Image'
+            placeholder="Generate Image"
             onPointerEnterCapture={() => undefined}
             onPointerLeaveCapture={() => undefined}
           >
@@ -70,7 +75,6 @@ const ActivitiesList = ({
         </Card.Footer>
       </Card>
     </Grid>
-  ))
-);
+  ));
 
 export default ActivitiesList;

@@ -29,7 +29,7 @@ const createCallbackErrorResponse = (config: ServerConfig): Response => {
  */
 const exchangeCodeAndCreateSuccessResponse = async (
   code: string,
-  config: ServerConfig
+  config: ServerConfig,
 ): Promise<Response> => {
   const tokens = await exchangeStravaAuthToken(code, {
     clientId: config.strava.clientId,
@@ -42,20 +42,20 @@ const exchangeCodeAndCreateSuccessResponse = async (
     // Ensure redirect URL is clean (no query parameters) to prevent exposing OAuth details
     const successRedirect = config.successRedirect ?? '/';
     const cleanRedirect = successRedirect.split('?')[0]; // Remove any existing query params
-    
+
     const redirectResponse = new Response(null, {
       status: 302,
       headers: {
         Location: cleanRedirect,
       },
     });
-  
+
     return setTokens(
       redirectResponse,
       tokens.access_token,
       tokens.refresh_token,
       tokens.expires_at,
-      config.cookies
+      config.cookies,
     );
   } else {
     throw new Error('Token exchange returned null');
@@ -70,7 +70,8 @@ const exchangeCodeAndCreateSuccessResponse = async (
  * @returns {Promise<Response>} Response with tokens or error redirect
  * @internal
  */
-const handleTokenExchange = async (code: string, config: ServerConfig): Promise<Response> => await exchangeCodeAndCreateSuccessResponse(code, config).catch((error) => {
+const handleTokenExchange = async (code: string, config: ServerConfig): Promise<Response> =>
+  await exchangeCodeAndCreateSuccessResponse(code, config).catch((error) => {
     console.error('Token exchange failed:', error);
     return createCallbackErrorResponse(config);
   });
@@ -105,7 +106,8 @@ const createParameterErrorResponse = (url: URL, config: ServerConfig): Response 
  * @returns {Response} Error response
  * @internal
  */
-const getCallbackErrorResponse = (url: URL, config: ServerConfig): Response => createParameterErrorResponse(url, config);
+const getCallbackErrorResponse = (url: URL, config: ServerConfig): Response =>
+  createParameterErrorResponse(url, config);
 
 /**
  * Gets success response after token exchange.
@@ -115,7 +117,8 @@ const getCallbackErrorResponse = (url: URL, config: ServerConfig): Response => c
  * @returns {Promise<Response>} Success response with tokens
  * @internal
  */
-const getCallbackSuccessResponse = async (code: string, config: ServerConfig): Promise<Response> => await handleTokenExchange(code, config);
+const getCallbackSuccessResponse = async (code: string, config: ServerConfig): Promise<Response> =>
+  await handleTokenExchange(code, config);
 
 /**
  * Gets the promise to await for callback response.
@@ -129,7 +132,7 @@ const getCallbackSuccessResponse = async (code: string, config: ServerConfig): P
 const getCallbackResponsePromise = (
   url: URL,
   code: string | null,
-  config: ServerConfig
+  config: ServerConfig,
 ): Promise<Response> => {
   const hasCode = code !== null;
   const promise = hasCode

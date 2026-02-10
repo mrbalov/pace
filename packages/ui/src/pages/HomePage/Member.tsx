@@ -7,7 +7,7 @@ import { Link } from 'wouter';
  * @returns {JSX.Element} Member view.
  */
 const Member = () => (
-  <Grid.Container gap={2} justify='center' alignItems='center' direction='column'>
+  <Grid.Container gap={2} justify="center" alignItems="center" direction="column">
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Text h1 style={{ color: '#d8a0c7' }}>
         Welcome to PACE!
@@ -16,22 +16,23 @@ const Member = () => (
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Text
         p
-        type='secondary'
+        type="secondary"
         style={{
           fontSize: '1.25rem',
           fontWeight: 'bold',
           lineHeight: '1.7',
         }}
       >
-        You're successfully connected to Strava. Review your activities and generate beautiful AI images for them!
+        You're successfully connected to Strava. Review your activities and generate beautiful AI
+        images for them!
       </Text>
     </Grid>
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
-      <Link href='/activities'>
+      <Link href="/activities">
         <Button
-          type='default'
+          type="default"
           icon={<ActivityIcon />}
-          placeholder='View Activities'
+          placeholder="View Activities"
           onPointerEnterCapture={() => undefined}
           onPointerLeaveCapture={() => undefined}
         >

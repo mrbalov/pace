@@ -18,9 +18,8 @@ export function useAuth() {
 
     if (error) {
       // Check if it's an auth error
-      const isAuthError = error.includes('Unauthorized') || 
-                         error.includes('Authentication') ||
-                         error.includes('401');
+      const isAuthError =
+        error.includes('Unauthorized') || error.includes('Authentication') || error.includes('401');
       setIsAuthenticated(!isAuthError && activities !== null);
     } else {
       // No error and activities loaded = authenticated

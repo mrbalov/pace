@@ -28,6 +28,7 @@ Single Page Application (SPA) UI package for PACE built with React, Vite, and Ge
 ```
 
 The UI package is a pure static site that:
+
 - Uses Vite for development and production builds
 - Makes API calls to `/packages/server` backend
 - Uses cookies automatically for authentication (via `credentials: 'include'`)
@@ -52,6 +53,7 @@ bun run dev
 ```
 
 Vite will start on `http://localhost:3001` with:
+
 - Hot Module Replacement (instant updates)
 - React Fast Refresh (preserves component state)
 - Proxy to backend API (no CORS issues in development)
@@ -186,6 +188,7 @@ The `netlify.toml` file is already configured for deployment:
 4. Add environment variable in Netlify dashboard: `VITE_API_URL=https://your-backend-url.com`
 
 The `netlify.toml` file includes:
+
 - SPA routing redirects (all routes → `index.html`)
 - Security headers
 - Static asset caching
@@ -216,10 +219,13 @@ The `netlify.toml` file includes:
 For client-side routing to work, configure your hosting service to serve `index.html` for all routes:
 
 - **Netlify**: Add `_redirects` file in `public/`:
+
   ```
   /*    /index.html   200
   ```
+
   Or configure in `netlify.toml`:
+
   ```toml
   [[redirects]]
     from = "/*"
@@ -228,6 +234,7 @@ For client-side routing to work, configure your hosting service to serve `index.
   ```
 
 - **Vercel**: Add `vercel.json`:
+
   ```json
   {
     "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
@@ -289,6 +296,7 @@ Requests to `/strava/auth` are automatically forwarded to `http://localhost:3000
 ## Type Safety
 
 TypeScript provides full type safety:
+
 - React component props
 - API response types
 - Environment variables (`VITE_API_URL`)
@@ -297,6 +305,7 @@ TypeScript provides full type safety:
 ## Bundle Size
 
 Approximate production bundle sizes (gzipped):
+
 - React + React DOM: ~45 KB
 - Geist UI: ~30 KB
 - Wouter: ~1 KB
@@ -316,6 +325,7 @@ Much smaller than many alternatives while maintaining great developer experience
 ### CORS Errors
 
 If you see CORS errors:
+
 1. **Development**: Vite proxy should handle this automatically. Check `vite.config.ts` proxy settings.
 2. **Production**: Verify `UI_ORIGIN` is set correctly in backend
 3. Check that backend CORS headers include your UI origin
@@ -373,10 +383,12 @@ Geist UI supports theming. You can customize the theme in `src/main.tsx`:
 ```tsx
 import { GeistProvider, CssBaseline } from '@geist-ui/core';
 
-<GeistProvider themeType="dark"> {/* or "light" */}
+<GeistProvider themeType="dark">
+  {' '}
+  {/* or "light" */}
   <CssBaseline />
   <App />
-</GeistProvider>
+</GeistProvider>;
 ```
 
 ### Adding New Routes

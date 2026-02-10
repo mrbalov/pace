@@ -3,7 +3,7 @@ import { Card, Button, Text, Grid, Spacer, Note } from '@geist-ui/core';
 interface ErrorProps {
   error: string;
   refetchActivities: () => void;
-};
+}
 
 /**
  * Error view.
@@ -15,14 +15,12 @@ interface ErrorProps {
 const Error = ({ error, refetchActivities }: ErrorProps) => (
   <Grid.Container gap={2}>
     <Grid xs={24} sm={20} md={16} lg={12} style={{ margin: '0 auto' }}>
-      <Card width='100%'>
+      <Card width="100%">
         <Card.Content>
-          <Note type='error' label='Error'>
-            <Text>
-              {error}
-            </Text>
+          <Note type="error" label="Error">
+            <Text>{error}</Text>
             <Spacer h={1} />
-            <Text type='secondary' small>
+            <Text type="secondary" small>
               We encountered an issue while fetching your activities. Please try again.
             </Text>
           </Note>
@@ -30,8 +28,8 @@ const Error = ({ error, refetchActivities }: ErrorProps) => (
         <Card.Footer>
           <Button
             onClick={refetchActivities}
-            width='100%'
-            placeholder='Try Again'
+            width="100%"
+            placeholder="Try Again"
             onPointerEnterCapture={() => undefined}
             onPointerLeaveCapture={() => undefined}
           >

@@ -1,7 +1,7 @@
 /**
  * Base API client with cookie-based authentication.
  * Communicates with /packages/server backend.
- * 
+ *
  * In development, uses relative URLs to leverage Vite proxy.
  * In production, uses VITE_API_URL if set, otherwise defaults to relative URLs.
  */
@@ -17,7 +17,10 @@ export class APIError extends Error {
    * @param {number} status - HTTP status code
    * @param {string} message - Error message
    */
-  constructor(public status: number, message: string) {
+  constructor(
+    public status: number,
+    message: string,
+  ) {
     super(message);
     this.name = 'APIError';
   }
@@ -29,10 +32,7 @@ export class APIError extends Error {
  * @param {RequestInit} [options] - Fetch options
  * @returns {Promise<T>} Response data
  */
-export async function apiRequest<T>(
-  endpoint: string,
-  options?: RequestInit
-): Promise<T> {
+export async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     credentials: 'include', // Include cookies
@@ -43,7 +43,10 @@ export async function apiRequest<T>(
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ error: response.statusText })) as { error?: string; message?: string };
+    const error = (await response.json().catch(() => ({ error: response.statusText }))) as {
+      error?: string;
+      message?: string;
+    };
     throw new APIError(response.status, error.error ?? error.message ?? 'Unknown error');
   }
 

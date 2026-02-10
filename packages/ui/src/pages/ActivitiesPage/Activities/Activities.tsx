@@ -65,9 +65,9 @@ const Activities = ({ activities }: ActivitiesProps) => {
 
     try {
       const response = await apiRequest<ImageGenerationResponse>(
-        `/activity-image-generator/${activityId}`
+        `/activity-image-generator/${activityId}`,
       );
-      
+
       if (response.image?.imageData) {
         setGeneratedImageData(response.image.imageData);
         setGeneratingImage(false);
@@ -98,7 +98,7 @@ const Activities = ({ activities }: ActivitiesProps) => {
 
       link.href = url;
       link.download = 'activity-image.png';
-      
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -119,18 +119,15 @@ const Activities = ({ activities }: ActivitiesProps) => {
   }, [currentActivityId, generateImage]);
 
   return (
-    <Grid.Container gap={2} width='100%' margin={0}>
+    <Grid.Container gap={2} width="100%" margin={0}>
       <Grid xs={24}>
         <Text h1>Your Last 30 Activities</Text>
       </Grid>
       {activities.length > 0 ? (
-        <ActivitiesList
-          activities={activities}
-          generateImage={generateImage}
-        />
+        <ActivitiesList activities={activities} generateImage={generateImage} />
       ) : (
         <Grid xs={24}>
-          <Note type='default' label='No Activities'>
+          <Note type="default" label="No Activities">
             You don't have any activities yet. Start tracking your workouts on Strava!
           </Note>
         </Grid>

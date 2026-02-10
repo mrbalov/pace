@@ -1,3 +1,3 @@
 export const ACTIVITIES: Record<string, string> = {
-  'weighttraining': 'Weight Training',
+  weighttraining: 'Weight Training',
 };

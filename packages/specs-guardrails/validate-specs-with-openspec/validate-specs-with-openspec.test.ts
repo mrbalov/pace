@@ -12,7 +12,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: string;
     expectedSuccess: boolean;
-  }
+  },
 ];
 
 describe('validate-specs-with-openspec', () => {
@@ -22,7 +22,7 @@ describe('validate-specs-with-openspec', () => {
     testState.tempDir = join(tmpdir(), `test-validate-specs-with-openspec-${Date.now()}`);
     await mkdir(testState.tempDir, { recursive: true });
     testState.originalSpawn = Bun.spawn;
-    
+
     // Mock existsSync to return true for any path ending with node_modules/.bin/openspec
     const actualFs = await import('node:fs');
     void mock.module('node:fs', () => ({
@@ -359,29 +359,32 @@ describe('validate-specs-with-openspec', () => {
       {
         rootDir: '/test/path',
         exitCode: 0,
-        stdout: '  \n  ' + JSON.stringify({
-          items: [],
-          summary: {
-            totals: {
-              items: 0,
-              passed: 0,
-              failed: 0,
-            },
-            byType: {
-              change: {
+        stdout:
+          '  \n  ' +
+          JSON.stringify({
+            items: [],
+            summary: {
+              totals: {
                 items: 0,
                 passed: 0,
                 failed: 0,
               },
-              spec: {
-                items: 0,
-                passed: 0,
-                failed: 0,
+              byType: {
+                change: {
+                  items: 0,
+                  passed: 0,
+                  failed: 0,
+                },
+                spec: {
+                  items: 0,
+                  passed: 0,
+                  failed: 0,
+                },
               },
             },
-          },
-          version: '1.0.0',
-        }) + '  \n  ',
+            version: '1.0.0',
+          }) +
+          '  \n  ',
         stderr: '',
         shouldThrow: false,
         expectedSuccess: true,
@@ -444,60 +447,71 @@ describe('validate-specs-with-openspec', () => {
         expectedSuccess: false,
       },
     ],
-  ])('%#. %s', async (_name, { rootDir, exitCode, stdout, stderr, shouldThrow, expectedError, expectedSuccess }) => {
-    const mockProc = {
-      stdout: new Response(stdout).body as ReadableStream,
-      stderr: new Response(stderr).body as ReadableStream,
-      exited: Promise.resolve(exitCode),
-    };
+  ])(
+    '%#. %s',
+    async (
+      _name,
+      { rootDir, exitCode, stdout, stderr, shouldThrow, expectedError, expectedSuccess },
+    ) => {
+      const mockProc = {
+        stdout: new Response(stdout).body as ReadableStream,
+        stderr: new Response(stderr).body as ReadableStream,
+        exited: Promise.resolve(exitCode),
+      };
 
-    Bun.spawn = mock(() => mockProc) as unknown as typeof Bun.spawn;
+      Bun.spawn = mock(() => mockProc) as unknown as typeof Bun.spawn;
 
-    // Re-import the function to get the mocked version
-    const { default: validateSpecsWithOpenspec } = await import('./validate-specs-with-openspec');
+      // Re-import the function to get the mocked version
+      const { default: validateSpecsWithOpenspec } = await import('./validate-specs-with-openspec');
 
-    if (shouldThrow) {
-      expect(validateSpecsWithOpenspec(rootDir)).rejects.toThrow(expectedError);
-    } else {
-      const result = await validateSpecsWithOpenspec(rootDir);
+      if (shouldThrow) {
+        expect(validateSpecsWithOpenspec(rootDir)).rejects.toThrow(expectedError);
+      } else {
+        const result = await validateSpecsWithOpenspec(rootDir);
 
-      expect(result.success).toStrictEqual(expectedSuccess);
-      expect(result.exitCode).toStrictEqual(exitCode);
-      expect(result.stderr).toStrictEqual(stderr.trim());
-      expect(result.version).toBeDefined();
-      expect(result.items).toBeDefined();
-      expect(result.summary).toBeDefined();
-    }
-  });
+        expect(result.success).toStrictEqual(expectedSuccess);
+        expect(result.exitCode).toStrictEqual(exitCode);
+        expect(result.stderr).toStrictEqual(stderr.trim());
+        expect(result.version).toBeDefined();
+        expect(result.items).toBeDefined();
+        expect(result.summary).toBeDefined();
+      }
+    },
+  );
 
   test('calls openspec with correct arguments', async () => {
-    const mockSpawn = mock(() => ({
-        stdout: new Response(JSON.stringify({
-          items: [],
-          summary: {
-            totals: {
-              items: 0,
-              passed: 0,
-              failed: 0,
-            },
-            byType: {
-              change: {
-                items: 0,
-                passed: 0,
-                failed: 0,
+    const mockSpawn = mock(
+      () =>
+        ({
+          stdout: new Response(
+            JSON.stringify({
+              items: [],
+              summary: {
+                totals: {
+                  items: 0,
+                  passed: 0,
+                  failed: 0,
+                },
+                byType: {
+                  change: {
+                    items: 0,
+                    passed: 0,
+                    failed: 0,
+                  },
+                  spec: {
+                    items: 0,
+                    passed: 0,
+                    failed: 0,
+                  },
+                },
               },
-              spec: {
-                items: 0,
-                passed: 0,
-                failed: 0,
-              },
-            },
-          },
-          version: '1.0.0',
-        })).body as ReadableStream,
-        stderr: new Response('').body as ReadableStream,
-        exited: Promise.resolve(0),
-      } as unknown));
+              version: '1.0.0',
+            }),
+          ).body as ReadableStream,
+          stderr: new Response('').body as ReadableStream,
+          exited: Promise.resolve(0),
+        }) as unknown,
+    );
 
     Bun.spawn = mockSpawn as typeof Bun.spawn;
 

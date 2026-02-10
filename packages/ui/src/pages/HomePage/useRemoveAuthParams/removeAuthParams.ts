@@ -1,10 +1,10 @@
-import { AUTH_PARAMS } from "./constants";
+import { AUTH_PARAMS } from './constants';
 
 /**
  * Removes OAuth callback parameters from URL.
  * Security: don't expose internal OAuth details.
  * @returns {void}
-*/
+ */
 const removeAuthParams = (): void => {
   // eslint-disable-next-line no-restricted-syntax
   let hasAuthParams = false;

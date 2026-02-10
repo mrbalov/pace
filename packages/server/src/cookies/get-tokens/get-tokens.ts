@@ -7,13 +7,17 @@ import { COOKIE_NAMES, type ServerTokenResult } from '../../types';
  * @returns {Record<string, string>} Parsed cookies object
  * @internal
  */
-const parseCookies = (cookieHeader: string): Record<string, string> => cookieHeader.split(';').reduce((acc, cookie) => {
-    const [key, value] = cookie.trim().split('=');
-    if (key && value) {
-      acc[key] = decodeURIComponent(value);
-    }
-    return acc;
-  }, {} as Record<string, string>);
+const parseCookies = (cookieHeader: string): Record<string, string> =>
+  cookieHeader.split(';').reduce(
+    (acc, cookie) => {
+      const [key, value] = cookie.trim().split('=');
+      if (key && value) {
+        acc[key] = decodeURIComponent(value);
+      }
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 
 /**
  * Extracts tokens from parsed cookies.
@@ -26,7 +30,8 @@ const extractTokensFromCookies = (cookies: Record<string, string>): ServerTokenR
   const accessToken = cookies[COOKIE_NAMES.ACCESS_TOKEN];
   const refreshToken = cookies[COOKIE_NAMES.REFRESH_TOKEN];
   const expiresAtStr = cookies[COOKIE_NAMES.TOKEN_EXPIRES_AT];
-  const hasAllTokens = accessToken !== undefined && refreshToken !== undefined && expiresAtStr !== undefined;
+  const hasAllTokens =
+    accessToken !== undefined && refreshToken !== undefined && expiresAtStr !== undefined;
 
   if (!hasAllTokens) {
     return null;

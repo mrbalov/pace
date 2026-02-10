@@ -11,7 +11,7 @@ type Case = [
     shouldSucceed: boolean;
     expectedAttempts?: number;
     expectedError?: StravaApiError;
-  }
+  },
 ];
 
 const createRetryableError = (): Error => {
@@ -101,22 +101,25 @@ describe('handle-retry', () => {
         expectedAttempts: 3,
       },
     ],
-  ])('%#. %s', async (_name, { fn, maxRetries, initialBackoffMs, shouldSucceed, expectedAttempts }) => {
-    const attemptCounter = { count: 0 };
-    const wrappedFn = async () => {
-      attemptCounter.count = attemptCounter.count + 1;
-      return await fn();
-    };
+  ])(
+    '%#. %s',
+    async (_name, { fn, maxRetries, initialBackoffMs, shouldSucceed, expectedAttempts }) => {
+      const attemptCounter = { count: 0 };
+      const wrappedFn = async () => {
+        attemptCounter.count = attemptCounter.count + 1;
+        return await fn();
+      };
 
-    if (shouldSucceed) {
-      const result = await handleRetry(wrappedFn, maxRetries, initialBackoffMs);
-      expect(result).toBe('success');
-      expect(attemptCounter.count).toBe(Number(expectedAttempts));
-    } else {
-      expect(async () => {
-        await handleRetry(wrappedFn, maxRetries, initialBackoffMs);
-      }).toThrow();
-      expect(attemptCounter.count).toBe(Number(expectedAttempts));
-    }
-  });
+      if (shouldSucceed) {
+        const result = await handleRetry(wrappedFn, maxRetries, initialBackoffMs);
+        expect(result).toBe('success');
+        expect(attemptCounter.count).toBe(Number(expectedAttempts));
+      } else {
+        expect(async () => {
+          await handleRetry(wrappedFn, maxRetries, initialBackoffMs);
+        }).toThrow();
+        expect(attemptCounter.count).toBe(Number(expectedAttempts));
+      }
+    },
+  );
 });

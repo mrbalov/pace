@@ -15,7 +15,7 @@ import getAuthHeaders from '../get-auth-headers';
 const createActivityError = (
   code: StravaApiError['code'],
   message: string,
-  retryable: boolean = false
+  retryable: boolean = false,
 ): Error => {
   const error: StravaApiError = {
     code,
@@ -41,11 +41,7 @@ const fetchApiResponse = async (url: string, headers: HeadersInit): Promise<Resp
       headers,
     });
   } catch {
-    throw createActivityError(
-      'NETWORK_ERROR',
-      'Failed to connect to Strava API',
-      true
-    );
+    throw createActivityError('NETWORK_ERROR', 'Failed to connect to Strava API', true);
   }
 };
 
@@ -64,7 +60,7 @@ const parseApiJsonData = async (response: Response): Promise<StravaActivity> => 
     throw createActivityError(
       'MALFORMED_RESPONSE',
       'Invalid response format from Strava API',
-      false
+      false,
     );
   }
 };
@@ -109,18 +105,14 @@ const fetchFromApi = async (
   const response = await fetchApiResponse(url, headers);
 
   if (response.status === 404) {
-    throw createActivityError(
-      'NOT_FOUND',
-      'Activity not found',
-      false
-    );
+    throw createActivityError('NOT_FOUND', 'Activity not found', false);
   }
 
   if (response.status === 401) {
     throw createActivityError(
       'UNAUTHORIZED',
       'Authentication failed. Token may be expired or invalid.',
-      false
+      false,
     );
   }
 
@@ -128,7 +120,7 @@ const fetchFromApi = async (
     throw createActivityError(
       'FORBIDDEN',
       'Insufficient permissions to access this activity',
-      false
+      false,
     );
   }
 
@@ -136,7 +128,7 @@ const fetchFromApi = async (
     const error = createActivityError(
       'RATE_LIMITED',
       'Rate limit exceeded. Please try again later.',
-      true
+      true,
     );
     // Store cloned response in error for rate limit handling (clone to preserve headers)
     const errorWithResponse = error as Error & { response: Response };
@@ -145,19 +137,11 @@ const fetchFromApi = async (
   }
 
   if (response.status >= 500) {
-    throw createActivityError(
-      'SERVER_ERROR',
-      'Strava API server error',
-      true
-    );
+    throw createActivityError('SERVER_ERROR', 'Strava API server error', true);
   }
 
   if (!response.ok) {
-    throw createActivityError(
-      'SERVER_ERROR',
-      `Unexpected API error: ${response.status}`,
-      false
-    );
+    throw createActivityError('SERVER_ERROR', `Unexpected API error: ${response.status}`, false);
   }
 
   const jsonData = await parseApiJsonData(response);

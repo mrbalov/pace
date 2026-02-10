@@ -17,7 +17,7 @@ import { CONFIG } from '../../constants';
  */
 const classifyElevation = (activity: StravaActivity): 'flat' | 'rolling' | 'mountainous' => {
   const elevationGain = activity.total_elevation_gain;
-  
+
   const result = (() => {
     if (elevationGain === undefined) {
       return 'flat';
@@ -29,7 +29,7 @@ const classifyElevation = (activity: StravaActivity): 'flat' | 'rolling' | 'moun
       return 'rolling';
     }
   })();
-  
+
   return result;
 };
 

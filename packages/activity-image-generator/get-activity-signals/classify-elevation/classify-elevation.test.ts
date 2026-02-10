@@ -7,7 +7,7 @@ type Case = [
   {
     activity: StravaActivity;
     expectedElevation: 'flat' | 'rolling' | 'mountainous';
-  }
+  },
 ];
 
 describe('classify-elevation', () => {

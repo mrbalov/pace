@@ -8,10 +8,7 @@ import { COOKIE_NAMES } from '../../types';
  * @param {ServerConfig['cookies']} cookieConfig - Cookie configuration
  * @returns {Response} Response with Set-Cookie headers to clear cookies
  */
-const clearTokens = (
-  response: Response,
-  cookieConfig: ServerConfig['cookies']
-): Response => {
+const clearTokens = (response: Response, cookieConfig: ServerConfig['cookies']): Response => {
   const cookieOptions: string[] = [];
 
   if (cookieConfig.domain) {
@@ -35,11 +32,17 @@ const clearTokens = (
 
   // Clone response to add headers
   const newResponse = response.clone();
-  
+
   // Clear all three token cookies
   newResponse.headers.append('Set-Cookie', `${COOKIE_NAMES.ACCESS_TOKEN}=; ${cookieOptionsString}`);
-  newResponse.headers.append('Set-Cookie', `${COOKIE_NAMES.REFRESH_TOKEN}=; ${cookieOptionsString}`);
-  newResponse.headers.append('Set-Cookie', `${COOKIE_NAMES.TOKEN_EXPIRES_AT}=; ${cookieOptionsString}`);
+  newResponse.headers.append(
+    'Set-Cookie',
+    `${COOKIE_NAMES.REFRESH_TOKEN}=; ${cookieOptionsString}`,
+  );
+  newResponse.headers.append(
+    'Set-Cookie',
+    `${COOKIE_NAMES.TOKEN_EXPIRES_AT}=; ${cookieOptionsString}`,
+  );
 
   return newResponse;
 };

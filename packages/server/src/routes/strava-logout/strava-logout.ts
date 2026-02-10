@@ -12,15 +12,12 @@ import clearTokens from '../../cookies/clear-tokens';
  */
 const stravaLogout = (request: Request, config: ServerConfig): Response => {
   // Create success response
-  const response = new Response(
-    JSON.stringify({ message: 'Logged out successfully' }),
-    {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  const response = new Response(JSON.stringify({ message: 'Logged out successfully' }), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
   // Clear all token cookies
   return clearTokens(response, config.cookies);

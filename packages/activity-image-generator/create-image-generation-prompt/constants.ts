@@ -1,4 +1,4 @@
-import { StravaActivityImagePrompt } from "../types";
+import { StravaActivityImagePrompt } from '../types';
 
 export const DEFAULT_PROMPT: StravaActivityImagePrompt = {
   style: 'minimal',

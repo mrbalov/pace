@@ -7,7 +7,7 @@ type Case = [
   {
     signals: StravaActivitySignals;
     expectedStyle: 'cartoon' | 'minimal' | 'abstract' | 'illustrated';
-  }
+  },
 ];
 
 describe('select-style', () => {

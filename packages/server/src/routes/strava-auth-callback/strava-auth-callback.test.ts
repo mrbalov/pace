@@ -40,10 +40,12 @@ describe('stravaAuthCallback', () => {
     };
 
     globalThis.fetch = (() =>
-      Promise.resolve(new Response(JSON.stringify(mockTokens), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      }))) as unknown as typeof fetch;
+      Promise.resolve(
+        new Response(JSON.stringify(mockTokens), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      )) as unknown as typeof fetch;
 
     const request = new Request('http://localhost:3000/strava/auth/callback?code=auth-code-123');
     const response = await stravaAuthCallback(request, mockConfig);
@@ -84,9 +86,11 @@ describe('stravaAuthCallback', () => {
 
   test('redirects to error page when token exchange fails', async () => {
     globalThis.fetch = (() =>
-      Promise.resolve(new Response('Unauthorized', {
-        status: 401,
-      }))) as unknown as typeof fetch;
+      Promise.resolve(
+        new Response('Unauthorized', {
+          status: 401,
+        }),
+      )) as unknown as typeof fetch;
 
     const request = new Request('http://localhost:3000/strava/auth/callback?code=invalid-code');
     const response = await stravaAuthCallback(request, mockConfig);

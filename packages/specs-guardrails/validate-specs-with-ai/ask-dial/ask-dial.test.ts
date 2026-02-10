@@ -11,7 +11,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: string;
     expectedResult?: any;
-  }
+  },
 ];
 
 describe('ask-dial', () => {
@@ -224,10 +224,7 @@ describe('ask-dial', () => {
                   validated_scope: 'FULL_SPECIFICATION_SET',
                   result: 'VALID',
                   spec_count: 5,
-                  notes: [
-                    'Note 1',
-                    'Note 2',
-                  ],
+                  notes: ['Note 1', 'Note 2'],
                   violations: [],
                 }),
               },
@@ -239,10 +236,7 @@ describe('ask-dial', () => {
           validated_scope: 'FULL_SPECIFICATION_SET',
           result: 'VALID',
           spec_count: 5,
-          notes: [
-            'Note 1',
-            'Note 2',
-          ],
+          notes: ['Note 1', 'Note 2'],
           violations: [],
         },
       },
@@ -266,27 +260,41 @@ describe('ask-dial', () => {
         expectedError: undefined,
       },
     ],
-  ])('%#. %s', async (_name, { systemPrompt, userPrompt, dialKey, responseBody, shouldThrow, expectedError, expectedResult }) => {
-    if (dialKey) {
-      process.env.DIAL_KEY = dialKey;
-    } else {
-      delete process.env.DIAL_KEY;
-    }
+  ])(
+    '%#. %s',
+    async (
+      _name,
+      {
+        systemPrompt,
+        userPrompt,
+        dialKey,
+        responseBody,
+        shouldThrow,
+        expectedError,
+        expectedResult,
+      },
+    ) => {
+      if (dialKey) {
+        process.env.DIAL_KEY = dialKey;
+      } else {
+        delete process.env.DIAL_KEY;
+      }
 
-    global.fetch = mock(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(responseBody),
-      } as Response)
-    ) as typeof fetch;
+      global.fetch = mock(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(responseBody),
+        } as Response),
+      ) as typeof fetch;
 
-    if (shouldThrow) {
-      expect(askDial(systemPrompt, userPrompt)).rejects.toThrow(expectedError);
-    } else {
-      const result = await askDial(systemPrompt, userPrompt);
+      if (shouldThrow) {
+        expect(askDial(systemPrompt, userPrompt)).rejects.toThrow(expectedError);
+      } else {
+        const result = await askDial(systemPrompt, userPrompt);
 
-      expect(result).toStrictEqual(expectedResult as Record<string, unknown>);
-    }
-  });
+        expect(result).toStrictEqual(expectedResult as Record<string, unknown>);
+      }
+    },
+  );
 
   test('sends correct request to DIAL API', async () => {
     process.env.DIAL_KEY = 'test-key';
@@ -303,7 +311,7 @@ describe('ask-dial', () => {
               },
             ],
           }),
-      } as Response)
+      } as Response),
     ) as typeof fetch;
 
     global.fetch = mockFetch;
@@ -345,7 +353,10 @@ describe('ask-dial', () => {
 
     await askDial('Test system', 'Test user');
 
-    const bodyValue = requestBodyState.value as { messages: { role: string; content: string }[]; temperature: number };
+    const bodyValue = requestBodyState.value as {
+      messages: { role: string; content: string }[];
+      temperature: number;
+    };
     expect(bodyValue.messages).toHaveLength(2);
     expect(bodyValue.messages[0]).toStrictEqual({
       role: 'system',

@@ -16,14 +16,16 @@ import { StravaActivitySignals } from '../../types';
  * @param {StravaActivitySignals} signals - Activity signals to base style selection on
  * @returns {'cartoon' | 'minimal' | 'abstract' | 'illustrated'} Selected visual style
  */
-const selectStyle = (signals: StravaActivitySignals): 'cartoon' | 'minimal' | 'abstract' | 'illustrated' => {
+const selectStyle = (
+  signals: StravaActivitySignals,
+): 'cartoon' | 'minimal' | 'abstract' | 'illustrated' => {
   const hasRecoveryTag = signals.tags.includes('recovery') || signals.tags.includes('easy');
   const isFoggy = signals.weather === 'foggy';
   const isMountainous = signals.elevation === 'mountainous';
   const isHighIntensity = signals.intensity === 'high';
   const highIntensityActivities = ['Run', 'Ride', 'TrailRun'];
   const isHighIntensityActivity = highIntensityActivities.includes(signals.activityType);
-  
+
   const result = (() => {
     if (hasRecoveryTag) {
       return 'minimal';
@@ -37,7 +39,7 @@ const selectStyle = (signals: StravaActivitySignals): 'cartoon' | 'minimal' | 'a
       return 'cartoon';
     }
   })();
-  
+
   return result;
 };
 

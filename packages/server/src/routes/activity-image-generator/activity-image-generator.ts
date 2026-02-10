@@ -1,5 +1,9 @@
 import { fetchStravaActivity, type StravaApiConfig } from '@pace/strava-api';
-import { getActivitySignals, createActivityImageGenerationPrompt, generateImage } from '@pace/activity-image-generator';
+import {
+  getActivitySignals,
+  createActivityImageGenerationPrompt,
+  generateImage,
+} from '@pace/activity-image-generator';
 import { getTokens } from '../../cookies';
 import type { ServerConfig, ServerTokenResult } from '../../types';
 import { ERROR_CODES, ERROR_MESSAGES, STATUS_CODES } from './constants';
@@ -13,7 +17,10 @@ import env from '../../env';
  * @returns {StravaApiConfig} Strava API configuration.
  * @internal
  */
-const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): StravaApiConfig => ({
+const createActivityConfig = (
+  tokens: ServerTokenResult,
+  config: ServerConfig,
+): StravaApiConfig => ({
   accessToken: tokens.accessToken,
   refreshToken: tokens.refreshToken,
   clientId: config.strava.clientId,
@@ -26,7 +33,7 @@ const createActivityConfig = (tokens: ServerTokenResult, config: ServerConfig): 
  * @returns {Response} 401 Unauthorized response.
  * @internal
  */
-const createUnauthorizedResponse = (): Response => (
+const createUnauthorizedResponse = (): Response =>
   new Response(
     JSON.stringify({
       error: 'Unauthorized',
@@ -37,9 +44,8 @@ const createUnauthorizedResponse = (): Response => (
       headers: {
         'Content-Type': 'application/json',
       },
-    }
-  )
-);
+    },
+  );
 
 /**
  * Determines status code and error message from activity error code.
@@ -51,7 +57,7 @@ const createUnauthorizedResponse = (): Response => (
  */
 const determineErrorDetails = (
   code: string | undefined,
-  message: string | undefined
+  message: string | undefined,
 ): { statusCode: number; errorMessage: string } => {
   switch (code) {
     case ERROR_CODES.NOT_FOUND:
@@ -115,7 +121,7 @@ const createErrorResponse = (error: Error): Response => {
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
 };
 
@@ -168,7 +174,7 @@ const processActivityAndCreateResponse = async (
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
 };
 
@@ -178,7 +184,8 @@ const processActivityAndCreateResponse = async (
  * @returns {Response} 400 Bad Request response
  * @internal
  */
-const createBadRequestResponse = (): Response => new Response(
+const createBadRequestResponse = (): Response =>
+  new Response(
     JSON.stringify({
       error: 'Bad Request',
       message: ERROR_MESSAGES.ACTIVITY_ID_REQUIRED,
@@ -188,7 +195,7 @@ const createBadRequestResponse = (): Response => new Response(
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
 
 /**
@@ -203,7 +210,7 @@ const createBadRequestResponse = (): Response => new Response(
 const handleActivityProcessing = async (
   activityId: string,
   tokens: ServerTokenResult,
-  config: ServerConfig
+  config: ServerConfig,
 ): Promise<Response> => {
   try {
     return await processActivityAndCreateResponse(activityId, tokens, config);
@@ -224,7 +231,10 @@ const handleActivityProcessing = async (
  * @param {ServerConfig} config - Server configuration.
  * @returns {Promise<Response>} JSON response with activity, signals, prompt, and image data or error.
  */
-const activityImageGenerator = async (request: Request, config: ServerConfig): Promise<Response> => {
+const activityImageGenerator = async (
+  request: Request,
+  config: ServerConfig,
+): Promise<Response> => {
   const url = new URL(request.url);
   const pathname = url.pathname;
   const pathParts = pathname.split('/').filter((part) => part !== '');

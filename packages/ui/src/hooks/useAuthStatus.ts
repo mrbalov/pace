@@ -26,7 +26,7 @@ export const useAuthStatus = (): UseAuthStatusResult => {
       setLoading(true);
       const startTime = Date.now();
       const MIN_LOADING_TIME = 400; // Minimum 400ms for smooth transition
-      
+
       try {
         await apiRequest<{ authenticated: boolean }>('/strava/auth/status');
         setIsAuthenticated(true);

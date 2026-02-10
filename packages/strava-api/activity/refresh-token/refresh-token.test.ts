@@ -10,7 +10,7 @@ type Case = [
     shouldThrow: boolean;
     expectedError?: StravaApiError;
     expectedToken?: string;
-  }
+  },
 ];
 
 const parseError = (error: Error): StravaApiError => {
@@ -44,7 +44,7 @@ describe('refresh-token', () => {
             access_token: 'new-access-token-456',
             refresh_token: 'new-refresh-token-789',
           }),
-          { status: 200 }
+          { status: 200 },
         ),
         shouldThrow: false,
         expectedToken: 'new-access-token-456',
@@ -166,7 +166,7 @@ describe('refresh-token', () => {
           JSON.stringify({
             refresh_token: 'new-refresh-token',
           }),
-          { status: 200 }
+          { status: 200 },
         ),
         shouldThrow: true,
         expectedError: {
@@ -176,32 +176,35 @@ describe('refresh-token', () => {
         },
       },
     ],
-  ])('%#. %s', async (_name, { config, mockResponse, shouldThrow, expectedError, expectedToken }) => {
-    if (mockResponse instanceof Error) {
-      // @ts-expect-error - mockResponse is an Error
-      globalThis.fetch = () => {
-        throw mockResponse;
-      };
-    } else {
-      // @ts-expect-error - mockResponse is a Response
-      globalThis.fetch = () => Promise.resolve(mockResponse);
-    }
-
-    if (shouldThrow) {
-      expect(async () => {
-        await refreshToken(config);
-      }).toThrow();
-
-      try {
-        await refreshToken(config);
-      } catch (error) {
-        const parsedError = parseError(error as Error);
-        expect(parsedError.code).toStrictEqual(expectedError!.code);
-        expect(parsedError.message).toStrictEqual(expectedError!.message);
+  ])(
+    '%#. %s',
+    async (_name, { config, mockResponse, shouldThrow, expectedError, expectedToken }) => {
+      if (mockResponse instanceof Error) {
+        // @ts-expect-error - mockResponse is an Error
+        globalThis.fetch = () => {
+          throw mockResponse;
+        };
+      } else {
+        // @ts-expect-error - mockResponse is a Response
+        globalThis.fetch = () => Promise.resolve(mockResponse);
       }
-    } else {
-      const result = await refreshToken(config);
-      expect(result).toBe(String(expectedToken));
-    }
-  });
+
+      if (shouldThrow) {
+        expect(async () => {
+          await refreshToken(config);
+        }).toThrow();
+
+        try {
+          await refreshToken(config);
+        } catch (error) {
+          const parsedError = parseError(error as Error);
+          expect(parsedError.code).toStrictEqual(expectedError!.code);
+          expect(parsedError.message).toStrictEqual(expectedError!.message);
+        }
+      } else {
+        const result = await refreshToken(config);
+        expect(result).toBe(String(expectedToken));
+      }
+    },
+  );
 });

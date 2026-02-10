@@ -15,7 +15,7 @@ interface AppProps {
 
 /**
  * Main application component with routing.
- * 
+ *
  * @param {AppProps} props - Component props.
  * @param {Function} props.onThemeChange - Callback to change theme.
  * @returns {JSX.Element} Main app component with routing.
@@ -34,12 +34,12 @@ const App = ({ onThemeChange }: AppProps) => (
       margin: '0 auto',
       padding: '0 16px',
       boxSizing: 'border-box',
-    }}  
+    }}
   >
     <Header onThemeChange={onThemeChange} />
     <main
-      aria-live='polite'
-      role='main'
+      aria-live="polite"
+      role="main"
       style={{
         width: '100%',
         minHeight: 'calc(100vh - 170px)', // Adjust for header and footer height
@@ -49,8 +49,8 @@ const App = ({ onThemeChange }: AppProps) => (
       <Suspense fallback={<Preloader />}>
         <Router>
           <Switch>
-            <Route path='/' component={HomePageLazy} />
-            <Route path='/activities' component={ActivitiesPageLazy} />
+            <Route path="/" component={HomePageLazy} />
+            <Route path="/activities" component={ActivitiesPageLazy} />
             <Route>404 - Page Not Found</Route>
           </Switch>
         </Router>

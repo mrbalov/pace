@@ -8,12 +8,7 @@ import { authorizeStrava } from '../../api/strava';
  * @returns {JSX.Element} Guest view.
  */
 const Guest = () => (
-  <Grid.Container
-    gap={2}
-    justify='center'
-    alignItems='center'
-    direction='column'
-  >
+  <Grid.Container gap={2} justify="center" alignItems="center" direction="column">
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Text h1 style={{ color: '#d8a0c7' }}>
         Welcome to PACE!
@@ -22,22 +17,27 @@ const Guest = () => (
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Text
         p
-        type='secondary'
+        type="secondary"
         style={{
           fontSize: '1.25rem',
           fontWeight: 'bold',
           lineHeight: '1.7',
         }}
       >
-        <strong>PACE</strong> is a <span style={{ fontWeight: 'bold', color: '#d8a0c7', letterSpacing: '0.3px' }}>Personal Activity Canvas Engine</span>. It helps you create beautiful visualizations of your athletic activities. Connect your Strava account to get started and transform your workout data into stunning images!
+        <strong>PACE</strong> is a{' '}
+        <span style={{ fontWeight: 'bold', color: '#d8a0c7', letterSpacing: '0.3px' }}>
+          Personal Activity Canvas Engine
+        </span>
+        . It helps you create beautiful visualizations of your athletic activities. Connect your
+        Strava account to get started and transform your workout data into stunning images!
       </Text>
     </Grid>
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Button
-        type='default'
+        type="default"
         icon={<ActivityIcon />}
         onClick={authorizeStrava}
-        placeholder='Authorize with Strava'
+        placeholder="Authorize with Strava"
         onPointerEnterCapture={() => undefined}
         onPointerLeaveCapture={() => undefined}
       >

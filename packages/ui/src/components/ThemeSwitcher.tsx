@@ -15,10 +15,7 @@ interface ThemeSwitcherProps {
  * @param {Function} root0.onThemeChange - Callback to change theme
  * @returns {JSX.Element} Theme switcher button
  */
-export default function ThemeSwitcher({
-  className,
-  onThemeChange,
-}: ThemeSwitcherProps) {
+export default function ThemeSwitcher({ className, onThemeChange }: ThemeSwitcherProps) {
   const theme = useTheme();
 
   /**
@@ -33,14 +30,14 @@ export default function ThemeSwitcher({
   return (
     <Button
       auto
-      type='default'
+      type="default"
       scale={0.6}
       icon={theme.type === 'dark' ? <Sun /> : <Moon />}
       onClick={toggleTheme}
       className={className}
       aria-label={`Switch to ${theme.type === 'dark' ? 'light' : 'dark'} mode`}
       title={`Switch to ${theme.type === 'dark' ? 'light' : 'dark'} mode`}
-      placeholder='Toggle Theme'
+      placeholder="Toggle Theme"
       onPointerEnterCapture={() => undefined}
       onPointerLeaveCapture={() => undefined}
     />

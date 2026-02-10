@@ -40,7 +40,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(401);
-    const body = await response.json() as { error: string; message: string };
+    const body = (await response.json()) as { error: string; message: string };
     expect(body.error).toBe('Unauthorized');
     expect(body.message).toBe('Authentication required. Please authenticate with Strava.');
   });
@@ -83,7 +83,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(200);
-    const body = await response.json() as StravaActivity[];
+    const body = (await response.json()) as StravaActivity[];
     expect(Array.isArray(body)).toBe(true);
     expect(body.length).toBe(2);
     expect(body[0].id).toBe(123456);
@@ -94,11 +94,13 @@ describe('stravaActivities', () => {
 
   test('returns 403 when insufficient permissions', async () => {
     const { default: stravaActivities } = await import('./strava-activities');
-    const error = new Error(JSON.stringify({
-      code: 'FORBIDDEN',
-      message: 'Insufficient permissions to access activities',
-      retryable: false,
-    }));
+    const error = new Error(
+      JSON.stringify({
+        code: 'FORBIDDEN',
+        message: 'Insufficient permissions to access activities',
+        retryable: false,
+      }),
+    );
     mockFetchStravaActivities.mockRejectedValue(error);
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
@@ -110,17 +112,19 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(403);
-    const body = await response.json() as { error: string };
+    const body = (await response.json()) as { error: string };
     expect(body.error).toBe('Insufficient permissions to access activities');
   });
 
   test('returns 429 when rate limited', async () => {
     const { default: stravaActivities } = await import('./strava-activities');
-    const error = new Error(JSON.stringify({
-      code: 'RATE_LIMITED',
-      message: 'Rate limit exceeded. Please try again later.',
-      retryable: true,
-    }));
+    const error = new Error(
+      JSON.stringify({
+        code: 'RATE_LIMITED',
+        message: 'Rate limit exceeded. Please try again later.',
+        retryable: true,
+      }),
+    );
     mockFetchStravaActivities.mockRejectedValue(error);
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
@@ -132,17 +136,19 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(429);
-    const body = await response.json() as { error: string };
+    const body = (await response.json()) as { error: string };
     expect(body.error).toBe('Rate limit exceeded. Please try again later.');
   });
 
   test('returns 500 when server error occurs', async () => {
     const { default: stravaActivities } = await import('./strava-activities');
-    const error = new Error(JSON.stringify({
-      code: 'SERVER_ERROR',
-      message: 'Strava API server error',
-      retryable: true,
-    }));
+    const error = new Error(
+      JSON.stringify({
+        code: 'SERVER_ERROR',
+        message: 'Strava API server error',
+        retryable: true,
+      }),
+    );
     mockFetchStravaActivities.mockRejectedValue(error);
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
@@ -154,17 +160,19 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(500);
-    const body = await response.json() as { error: string };
+    const body = (await response.json()) as { error: string };
     expect(body.error).toBe('Strava API server error');
   });
 
   test('handles network errors gracefully', async () => {
     const { default: stravaActivities } = await import('./strava-activities');
-    const error = new Error(JSON.stringify({
-      code: 'NETWORK_ERROR',
-      message: 'Failed to connect to Strava API',
-      retryable: true,
-    }));
+    const error = new Error(
+      JSON.stringify({
+        code: 'NETWORK_ERROR',
+        message: 'Failed to connect to Strava API',
+        retryable: true,
+      }),
+    );
     mockFetchStravaActivities.mockRejectedValue(error);
 
     const cookies = `${COOKIE_NAMES.ACCESS_TOKEN}=test-access-token; ${COOKIE_NAMES.REFRESH_TOKEN}=test-refresh-token; ${COOKIE_NAMES.TOKEN_EXPIRES_AT}=1234567890`;
@@ -176,7 +184,7 @@ describe('stravaActivities', () => {
     const response = await stravaActivities(request, mockConfig);
 
     expect(response.status).toBe(500);
-    const body = await response.json() as { error: string };
+    const body = (await response.json()) as { error: string };
     expect(body.error).toBe('Failed to connect to Strava API');
   });
 });

@@ -27,20 +27,20 @@ const KNOWN_TAGS = [
  */
 const extractTagSignals = (activity: StravaActivity): string[] => {
   const tags: string[] = [];
-  
+
   // Strava API doesn't directly expose tags in the base activity response
   // Tags might be available in extended metadata or user-provided descriptions
   // For now, we'll check common tag indicators in the activity data
-  
+
   // Check commute flag
   if (activity.commute === true) {
     tags.push('commute');
   }
-  
+
   // Check workout type (Strava uses numeric codes)
   // Workout type 10 = Race, but this is activity-specific
   // We'll rely on other indicators for now
-  
+
   // Future enhancement: parse tags from description or extended metadata
   // if (activity.description) {
   //   const desc = activity.description.toLowerCase();
@@ -50,12 +50,12 @@ const extractTagSignals = (activity: StravaActivity): string[] => {
   //     }
   //   });
   // }
-  
+
   // Normalize tags to lowercase and filter to known tags
   const normalizedTags = tags
     .map((tag) => tag.toLowerCase().trim())
-    .filter((tag) => KNOWN_TAGS.includes(tag as typeof KNOWN_TAGS[number]));
-  
+    .filter((tag) => KNOWN_TAGS.includes(tag as (typeof KNOWN_TAGS)[number]));
+
   return normalizedTags;
 };
 

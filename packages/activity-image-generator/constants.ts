@@ -23,7 +23,7 @@ export const CONFIG = {
   /** Valid heart rate range (beats per minute). */
   HEART_RATE_MIN: 40,
   HEART_RATE_MAX: 220,
-  
+
   /** Intensity classification thresholds. */
   INTENSITY: {
     /** Low intensity threshold for pace (seconds per km). */
@@ -35,7 +35,7 @@ export const CONFIG = {
     /** High intensity threshold for heart rate (bpm). */
     HIGH_HR_THRESHOLD: 160,
   },
-  
+
   /** Elevation classification thresholds (meters). */
   ELEVATION: {
     /** Flat terrain threshold. */
@@ -43,7 +43,7 @@ export const CONFIG = {
     /** Rolling terrain threshold. */
     ROLLING_THRESHOLD: 500,
   },
-  
+
   /** Time of day classification. */
   TIME_OF_DAY: {
     /** Morning start hour (0-23). */

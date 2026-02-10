@@ -19,21 +19,15 @@ const stravaAuthStatus = (request: Request, _config: ServerConfig): Response => 
   const hasTokens = tokens !== null;
 
   if (!hasTokens) {
-    return new Response(
-      JSON.stringify({ authenticated: false }),
-      {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    return new Response(JSON.stringify({ authenticated: false }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } else {
-    return new Response(
-      JSON.stringify({ authenticated: true }),
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    return new Response(JSON.stringify({ authenticated: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 };
 

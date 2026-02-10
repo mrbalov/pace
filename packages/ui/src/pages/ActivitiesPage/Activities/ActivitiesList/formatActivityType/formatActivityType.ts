@@ -1,4 +1,4 @@
-import { ACTIVITIES } from "./constants";
+import { ACTIVITIES } from './constants';
 
 /**
  * Formats activity type to a friendly display name.
@@ -14,7 +14,7 @@ const formatActivityType = (type: string): string => {
   } else {
     return type
       .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   }
 };

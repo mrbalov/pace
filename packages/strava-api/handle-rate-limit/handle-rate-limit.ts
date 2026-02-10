@@ -33,7 +33,11 @@ const handleRateLimit = async (response: Response): Promise<void> => {
   if (retryAfterHeader !== null) {
     const retryAfterSeconds = Number.parseFloat(retryAfterHeader);
 
-    if (!Number.isNaN(retryAfterSeconds) && Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0) {
+    if (
+      !Number.isNaN(retryAfterSeconds) &&
+      Number.isFinite(retryAfterSeconds) &&
+      retryAfterSeconds > 0
+    ) {
       const waitMs = Math.ceil(retryAfterSeconds * 1000);
       await Bun.sleep(waitMs);
       return;
@@ -47,7 +51,12 @@ const handleRateLimit = async (response: Response): Promise<void> => {
     const limit = Number.parseInt(rateLimitLimit, 10);
     const usage = Number.parseInt(rateLimitUsage, 10);
 
-    if (!Number.isNaN(limit) && !Number.isNaN(usage) && Number.isFinite(limit) && Number.isFinite(usage)) {
+    if (
+      !Number.isNaN(limit) &&
+      !Number.isNaN(usage) &&
+      Number.isFinite(limit) &&
+      Number.isFinite(usage)
+    ) {
       if (usage >= limit) {
         const windowMs = 15 * 60 * 1000;
         await Bun.sleep(windowMs);

@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Test All Packages
+    name: Test All Packages (Bun Test Runner)
     runs-on: ubuntu-latest
 
     permissions:
@@ -34,7 +34,7 @@ jobs:
         run: bun run test
 
   lint:
-    name: Lint All Packages
+    name: Lint All Packages (Eslint)
     runs-on: ubuntu-latest
 
     permissions:
@@ -59,6 +59,28 @@ jobs:
 
       - name: Run linting
         run: bun run lint
+
+  format:
+    name: Check Formatting (Prettier)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dev dependencies
+        run: bun install --only dev
+
+      - name: Check formatting
+        run: bun run prettier --check "packages/**/*.{ts,tsx,js,json,md}"
 
   build-ui:
     name: Build UI Package (Test)

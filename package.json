@@ -1,6 +1,6 @@
 {
   "name": "pace",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Generates AI images based on Strava activity data.",
   "type": "module",
   "private": true,
@@ -8,10 +8,13 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
+    "prepare": "husky",
     "clean": "rm -rf dist",
     "test": "bun test packages",
     "lint": "eslint packages",
     "lint:fix": "eslint packages --fix",
+    "format": "prettier --write packages",
+    "format:check": "prettier --check packages",
     "validate-specs:ai": "bun run --filter @pace/specs-guardrails validate-specs:ai -- --rootDir $(pwd) --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md",
     "validate-specs:openspec": "bun run --filter @pace/specs-guardrails validate-specs:openspec -- --rootDir $(pwd)",
     "ui:dev": "bun run --filter @pace/ui dev",
@@ -46,7 +49,10 @@
     "@types/bun": "^1.3.7",
     "bun": "^1.3.6",
     "eslint": "^9.15.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsdoc": "^48.10.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.8.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.15.0"
   },

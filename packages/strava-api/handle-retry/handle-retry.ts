@@ -5,7 +5,7 @@ import { RetryFunction } from './types';
 /**
  * Parses an Error object to extract ActivityError if present.
  *
-* Attempts to parse the error message as JSON to extract structured StravaApiError.
+ * Attempts to parse the error message as JSON to extract structured StravaApiError.
  * Returns null if parsing fails or error doesn't contain StravaApiError structure.
  *
  * @param {Error} error - Error object potentially containing ActivityError in message
@@ -38,7 +38,7 @@ const attemptWithBackoff = async <T>(
   attemptIndex: number,
   maxRetries: number,
   currentBackoffMs: number,
-  _previousError: Error | null
+  _previousError: Error | null,
 ): Promise<T> => {
   // _previousError may be used for enhanced error reporting in the future
   void _previousError;
@@ -95,7 +95,7 @@ const attemptWithBackoff = async <T>(
 const handleRetry = async <T>(
   fn: RetryFunction<T>,
   maxRetries: number,
-  initialBackoffMs: number = STRAVA_API_INITIAL_BACKOFF_MS
+  initialBackoffMs: number = STRAVA_API_INITIAL_BACKOFF_MS,
 ): Promise<T> => attemptWithBackoff(fn, 0, maxRetries, initialBackoffMs, null);
 
 export default handleRetry;

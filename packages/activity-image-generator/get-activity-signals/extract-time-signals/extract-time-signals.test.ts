@@ -7,7 +7,7 @@ type Case = [
   {
     activity: StravaActivity;
     expectedTimeOfDay: 'morning' | 'day' | 'evening' | 'night';
-  }
+  },
 ];
 
 describe('extract-time-signals', () => {

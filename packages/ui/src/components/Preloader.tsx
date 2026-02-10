@@ -15,18 +15,15 @@ export interface PreloaderProps {
  * @param {boolean} [props.withFullHeight=true] - Whether to use full viewport height.
  * @returns {JSX.Element} Preloader component
  */
-const Preloader = ({ 
-  message = undefined,
-  withFullHeight = true,
-}: PreloaderProps): JSX.Element => {
+const Preloader = ({ message = undefined, withFullHeight = true }: PreloaderProps): JSX.Element => {
   const theme = useTheme();
 
   return (
     <>
       <Grid.Container
         gap={2}
-        justify='center'
-        style={{ 
+        justify="center"
+        style={{
           minHeight: withFullHeight ? 'calc(100vh - 60px)' : 'auto',
           alignContent: 'center',
           padding: '2rem',
@@ -49,7 +46,8 @@ const Preloader = ({
             margin: '0 auto',
             display: 'flex',
             justifyContent: 'center',
-          }}>
+          }}
+        >
           <div
             style={{
               display: 'flex',
@@ -72,18 +70,20 @@ const Preloader = ({
             >
               <ActivityIcon size={56} />
             </div>
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.75rem',
+                width: '100%',
+              }}
+            >
               <Loading scale={2} />
               {message && (
                 <Text
-                  type='secondary'
+                  type="secondary"
                   style={{
                     fontSize: '0.875rem',
                     animation: 'preloaderFadeIn 0.6s ease-in',

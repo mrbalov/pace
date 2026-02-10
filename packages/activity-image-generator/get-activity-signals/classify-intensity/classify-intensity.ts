@@ -17,12 +17,13 @@ import { CONFIG } from '../../constants';
  * @returns {'low' | 'medium' | 'high'} Intensity classification
  */
 const classifyIntensity = (activity: StravaActivity): 'low' | 'medium' | 'high' => {
-  const hasPaceData = activity.distance !== undefined && activity.moving_time !== undefined && activity.distance > 0;
+  const hasPaceData =
+    activity.distance !== undefined && activity.moving_time !== undefined && activity.distance > 0;
   const paceSecondsPerKm = hasPaceData ? activity.moving_time! / (activity.distance! / 1000) : 0;
-  
+
   const hasPower = activity.average_watts !== undefined;
   const hasWeightedPower = activity.weighted_average_watts !== undefined;
-  
+
   const result = (() => {
     if (hasPaceData && paceSecondsPerKm >= CONFIG.INTENSITY.LOW_PACE_THRESHOLD) {
       return 'low';
@@ -40,7 +41,7 @@ const classifyIntensity = (activity: StravaActivity): 'low' | 'medium' | 'high' 
       return 'medium';
     }
   })();
-  
+
   return result;
 };
 

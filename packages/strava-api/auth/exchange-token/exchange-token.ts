@@ -89,7 +89,7 @@ const parseTokenResponse = async (response: Response): Promise<StravaAuthTokenRe
  */
 const exchangeToken = async (
   authorizationCode: string,
-  config: StravaAuthConfig
+  config: StravaAuthConfig,
 ): Promise<StravaAuthTokenResponse | null> => {
   if (!config.clientId || !config.clientSecret) {
     throw createAuthError('INVALID_CONFIG', 'Client ID and client secret are required');

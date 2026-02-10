@@ -28,7 +28,9 @@ describe('stravaAuth', () => {
     expect(location).toBeString();
     expect(location).toContain('https://www.strava.com/oauth/authorize');
     expect(location).toContain('client_id=test-client-id');
-    expect(location).toContain('redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fstrava%2Fauth%2Fcallback');
+    expect(location).toContain(
+      'redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fstrava%2Fauth%2Fcallback',
+    );
     expect(location).toContain('scope=activity%3Aread');
   });
 

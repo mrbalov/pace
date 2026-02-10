@@ -71,11 +71,11 @@ export interface StravaAuthTokenRefreshResponse {
  * Authorization error codes.
  */
 export type StravaAuthErrorCode =
-| 'INVALID_CONFIG'
-| 'INVALID_CODE'
-| 'NETWORK_ERROR'
-| 'UNAUTHORIZED'
-| 'MALFORMED_RESPONSE';
+  | 'INVALID_CONFIG'
+  | 'INVALID_CODE'
+  | 'NETWORK_ERROR'
+  | 'UNAUTHORIZED'
+  | 'MALFORMED_RESPONSE';
 
 /**
  * Authorization error structure.

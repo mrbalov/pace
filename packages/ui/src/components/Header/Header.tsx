@@ -22,7 +22,7 @@ interface ActionsProps {
  * @returns {JSX.Element} Logo component.
  */
 const Logo = () => (
-  <Link href='/' style={{ color: 'inherit' }}>
+  <Link href="/" style={{ color: 'inherit' }}>
     <Text
       h3
       style={{
@@ -61,13 +61,13 @@ const Actions = ({ onThemeChange }: ActionsProps) => {
     <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
       {!loading && isAuthenticated && (
         <Button
-          type='default'
+          type="default"
           icon={<LogOut />}
           onClick={handleLogout}
           auto
           scale={0.6}
-          aria-label='Logout'
-          placeholder='Logout'
+          aria-label="Logout"
+          placeholder="Logout"
           onPointerEnterCapture={() => undefined}
           onPointerLeaveCapture={() => undefined}
         />
@@ -113,7 +113,8 @@ const Header = ({ onThemeChange }: HeaderProps) => {
           height: '100%',
           maxWidth: '1000px',
           borderBottom: `1px solid ${theme.palette.border}`,
-        }}>
+        }}
+      >
         <Logo />
         <Actions onThemeChange={onThemeChange} />
       </div>

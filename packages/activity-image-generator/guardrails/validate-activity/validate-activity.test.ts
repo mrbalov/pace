@@ -8,7 +8,7 @@ type Case = [
     activity: StravaActivity;
     expectedValid: boolean;
     expectedErrors?: string[];
-  }
+  },
 ];
 
 describe('validate-activity', () => {
@@ -103,9 +103,9 @@ describe('validate-activity', () => {
     ],
   ])('%s', (_name, { activity, expectedValid, expectedErrors }) => {
     const result = validateActivity(activity);
-    
+
     expect(result.valid).toBe(expectedValid);
-    
+
     if (expectedErrors !== undefined) {
       expect(result.errors).toStrictEqual(expectedErrors);
     }
