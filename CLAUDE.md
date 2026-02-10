@@ -1,5 +1,9 @@
 @./AGENTS.md
+@./openspec/AGENTS.md
 @./openspec/project.md
+@./openspec/CODE_STYLE.md
+@./openspec/LINTING.md
+@./openspec/TESTING.md
 
 ## Test-Driven Development
 
