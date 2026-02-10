@@ -18,6 +18,7 @@ Follow principles stated in `AGENTS.md` and `project.md`. Carefully review requi
 - **New implementation files**: Test file MUST exist before creating implementation
 - **Legacy files**: Warnings shown but allowed (gradual adoption)
 - **Test file pattern**: `filename.test.ts` co-located with `filename.ts`
+- **Manual approval**: Test file MUST be approved manually before code generation
 
 ### 2. Session Line Budget
 
