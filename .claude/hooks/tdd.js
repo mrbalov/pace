@@ -106,7 +106,6 @@ function isNewFile(path) {
  * @example
  * ```javascript
  * {
- *   continue: false,
  *   stopReason: 'TDD: Create test file first',
  *   hookSpecificOutput: {
  *     hookEventName: 'PreToolUse',
@@ -121,7 +120,6 @@ function main() {
     // Allow non-implementation files.
     process.stdout.write(
       JSON.stringify({
-        continue: true,
         hookSpecificOutput: {
           hookEventName: 'PreToolUse',
           permissionDecision: 'allow'
@@ -138,8 +136,6 @@ function main() {
     // Strict enforcement: new implementation files require test files first.
     process.stdout.write(
       JSON.stringify({
-        continue: false,
-        stopReason: 'TDD: Create test file first',
         hookSpecificOutput: {
           hookEventName: 'PreToolUse',
           permissionDecision: 'deny',
@@ -152,7 +148,6 @@ function main() {
     // Legacy file: warn but allow (gradual adoption).
     process.stdout.write(
       JSON.stringify({
-        continue: true,
         systemMessage: `WARNING: No test file found for ${filePath}. Consider creating ${testFilePath}`,
         hookSpecificOutput: {
           hookEventName: 'PreToolUse',
@@ -166,7 +161,6 @@ function main() {
     // Test file exists - allow.
     process.stdout.write(
       JSON.stringify({
-        continue: true,
         hookSpecificOutput: {
           hookEventName: 'PreToolUse',
           permissionDecision: 'allow'

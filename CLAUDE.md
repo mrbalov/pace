@@ -1,3 +1,5 @@
+@import AGENTS.md
+@import openspec/project.md
 
 Default to using Bun instead of Node.js.
 

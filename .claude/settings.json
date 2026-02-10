@@ -1,4 +1,9 @@
 {
+  "contextFiles": [
+    "AGENTS.md",
+    "openspec/AGENTS.md",
+    "openspec/project.md"
+  ],
   "hooks": {
     "SessionStart": [
       {

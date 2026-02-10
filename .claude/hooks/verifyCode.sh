@@ -45,7 +45,7 @@ fi
 
 # Exit with test result (fail if tests failed).
 if [ "$TEST_EXIT_CODE" -ne 0 ]; then
-  echo "{\"decision\": \"block\", \"reason\": \"Tests failed - fix before proceeding\"}"
+  echo "{\"hookSpecificOutput\": {\"hookEventName\": \"PostToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"Tests failed - fix before proceeding\"}}"
   exit 2
 fi
 

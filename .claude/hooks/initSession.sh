@@ -8,6 +8,12 @@ INPUT=$(cat)
 SESSION_ID=$(echo "$INPUT" | jq -r '.session_id')
 SOURCE=$(echo "$INPUT" | jq -r '.source // "startup"')
 
+# Validate SESSION_ID is not null or empty.
+if [ "$SESSION_ID" = "null" ] || [ -z "$SESSION_ID" ]; then
+  echo "Warning: Invalid SESSION_ID, line counter disabled."
+  exit 0
+fi
+
 # Initialize line counter file.
 COUNTER_FILE="/tmp/claude-session-$SESSION_ID-lines"
 
