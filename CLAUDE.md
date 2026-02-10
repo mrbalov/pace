@@ -1,5 +1,12 @@
-@AGENTS.md
-@openspec/project.md
+@./AGENTS.md
+@./openspec/project.md
+
+## Test-Driven Development
+
+1. Write tests FIRST before any implementation
+2. Present tests to the user with: "Please review and approve tests"
+3. WAIT for explicit user approval before proceeding
+4. NEVER write implementation code until tests are approved
 
 ## Critical Project Rules
 
@@ -11,5 +18,6 @@
 **Module-scoped types** - prefix types with module name (e.g., `ActivityConfig`)
 **Run tests after code changes** - `bun run test` from root
 **Run linter after code changes** - `bun run lint` from root
+**Always pause for human approval after generating tests** — do not proceed until approved
 
 Default to using Bun instead of Node.js.
