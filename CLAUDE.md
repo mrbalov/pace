@@ -19,6 +19,7 @@
 **JSDoc required for ALL functions** - `/** @param {Type} param @returns {Type} */`
 **No nested functions** - define all functions at top level
 **No early returns** - use `if...else if...else` patterns
+**Entity folder** - always create entity folder to keep implementation and tests together
 **Module-scoped types** - prefix types with module name (e.g., `ActivityConfig`)
 **Run tests after code changes** - `bun run test` from root
 **Run linter after code changes** - `bun run lint` from root
