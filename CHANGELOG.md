@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 See the [Changelog Manual](https://kb.epam.com/display/VCTXDSE/14.+Frontastic+Development+-+Changelog) for more details.
 
+## [1.7.1] - 2026-02-10
+
+### [28 Improved TDD Documentation and Test Structure](https://github.com/mrbalov/pace/issues/28)
+
+### Added
+- Quick reference guide files for project conventions (`.claude/rules/project-conventions.md`)
+- Quick reference guide for OpenSpec workflow (`.claude/rules/openspec-workflow.md`)
+- Test suite structure requirement with `describe()` blocks for better test organization
+
+### Changed
+- Simplified CLAUDE.md to reference external documentation files (@AGENTS.md and @openspec/project.md) for better maintainability
+- Consolidated critical project rules into a concise list with clear formatting
+- Removed redundant Claude settings configuration to avoid duplication
+
 ## [1.7.0] - 2026-02-09
 
 ### [28 Introduced Test-Driven Development (TDD) Enforcement and Agentic Workflow](https://github.com/mrbalov/pace/issues/28)
