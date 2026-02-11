@@ -6,6 +6,19 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-02-11
+
+### [23 Refactored Strava Activity Signals Package Structure and Added New Signal Extractors](https://github.com/mrbalov/pace/issues/23)
+
+### Added
+- Brand signals extraction module for detecting brand mentions in activity data
+- Movement activity detection module to identify if an activity involves physical movement
+
+### Changed
+- Renamed package from `@pace/strava-activity-signals` to `@pace/get-strava-activity-signals` for better naming consistency
+- Restructured package organization by moving signal extraction modules to package root level for flatter hierarchy
+- Simplified module imports by eliminating nested directory structure
+
 ## [1.8.0] - 2026-02-11
 
 ### [23 Added Strava Activity Signals Extraction Package](https://github.com/mrbalov/pace/issues/23)
