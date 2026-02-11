@@ -4,11 +4,7 @@ import { Input } from './types';
 import classifyIntensity from './classify-intensity';
 import { StravaActivitySignalsIntensity } from '../../types';
 
-type Case = [
-  string,
-  Input,
-  StravaActivitySignalsIntensity,
-];
+type Case = [string, Input, StravaActivitySignalsIntensity];
 
 describe('classify-intensity', () => {
   test.each<Case>([
@@ -50,11 +46,7 @@ describe('classify-intensity', () => {
       },
       'low',
     ],
-    [
-      'default to medium when no clear indicators',
-      {},
-      'medium',
-    ],
+    ['default to medium when no clear indicators', {}, 'medium'],
   ])('%#. %s', (_name, activity, expected) => {
     const result = classifyIntensity(activity);
 

@@ -12,9 +12,7 @@ import { StravaActivityValidationResult, StravaActivity } from '../types';
  * @returns {StravaActivityValidationResult} Validation result with sanitized activity if needed.
  * @internal
  */
-const validateActivityValues = (
-  activity: StravaActivity,
-): StravaActivityValidationResult => {
+const validateActivityValues = (activity: StravaActivity): StravaActivityValidationResult => {
   const errors: string[] = [];
   const sanitized: StravaActivity = { ...activity };
 
@@ -26,10 +24,7 @@ const validateActivityValues = (
 
   // Validate pace (derived from distance and moving_time).
   if (sanitized.distance !== undefined && sanitized.moving_time !== undefined) {
-    const paceSecondsPerKm = getPaceSecondsPerKm(
-      sanitized.moving_time,
-      sanitized.distance,
-    );
+    const paceSecondsPerKm = getPaceSecondsPerKm(sanitized.moving_time, sanitized.distance);
 
     if (paceSecondsPerKm <= 0) {
       errors.push('Pace must be greater than 0');
@@ -67,11 +62,8 @@ const validateActivitySemantics = (activity: StravaActivity): StravaActivityVali
   // Check for unrealistic pace (faster than human limits).
   // World record pace is around 2:30 min/km, so anything faster than 2:00 min/km is suspicious.
   if (activity.distance !== undefined && activity.moving_time !== undefined) {
-    const paceSecondsPerKm = getPaceSecondsPerKm(
-      activity.moving_time,
-      activity.distance,
-    );
-    
+    const paceSecondsPerKm = getPaceSecondsPerKm(activity.moving_time, activity.distance);
+
     if (paceSecondsPerKm < MAX_PACE && activity.type === 'Run') {
       errors.push('Running pace is faster than realistic human limits');
     }

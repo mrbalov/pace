@@ -3,11 +3,7 @@ import { describe, test, expect } from 'bun:test';
 import getStravaActivitySignals from './get-strava-activity-signals';
 import { StravaActivity, StravaActivitySignals } from '../types';
 
-type Case = [
-  string,
-  StravaActivity,
-  StravaActivitySignals,
-];
+type Case = [string, StravaActivity, StravaActivitySignals];
 
 describe('get-activity-signals', () => {
   describe('it extracts signals from valid activity', () => {

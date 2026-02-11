@@ -10,7 +10,7 @@ import { KEYWORDS } from './constants';
  * User-provided text is sanitized and processed to extract semantic
  * signals that can safely influence prompt generation. Forbidden
  * content is removed, and only safe, normalized signals are returned.
- * 
+ *
  * In a future implementation, we might extract activity-related keywords
  * like "trail", "road", "track", "indoor", "outdoor", etc.
  *
@@ -22,15 +22,13 @@ const extractTextSignals = (text: string): string[] | undefined => {
   const hasTextSanitized = textSanitized.length > 0;
 
   if (hasTextSanitized) {
-    return KEYWORDS
-      .map((keyword) => {
-        if (textSanitized.includes(keyword)) {
-          return keyword;
-        } else {
-          return '';
-        }
-      })
-      .filter(Boolean);
+    return KEYWORDS.map((keyword) => {
+      if (textSanitized.includes(keyword)) {
+        return keyword;
+      } else {
+        return '';
+      }
+    }).filter(Boolean);
   } else {
     return undefined;
   }

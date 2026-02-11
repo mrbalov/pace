@@ -1,4 +1,4 @@
-import { PATTERNS } from "./constants";
+import { PATTERNS } from './constants';
 
 /**
  * Checks if text contains forbidden content patterns.

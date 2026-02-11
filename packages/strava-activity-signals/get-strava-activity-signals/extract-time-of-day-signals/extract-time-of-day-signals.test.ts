@@ -4,11 +4,7 @@ import { Input } from './types';
 import extractTimeOfDaySignals from './extract-time-of-day-signals';
 import { StravaActivitySignalsTimeOfDay } from '../../types';
 
-type Case = [
-  string,
-  Input,
-  StravaActivitySignalsTimeOfDay,
-];
+type Case = [string, Input, StravaActivitySignalsTimeOfDay];
 
 describe('extract-time-of-day-signals', () => {
   describe('classifies morning activities correctly (5:00-10:00)', () => {
@@ -304,11 +300,7 @@ describe('extract-time-of-day-signals', () => {
 
   describe('defaults to day when no timestamp available', () => {
     test.each<Case>([
-      [
-        'defaults to day when both timestamps missing',
-        {},
-        'day',
-      ],
+      ['defaults to day when both timestamps missing', {}, 'day'],
       [
         'defaults to day when start_date_local is undefined',
         {

@@ -6,10 +6,7 @@ import { Input } from './types';
  * @param {Input} input - Strava activity data.
  * @returns {string[] | undefined} Extracted semantic context or undefined if none found.
  */
-const extractSemanticContext = ({
-  name,
-  description,
-}: Input): string[] | undefined => {
+const extractSemanticContext = ({ name, description }: Input): string[] | undefined => {
   const semanticContext: string[] = [];
 
   if (name) {
@@ -28,7 +25,7 @@ const extractSemanticContext = ({
     }
   }
 
-  return semanticContext.length > 0 ? semanticContext : undefined; 
+  return semanticContext.length > 0 ? semanticContext : undefined;
 };
 
 export default extractSemanticContext;

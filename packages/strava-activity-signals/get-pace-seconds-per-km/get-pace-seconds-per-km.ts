@@ -4,10 +4,7 @@
  * @param {number} distance - Distance in meters.
  * @returns {number} Pace in seconds per kilometer.
  */
-const getPaceSecondsPerKm = (
-  movingTime: number,
-  distance: number,
-): number => {
+const getPaceSecondsPerKm = (movingTime: number, distance: number): number => {
   if (movingTime <= 0 || distance <= 0) {
     return 0;
   } else {

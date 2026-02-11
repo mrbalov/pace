@@ -3,11 +3,7 @@ import { describe, test, expect } from 'bun:test';
 import extractSemanticContext from './extract-semantic-context';
 import { Input } from './types';
 
-type Case = [
-  string,
-  Input,
-  string[] | undefined,
-];
+type Case = [string, Input, string[] | undefined];
 
 describe('extract-semantic-context', () => {
   describe('extracts context from name field', () => {
@@ -302,11 +298,7 @@ describe('extract-semantic-context', () => {
 
   describe('handles missing fields correctly', () => {
     test.each<Case>([
-      [
-        'returns undefined when both fields missing',
-        {},
-        undefined,
-      ],
+      ['returns undefined when both fields missing', {}, undefined],
       [
         'handles missing name field',
         {
@@ -504,7 +496,8 @@ describe('extract-semantic-context', () => {
       [
         'handles very long description with keywords',
         {
-          description: 'This is a very long description about my outdoor trail run through the park with beautiful beach views and mountain scenery',
+          description:
+            'This is a very long description about my outdoor trail run through the park with beautiful beach views and mountain scenery',
         },
         ['trail', 'outdoor', 'park', 'beach', 'mountain'],
       ],

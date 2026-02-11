@@ -10,7 +10,6 @@ export const TIMES_OF_DAY = ['morning', 'day', 'evening', 'night'] as const;
  */
 export const MAX_PACE = 120 as const;
 
-
 /**
  * Classification thresholds and constants for Strava activity signals.
  * Defines thresholds for classifying activity intensity, elevation, and time of day.

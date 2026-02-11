@@ -26,14 +26,8 @@ const classifyIntensity = ({
 }: Input): StravaActivitySignalsIntensity => {
   const hasPower = average_watts !== undefined;
   const hasWeightedPower = weighted_average_watts !== undefined;
-  const hasPaceData = (
-    distance !== undefined
-    && moving_time !== undefined
-    && distance > 0
-  );
-  const paceSecondsPerKm = hasPaceData
-    ? getPaceSecondsPerKm(moving_time, distance)
-    : 0;
+  const hasPaceData = distance !== undefined && moving_time !== undefined && distance > 0;
+  const paceSecondsPerKm = hasPaceData ? getPaceSecondsPerKm(moving_time, distance) : 0;
 
   if (hasPaceData && paceSecondsPerKm >= CLASSIFICATIONS.INTENSITY.LOW_PACE_THRESHOLD) {
     return 'low';

@@ -3,11 +3,7 @@ import { describe, test, expect } from 'bun:test';
 import validateActivitySignals from './validate-signals';
 import { StravaActivitySignals, StravaActivitySignalsValidationResult } from '../types';
 
-type Case = [
-  string,
-  StravaActivitySignals,
-  StravaActivitySignalsValidationResult,
-];
+type Case = [string, StravaActivitySignals, StravaActivitySignalsValidationResult];
 
 describe('validate-signals', () => {
   test.each<Case>([
@@ -46,7 +42,7 @@ describe('validate-signals', () => {
           tags: [],
           semanticContext: undefined,
         },
-      }
+      },
     ],
     [
       'signals with invalid elevation',
@@ -68,7 +64,7 @@ describe('validate-signals', () => {
           tags: [],
           semanticContext: undefined,
         },
-      }
+      },
     ],
     [
       'signals with invalid time of day',
@@ -90,7 +86,7 @@ describe('validate-signals', () => {
           tags: [],
           semanticContext: undefined,
         },
-      }
+      },
     ],
   ])('%#. %s', (_name, signals, expected) => {
     const result = validateActivitySignals(signals);

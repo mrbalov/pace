@@ -16,9 +16,7 @@ import { Input } from './types';
  * @param {Input} input - Strava activity data containing elevation gain.
  * @returns {StravaActivitySignalsElevation} Elevation classification.
  */
-const classifyElevation = ({
-  total_elevation_gain,
-}: Input): StravaActivitySignalsElevation => {
+const classifyElevation = ({ total_elevation_gain }: Input): StravaActivitySignalsElevation => {
   if (total_elevation_gain === undefined) {
     return 'flat';
   } else if (total_elevation_gain < CLASSIFICATIONS.ELEVATION.FLAT_THRESHOLD) {

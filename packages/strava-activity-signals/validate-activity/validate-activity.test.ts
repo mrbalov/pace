@@ -3,11 +3,7 @@ import { describe, test, expect } from 'bun:test';
 import { StravaActivity, StravaActivityValidationResult } from '../types';
 import validateActivity from './validate-activity';
 
-type Case = [
-  string,
-  StravaActivity,
-  StravaActivityValidationResult,
-];
+type Case = [string, StravaActivity, StravaActivityValidationResult];
 
 describe('validate-activity', () => {
   test.each<Case>([

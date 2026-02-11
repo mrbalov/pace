@@ -9,7 +9,7 @@ import { Input } from './types';
  *
  * Tags are normalized to lowercase and matched against known tag list.
  * Unknown tags are filtered out to ensure only safe, recognized tags are used.
- * 
+ *
  * Strava API doesn't directly expose tags in the base activity response.
  * Tags might be available in extended metadata or user-provided descriptions.
  * For now, the function checks common tag indicators in the activity data.

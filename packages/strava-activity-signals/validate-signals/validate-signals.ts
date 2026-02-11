@@ -45,9 +45,7 @@ const validateActivitySignals = (
 
   // Validate tags are normalized (array of strings).
   if (signals.tags) {
-    const invalidTags = signals.tags.filter(
-      (tag) => typeof tag !== 'string',
-    );
+    const invalidTags = signals.tags.filter((tag) => typeof tag !== 'string');
 
     if (invalidTags.length > 0) {
       errors.push('All tags must be strings');
@@ -56,8 +54,8 @@ const validateActivitySignals = (
 
   // Check for forbidden content in semantic context.
   if (signals.semanticContext) {
-    const hasForbiddenContent = signals.semanticContext.some(
-      (context) => checkForbiddenContent(context),
+    const hasForbiddenContent = signals.semanticContext.some((context) =>
+      checkForbiddenContent(context),
     );
 
     if (hasForbiddenContent) {
@@ -67,9 +65,7 @@ const validateActivitySignals = (
 
   // Validate brands.
   if (signals.brands) {
-    const invalidBrands = signals.brands.filter(
-      (brand) => typeof brand !== 'string',
-    );
+    const invalidBrands = signals.brands.filter((brand) => typeof brand !== 'string');
 
     if (invalidBrands.length > 0) {
       errors.push('All brands must be strings');

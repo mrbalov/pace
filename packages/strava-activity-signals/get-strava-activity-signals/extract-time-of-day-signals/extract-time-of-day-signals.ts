@@ -26,18 +26,15 @@ const extractTimeSignals = ({
   if (startDate) {
     const date = new Date(startDate);
     const hour = date.getHours();
-    const isMorning = (
-      hour >= CLASSIFICATIONS.TIME_OF_DAY.MORNING_START
-      && hour < CLASSIFICATIONS.TIME_OF_DAY.MORNING_END
-    );
-    const isDay = (
-      hour >= CLASSIFICATIONS.TIME_OF_DAY.MORNING_END
-      && hour < CLASSIFICATIONS.TIME_OF_DAY.EVENING_START
-    );
-    const isEvening = (
-      hour >= CLASSIFICATIONS.TIME_OF_DAY.EVENING_START
-      && hour < CLASSIFICATIONS.TIME_OF_DAY.NIGHT_START
-    );
+    const isMorning =
+      hour >= CLASSIFICATIONS.TIME_OF_DAY.MORNING_START &&
+      hour < CLASSIFICATIONS.TIME_OF_DAY.MORNING_END;
+    const isDay =
+      hour >= CLASSIFICATIONS.TIME_OF_DAY.MORNING_END &&
+      hour < CLASSIFICATIONS.TIME_OF_DAY.EVENING_START;
+    const isEvening =
+      hour >= CLASSIFICATIONS.TIME_OF_DAY.EVENING_START &&
+      hour < CLASSIFICATIONS.TIME_OF_DAY.NIGHT_START;
 
     if (isMorning) {
       return 'morning';
