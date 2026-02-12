@@ -65,6 +65,7 @@ export type StravaActivitySignalsElevation = (typeof ELEVATIONS)[number];
 export type StravaActivitySignalsIntensity = (typeof INTENSITIES)[number];
 
 export type StravaActivitySignalsTimeOfDay = (typeof TIMES_OF_DAY)[number];
+
 /**
  * Strava activity signals extracted from the Strava activity data.
  */

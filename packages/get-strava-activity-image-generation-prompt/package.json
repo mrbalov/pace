@@ -1,0 +1,11 @@
+{
+  "name": "@pace/get-strava-activity-image-generation-prompt",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@pace/check-forbidden-content": "workspace:*"
+  },
+  "devDependencies": {
+    "@pace/get-strava-activity-signals": "workspace:*"
+  }
+}
