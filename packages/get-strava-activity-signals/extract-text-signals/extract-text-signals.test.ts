@@ -133,7 +133,10 @@ describe('extract-text-signals', () => {
       ['finds winter in compound words', 'Wintertime running', ['winter']],
       ['finds summer in compound words', 'Summertime vibes', ['summer']],
     ])('%#. %s', (_name, text, expected) => {
-      const result = extractTextSignals(text);
+      const result = extractTextSignals(
+        text,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -163,7 +166,10 @@ describe('extract-text-signals', () => {
         ['trail', 'road', 'track'],
       ],
     ])('%#. %s', (_name, text, expected) => {
-      const result = extractTextSignals(text);
+      const result = extractTextSignals(
+        text,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -197,7 +203,10 @@ describe('extract-text-signals', () => {
         undefined,
       ],
     ])('%#. %s', (_name, text, expected) => {
-      const result = extractTextSignals(text);
+      const result = extractTextSignals(
+        text,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -232,7 +241,10 @@ describe('extract-text-signals', () => {
         ['trail', 'road', 'park'],
       ],
     ])('%#. %s', (_name, text, expected) => {
-      const result = extractTextSignals(text);
+      const result = extractTextSignals(
+        text,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });

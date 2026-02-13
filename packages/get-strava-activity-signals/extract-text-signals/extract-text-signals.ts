@@ -15,10 +15,17 @@ import { KEYWORDS } from './constants';
  * like "trail", "road", "track", "indoor", "outdoor", etc.
  *
  * @param {string} text - User-provided text to extract signals from.
+ * @param {Function} checkForbiddenContent - Function to check for forbidden content in the text.
  * @returns {string[]} Array of safe semantic signal strings or undefined if none found.
  */
-const extractTextSignals = (text: string): string[] | undefined => {
-  const textSanitized = sanitizeText(text.trim().toLowerCase());
+const extractTextSignals = (
+  text: string,
+  checkForbiddenContent: (input: string) => boolean,
+): string[] | undefined => {
+  const textSanitized = sanitizeText(
+    text.trim().toLowerCase(),
+    checkForbiddenContent,
+  );
   const hasTextSanitized = textSanitized.length > 0;
 
   if (hasTextSanitized) {

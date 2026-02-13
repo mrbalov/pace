@@ -1,5 +1,4 @@
-import { StravaActivitySignals } from '@pace/get-strava-activity-signals';
-
+import { StravaActivitySignals } from './types';
 import validatePrompt from './validate-prompt';
 import assemblePrompt from './assemble-prompt';
 import { DEFAULT_PROMPT } from './constants';
@@ -21,13 +20,15 @@ import { DEFAULT_PROMPT } from './constants';
  * 6. Use fallback if validation fails
  *
  * @param {StravaActivitySignals} signals - Activity signals to generate prompt from.
- * @returns {StravaActivityImageGenerationPrompt} Generated and validated prompt.
+ * @param {Function} checkForbiddenContent - Function to check for forbidden content in the text.
+ * @returns {string} Generated and validated prompt.
  */
 const getStravaActivityImageGenerationPrompt = (
   signals: StravaActivitySignals,
+  checkForbiddenContent: (input: string) => boolean,
 ): string => {
   const prompt = assemblePrompt(signals);
-  const { valid, errors } = validatePrompt(prompt);
+  const { valid, errors } = validatePrompt(prompt, checkForbiddenContent);
 
   if (valid) {
     return prompt;

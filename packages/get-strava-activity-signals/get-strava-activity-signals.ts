@@ -32,10 +32,14 @@ import classifyAtmosphere from './classify-atmosphere';
  * 8. Validates extracted signals
  *
  * @param {StravaActivity} activity - Strava activity data to extract signals from
+ * @param {Function} checkForbiddenContent - Function to check for forbidden content in user-provided text.
  * @returns {StravaActivitySignals} Extracted and validated activity signals
  * @throws {Error} Throws error if activity validation fails
  */
-const getStravaActivitySignals = (activity: StravaActivity): StravaActivitySignals => {
+const getStravaActivitySignals = (
+  activity: StravaActivity,
+  checkForbiddenContent: (input: string) => boolean,
+): StravaActivitySignals => {
   const activityValidation = validateActivity(activity);
 
   if (activityValidation.valid) {
@@ -46,8 +50,8 @@ const getStravaActivitySignals = (activity: StravaActivity): StravaActivitySigna
     const tags = extractTagSignals(activity);
     const signals: StravaActivitySignals = {
       core: {
-        semanticContext: extractSemanticContext(activity),
-        brands: extractBrandSignals(activity),
+        semanticContext: extractSemanticContext(activity, checkForbiddenContent),
+        brands: extractBrandSignals(activity, checkForbiddenContent),
         activityType,
         intensity,
         elevation,
@@ -63,7 +67,10 @@ const getStravaActivitySignals = (activity: StravaActivity): StravaActivitySigna
         style: classifyStyle({ tags, elevation, intensity, activityType }),
       },
     };
-    const signalsValidation = validateSignals(signals);
+    const signalsValidation = validateSignals(
+      signals,
+      checkForbiddenContent,
+    );
 
     if (signalsValidation.valid) {
       return signals;

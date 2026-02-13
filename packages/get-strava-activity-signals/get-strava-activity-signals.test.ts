@@ -310,7 +310,10 @@ describe('get-activity-signals', () => {
         },
       ],
     ])('%#. %s', (_name, activity, expected) => {
-      const signals = getStravaActivitySignals(activity);
+      const signals = getStravaActivitySignals(
+        activity,
+        (input) => input.includes('forbidden'),
+      );
 
       expect(signals).toStrictEqual(expected);
     });
@@ -323,7 +326,12 @@ describe('get-activity-signals', () => {
         // Missing required fields...
       } as StravaActivity;
 
-      expect(() => getStravaActivitySignals(activity)).toThrow();
+      expect(
+        () => getStravaActivitySignals(
+          activity,
+          (input) => input.includes('forbidden'),
+        )
+      ).toThrow();
     });
   });
 });

@@ -1,5 +1,3 @@
-import checkForbiddenContent from '@pace/check-forbidden-content';
-
 import { MAX_PROMPT_LENGTH } from '../constants';
 import { PromptValidationResult } from './types';
 
@@ -15,10 +13,12 @@ import { PromptValidationResult } from './types';
  * - Brand usage is compliant (contextual, not excessive)
  *
  * @param {string} prompt - Image prompt to validate.
+ * @param {Function} checkForbiddenContent - Function to check for forbidden content in the prompt.
  * @returns {StravaActivityImagePromptValidationResult} Validation result with errors and optional sanitized prompt.
  */
 const validateActivityImagePrompt = (
   prompt: string,
+  checkForbiddenContent: (input: string) => boolean,
 ): PromptValidationResult => {
   const promptLength = prompt.length;
   const errors: string[] = [];

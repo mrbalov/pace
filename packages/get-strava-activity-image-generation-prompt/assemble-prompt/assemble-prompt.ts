@@ -1,5 +1,4 @@
-import { StravaActivitySignals } from '@pace/get-strava-activity-signals';
-
+import { StravaActivitySignals } from '../types';
 import truncatePrompt from './truncate-prompt';
 import {
   QUALITY_KEYWORDS,

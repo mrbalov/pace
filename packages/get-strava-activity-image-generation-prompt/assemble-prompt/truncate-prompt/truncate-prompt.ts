@@ -1,5 +1,4 @@
-import { StravaActivitySignals } from '@pace/get-strava-activity-signals';
-
+import { StravaActivitySignals } from '../../types';
 import { MAX_PROMPT_LENGTH } from '../../constants';
 import {
   QUALITY_KEYWORDS,

@@ -1,5 +1,3 @@
-import checkForbiddenContent from '@pace/check-forbidden-content';
-
 import { StravaActivitySignals, StravaActivitySignalsValidationResult } from '../types';
 import { ELEVATIONS, INTENSITIES, TIMES_OF_DAY } from '../constants';
 
@@ -17,10 +15,12 @@ import { ELEVATIONS, INTENSITIES, TIMES_OF_DAY } from '../constants';
  * - No forbidden content in semantic context
  *
  * @param {StravaActivitySignals} signals - Activity signals to validate.
+ * @param {Function} checkForbiddenContent - Function to check for forbidden content in the text.
  * @returns {StravaActivitySignalsValidationResult} Validation result with errors and optional sanitized signals.
  */
 const validateActivitySignals = (
   signals: StravaActivitySignals,
+  checkForbiddenContent: (input: string) => boolean,
 ): StravaActivitySignalsValidationResult => {
   const errors: string[] = [];
   const { core } = signals;

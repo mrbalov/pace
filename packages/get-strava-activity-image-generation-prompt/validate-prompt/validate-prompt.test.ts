@@ -1,96 +1,62 @@
 import { describe, test, expect } from 'bun:test';
 
 import validateActivityImagePrompt from './validate-prompt';
-import { StravaActivityImagePrompt } from '../types';
+import { PromptValidationResult } from './types';
 
 type Case = [
   string,
-  {
-    prompt: StravaActivityImagePrompt;
-    expectedValid: boolean;
-    expectedErrors?: string[];
-  },
+  string,
+  PromptValidationResult,
 ];
 
 describe('validate-prompt', () => {
   test.each<Case>([
     [
       'valid prompt within length limit',
+      'cartoon style, runner, calm mood, outdoor setting',
       {
-        prompt: {
-          style: 'cartoon',
-          mood: 'calm',
-          subject: 'runner',
-          scene: 'outdoor setting',
-          text: 'cartoon style, runner, calm mood, outdoor setting',
-        },
-        expectedValid: true,
-        expectedErrors: [],
+        valid: true,
+        errors: [],
       },
     ],
     [
       'prompt exceeding length limit',
+      'a'.repeat(1001),
       {
-        prompt: {
-          style: 'cartoon',
-          mood: 'calm',
-          subject: 'runner',
-          scene: 'outdoor setting',
-          text: 'a'.repeat(700),
-        },
-        expectedValid: false,
-        expectedErrors: [`Prompt length (700) exceeds maximum (600)`],
+        valid: false,
+        errors: ['Prompt length (1001) exceeds maximum (1000)'],
       },
     ],
     [
-      'prompt with invalid style',
+      'empty prompt is rejected',
+      '',
       {
-        prompt: {
-          style: 'photorealistic' as 'cartoon',
-          mood: 'calm',
-          subject: 'runner',
-          scene: 'outdoor setting',
-          text: 'photorealistic style, runner, calm mood, outdoor setting',
-        },
-        expectedValid: false,
-        expectedErrors: ['Style must be one of: cartoon, minimal, abstract, illustrated'],
+        valid: false,
+        errors: ['Text is required and must be a non-empty string'],
       },
     ],
     [
-      'prompt missing mood',
+      'prompt with forbidden content is rejected',
+      'cartoon style, forbidden political rally, outdoor setting',
       {
-        prompt: {
-          style: 'cartoon',
-          mood: '' as string,
-          subject: 'runner',
-          scene: 'outdoor setting',
-          text: 'cartoon style, runner, calm mood, outdoor setting',
-        },
-        expectedValid: false,
-        expectedErrors: ['Mood is required and must be a string'],
+        valid: false,
+        errors: ['Prompt contains forbidden content'],
       },
     ],
     [
-      'prompt with allowed style',
+      'valid prompt with allowed style keywords',
+      'minimal style, cyclist, focused mood, simple setting',
       {
-        prompt: {
-          style: 'minimal',
-          mood: 'focused',
-          subject: 'cyclist',
-          scene: 'simple setting',
-          text: 'minimal style, cyclist, focused mood, simple setting',
-        },
-        expectedValid: true,
-        expectedErrors: [],
+        valid: true,
+        errors: [],
       },
     ],
-  ])('%s', (_name, { prompt, expectedValid, expectedErrors }) => {
-    const result = validateActivityImagePrompt(prompt);
+  ])('%#. %s', (_name, prompt, expected) => {
+    const result = validateActivityImagePrompt(
+      prompt,
+      (input) => input.includes('forbidden'),
+    );
 
-    expect(result.valid).toBe(expectedValid);
-
-    if (expectedErrors !== undefined) {
-      expect(result.errors).toStrictEqual(expectedErrors);
-    }
+    expect(result).toStrictEqual(expected);
   });
 });

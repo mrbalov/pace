@@ -79,7 +79,10 @@ describe('extract-semantic-context', () => {
         ['trail', 'park'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -158,7 +161,10 @@ describe('extract-semantic-context', () => {
         ['outdoor', 'trail', 'mountain'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -215,7 +221,10 @@ describe('extract-semantic-context', () => {
         ['park'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -290,7 +299,10 @@ describe('extract-semantic-context', () => {
         undefined,
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -328,7 +340,10 @@ describe('extract-semantic-context', () => {
         undefined,
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -373,7 +388,10 @@ describe('extract-semantic-context', () => {
         ['trail', 'park'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -420,7 +438,10 @@ describe('extract-semantic-context', () => {
         ['trail'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -478,7 +499,10 @@ describe('extract-semantic-context', () => {
         ['trail'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -524,7 +548,10 @@ describe('extract-semantic-context', () => {
         ['indoor', 'outdoor', 'trail', 'road', 'track', 'park', 'beach', 'mountain', 'hill'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });
@@ -555,7 +582,10 @@ describe('extract-semantic-context', () => {
         ['mountain', 'hill', 'trail', 'park'],
       ],
     ])('%#. %s', (_name, input, expected) => {
-      const result = extractSemanticContext(input);
+      const result = extractSemanticContext(
+        input,
+        (input: string) => input.includes('forbidden'),
+      );
 
       expect(result).toStrictEqual(expected);
     });

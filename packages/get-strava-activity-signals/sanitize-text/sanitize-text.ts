@@ -1,5 +1,3 @@
-import checkForbiddenContent from '@pace/check-forbidden-content';
-
 /**
  * Sanitizes user-provided text by removing forbidden content.
  *
@@ -8,9 +6,13 @@ import checkForbiddenContent from '@pace/check-forbidden-content';
  * copied verbatim into prompts.
  *
  * @param {string} text - User-provided text to sanitize.
+ * @param {Function} checkForbiddenContent - Function to check for forbidden content in the text.
  * @returns {string} Sanitized text with forbidden content removed.
  */
-const sanitizeText = (text: string): string => {
+const sanitizeText = (
+  text: string,
+  checkForbiddenContent: (input: string) => boolean,
+): string => {
   const hasText = text.trim().length > 0;
 
   if (hasText) {

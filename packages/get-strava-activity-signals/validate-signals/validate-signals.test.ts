@@ -326,7 +326,10 @@ describe('validate-signals', () => {
       },
     ],
   ])('%#. %s', (_name, signals, expected) => {
-    const result = validateActivitySignals(signals);
+    const result = validateActivitySignals(
+      signals,
+      (input) => input.includes('forbidden'),
+    );
 
     expect(result).toStrictEqual(expected);
   });

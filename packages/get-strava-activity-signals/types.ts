@@ -84,9 +84,6 @@ export type StravaActivitySignalsAtmosphere = (typeof CLASSIFICATIONS.ATMOSPHERE
 
 export type StravaActivitySignalsSubject = typeof CLASSIFICATION_SUBJECTS[number];
 
-/**
- * Strava activity signals extracted from the Strava activity data.
- */
 export interface StravaActivitySignals {
   core: {
     activityType: string;
