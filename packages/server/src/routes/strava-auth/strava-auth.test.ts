@@ -3,7 +3,7 @@ import { describe, test, expect } from 'bun:test';
 import stravaAuth from './strava-auth';
 import type { ServerConfig } from '../../types';
 
-describe.skip('stravaAuth', () => {
+describe('stravaAuth', () => {
   const mockConfig: ServerConfig = {
     hostname: 'localhost',
     strava: {
