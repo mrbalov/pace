@@ -11,6 +11,7 @@ import {
   stravaLogout,
   stravaActivities,
   stravaActivity,
+  stravaActivitySignals,
   activityImageGenerator,
 } from '../routes';
 import { getConfig } from '../config';
@@ -88,10 +89,18 @@ const normalizePath = (path: string): string => {
       'strava-logout': '/strava/logout',
       'strava-activities': '/strava/activities',
       'strava-activity': '/strava/activity',
+      'strava-activity-signals': '/strava/activity',
+    };
+
+    // Map function names to path suffixes
+    const suffixMap: Record<string, string> = {
+      'strava-activity-signals': '/signals',
     };
 
     const baseRoute = routeMap[functionName] || path;
-    return remainingPath ? `${baseRoute}/${remainingPath}` : baseRoute;
+    const pathWithRemaining = remainingPath ? `${baseRoute}/${remainingPath}` : baseRoute;
+    const suffix = suffixMap[functionName] || '';
+    return `${pathWithRemaining}${suffix}`;
   }
 
   return path;
@@ -556,6 +565,63 @@ const stravaActivityError = (error: unknown): NetlifyResponse => {
  */
 export const stravaActivityHandler = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
   const result = await stravaActivitySuccess(event).catch((error) => stravaActivityError(error));
+  return result;
+};
+
+/**
+ * Handles successful strava activity signals request.
+ *
+ * @param {NetlifyEvent} event - Netlify function event
+ * @returns {Promise<NetlifyResponse>} Netlify function response
+ * @internal
+ */
+const stravaActivitySignalsSuccess = async (event: NetlifyEvent): Promise<NetlifyResponse> => {
+  // Handle OPTIONS preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return handleOptionsRequest(event);
+  }
+
+  const config = getConfig();
+  const request = netlifyEventToRequest(event);
+  const response = await stravaActivitySignals(request, config);
+  return await webResponseToNetlify(response);
+};
+
+/**
+ * Handles strava activity signals error.
+ *
+ * @param {unknown} error - Error object
+ * @returns {NetlifyResponse} Error response
+ * @internal
+ */
+const stravaActivitySignalsError = (error: unknown): NetlifyResponse => {
+  console.error('Error in strava-activity-signals function:', error);
+  const allowedOrigin = getAllowedOrigin();
+  return {
+    statusCode: 500,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': allowedOrigin,
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+    body: JSON.stringify({ error: 'Internal server error' }),
+  };
+};
+
+/**
+ * Netlify Function handler for /strava/activity/:id/signals endpoint.
+ *
+ * @param {NetlifyEvent} event - Netlify function event
+ * @returns {Promise<NetlifyResponse>} Netlify function response
+ */
+export const stravaActivitySignalsHandler = async (
+  event: NetlifyEvent,
+): Promise<NetlifyResponse> => {
+  const result = await stravaActivitySignalsSuccess(event).catch((error) =>
+    stravaActivitySignalsError(error),
+  );
   return result;
 };
 

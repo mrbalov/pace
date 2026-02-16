@@ -133,6 +133,7 @@ const Activities = ({ activities }: ActivitiesProps) => {
         </Grid>
       )}
       <ImageGenerationDrawer
+        activityId={currentActivityId?.toString()}
         visible={imageGenerationDrawerVisible}
         generatingImage={generatingImage}
         generatedImageData={generatedImageData}

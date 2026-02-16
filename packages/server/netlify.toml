@@ -55,6 +55,12 @@ to = "/.netlify/functions/strava-activities"
 status = 200
 
 [[redirects]]
+from = "/strava/activity/*/signals"
+to = "/.netlify/functions/strava-activity-signals/:splat"
+status = 200
+force = true
+
+[[redirects]]
 from = "/strava/activity/*"
 to = "/.netlify/functions/strava-activity/:splat"
 status = 200

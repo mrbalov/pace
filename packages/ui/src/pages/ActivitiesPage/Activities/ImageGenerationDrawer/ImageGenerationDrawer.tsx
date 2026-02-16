@@ -3,11 +3,14 @@ import { X, Download } from '@geist-ui/icons';
 
 import Preloader from '../../../../components/Preloader';
 import { useMemo } from 'react';
+import { useStravaActivitySignalsData } from '../../../../api';
+import Signals from './Signals';
 
 interface ImageGenerationDrawerProps {
   visible: boolean;
   generatingImage: boolean;
   generatedImageData?: string | null;
+  activityId?: string;
   error?: string | null;
   setError: (error: string) => void;
   onClose: () => void;
@@ -25,6 +28,7 @@ interface ContentProps {
   generatingImage: boolean;
   imageData?: string | null;
   error?: string | null;
+  activityId?: string;
   onRetry: () => void;
   setError: (error: string) => void;
   downloadImage: (imageData: string) => Promise<void>;
@@ -176,6 +180,7 @@ const ImageGenerationResult = ({
  * @param {boolean} props.generatingImage - Whether the image is being generated.
  * @param {string | null} [props.imageData] - Generated image data URL.
  * @param {string | null} [props.error] - Error message if generation failed.
+ * @param {string} [props.activityId] - ID of the activity for which the image is being generated.
  * @param {Function} props.onRetry - Function to retry image generation.
  * @param {Function} props.setError - Function to set error message.
  * @param {Function} props.downloadImage - Function to download the generated image.
@@ -188,51 +193,65 @@ const Content = ({
   onRetry,
   setError,
   downloadImage,
-}: ContentProps) => (
-  <Drawer.Content>
-    <Grid.Container gap={2} justify="center">
-      <Grid xs={24}>
-        <Card>
-          <Text small type="warning">
-            The activity image is being generated using an external AI service.{' '}
-            <strong>AI is not a human, so it makes mistakes.</strong> Please make sure the generated
-            image is appropriate before publishing it to your Strava profile.
-          </Text>
-        </Card>
-      </Grid>
-      {generatingImage ? (
-        <ImageGenerationPreloader />
-      ) : error ? (
-        <ImageGenerationError error={error} onRetry={onRetry} />
-      ) : imageData ? (
-        <ImageGenerationResult
-          imageData={imageData}
-          setError={setError}
-          downloadImage={downloadImage}
-        />
-      ) : null}
-    </Grid.Container>
-  </Drawer.Content>
-);
+  activityId,
+}: ContentProps) => {
+  const signalsData = useStravaActivitySignalsData(activityId);
+
+  return (
+    <Drawer.Content>
+      <Grid.Container gap={2} justify="center">
+        <Grid xs={24}>
+          <Card >
+            <Text small type="warning">
+              The activity image is being generated using an external AI service.{' '}
+              <strong>AI is not a human, so it makes mistakes.</strong> Please make sure the generated
+              image is appropriate before publishing it to your Strava profile.
+            </Text>
+          </Card>
+        </Grid>
+        <Grid xs={24}>
+          <Signals
+            isLoading={signalsData.isLoading}
+            isLoaded={signalsData.isLoaded}
+            signals={signalsData.data}
+          />
+        </Grid>
+        {generatingImage ? (
+          <ImageGenerationPreloader />
+        ) : error ? (
+          <ImageGenerationError error={error} onRetry={onRetry} />
+        ) : imageData ? (
+          <ImageGenerationResult
+            imageData={imageData}
+            setError={setError}
+            downloadImage={downloadImage}
+          />
+        ) : null}
+      </Grid.Container>
+    </Drawer.Content>
+  );
+};
 
 /**
- * Image generation drawer component.
+ * Image generation drawer.
  * @param {ImageGenerationDrawerProps} props Component props.
  * @param {boolean} props.visible Whether the drawer is visible.
  * @param {boolean} props.generatingImage Whether the image is being generated.
  * @param {string | null} [props.generatedImageData] Generated image data URL.
  * @param {string | null} [props.error] Error message if generation failed.
+ * @param {string} [props.activityId] ID of the activity for which the image is being generated.
  * @param {Function} props.setError Function to set error message.
  * @param {Function} props.onClose Function to handle drawer close.
  * @param {Function} props.onRetry Function to retry image generation.
  * @param {Function} props.downloadImage Function to download the generated image.
- * @returns {JSX.Element} Image generation drawer component.
+ * @returns {JSX.Element} Image generation drawer.
  */
 const ImageGenerationDrawer = ({
   error,
   visible,
   generatingImage,
   generatedImageData,
+  activityId,
   onClose,
   onRetry,
   setError,
@@ -250,6 +269,7 @@ const ImageGenerationDrawer = ({
       error={error}
       onRetry={onRetry}
       setError={setError}
+      activityId={activityId}
       downloadImage={downloadImage}
     />
   </Drawer>

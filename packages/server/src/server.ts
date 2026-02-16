@@ -14,6 +14,7 @@ import {
   stravaAuthCallback,
   stravaAuthStatus,
   stravaActivity,
+  stravaActivitySignals,
   stravaActivities,
   stravaLogout,
   activityImageGenerator,
@@ -183,6 +184,18 @@ const matchesActivityRoute = (pathname: string): boolean => {
 };
 
 /**
+ * Checks if pathname matches /strava/activity/:id/signals pattern.
+ *
+ * @param {string} pathname - Request pathname
+ * @returns {boolean} True if pathname matches the pattern
+ * @internal
+ */
+const matchesActivitySignalsRoute = (pathname: string): boolean => {
+  const pathParts = pathname.split('/').filter((part) => part !== '');
+  return pathParts.length === 4 && pathParts[0] === 'strava' && pathParts[1] === 'activity' && pathParts[3] === 'signals';
+};
+
+/**
  * Checks if pathname matches /activity-image-generator/:id pattern.
  *
  * @param {string} pathname - Request pathname
@@ -202,26 +215,27 @@ const matchesActivityImageGeneratorRoute = (pathname: string): boolean => {
  * @internal
  */
 const handleRoute = async (request: Request): Promise<Response> => {
-  const url = new URL(request.url);
-  const pathname = url.pathname;
-  const promise =
-    pathname === '/strava/auth'
-      ? Promise.resolve(stravaAuth(request, config))
-      : pathname === '/strava/auth/callback'
-        ? stravaAuthCallback(request, config)
-        : pathname === '/strava/auth/status'
-          ? Promise.resolve(stravaAuthStatus(request, config))
-          : pathname === '/strava/logout'
-            ? Promise.resolve(stravaLogout(request, config))
-            : pathname === '/strava/activities'
-              ? stravaActivities(request, config)
-              : matchesActivityRoute(pathname)
-                ? stravaActivity(request, config)
-                : matchesActivityImageGeneratorRoute(pathname)
-                  ? activityImageGenerator(request, config)
-                  : Promise.resolve(new Response('Not Found', { status: 404 }));
+  const { pathname } = new URL(request.url);
 
-  return await promise;
+  if (pathname === '/strava/auth') {
+    return Promise.resolve(stravaAuth(request, config));
+  } else if (pathname === '/strava/auth/callback') {
+    return stravaAuthCallback(request, config);
+  } else if (pathname === '/strava/auth/status') {
+    return Promise.resolve(stravaAuthStatus(request, config));
+  } else if (pathname === '/strava/logout') {
+    return Promise.resolve(stravaLogout(request, config));
+  } else if (pathname === '/strava/activities') {
+    return stravaActivities(request, config);
+  } else if (matchesActivityRoute(pathname)) {
+    return stravaActivity(request, config);
+  } else if (matchesActivitySignalsRoute(pathname)) {
+    return stravaActivitySignals(request, config);
+  } else if (matchesActivityImageGeneratorRoute(pathname)) {
+    return activityImageGenerator(request, config);
+  } else {
+    return Promise.resolve(new Response('Not Found', { status: 404 }));
+  }
 };
 
 /**
