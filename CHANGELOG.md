@@ -6,6 +6,28 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.1] - 2026-02-16
+
+### [27 Refactored Image Generation Architecture and Improved Prompt Module Integration](https://github.com/mrbalov/pace/issues/27)
+
+### Changed
+- Refactored `activity-image-generator` package into two specialized packages for better separation of concerns:
+  - `@pace/generate-strava-activity-image` - Dedicated to image generation with provider integrations
+  - `@pace/get-strava-activity-image-generation-prompt` - Focused on prompt creation and validation
+- Restructured activity signals into "core" and "derived" categories for clearer data flow
+- Improved server route implementation to use new modular architecture
+- Simplified prompt generation with default fallback support
+- Enhanced forbidden content checking integration across all text processing
+
+### Removed
+- Deprecated `@pace/activity-image-generator` package (functionality split into specialized packages)
+- Redundant test files from server package (strava-auth and strava-auth-callback tests)
+- Duplicate prompt generation logic that was scattered across multiple modules
+
+### Fixed
+- Improved error handling in image generation pipeline with proper fallback to default prompts
+- Consistent parameter passing for forbidden content checking across all signal extractors
+
 ## [1.10.0] - 2026-02-16
 
 ### [27 Added AI Image Generation Prompt Module and Enhanced Activity Signal Classification](https://github.com/mrbalov/pace/issues/27)

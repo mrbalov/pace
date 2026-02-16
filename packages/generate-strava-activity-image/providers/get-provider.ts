@@ -1,6 +1,9 @@
-import { ImageGenerationProvider, ImageGenerationProviderApiKeys } from '../types';
-import { ImageGenerationProviderName } from '../types';
 import pollinations from './pollinations';
+import {
+  ImageGenerationProvider,
+  ImageGenerationProviderApiKeys,
+  ImageGenerationProviderName,
+} from '../types';
 
 /**
  * Gets the configured image generation provider.

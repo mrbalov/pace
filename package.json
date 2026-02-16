@@ -1,6 +1,6 @@
 {
   "name": "pace",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Generates AI images based on Strava activity data.",
   "type": "module",
   "private": true,
