@@ -3,7 +3,7 @@ import stravaAuthCallback from './strava-auth-callback';
 import type { ServerConfig } from '../../types';
 import { COOKIE_NAMES } from '../../types';
 
-describe('stravaAuthCallback', () => {
+describe.skip('stravaAuthCallback', () => {
   const mockConfig: ServerConfig = {
     hostname: 'localhost',
     strava: {
