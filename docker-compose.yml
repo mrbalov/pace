@@ -1,0 +1,51 @@
+services:
+  # Backend server service
+  server:
+    build:
+      context: .
+      target: server-runtime
+    container_name: pace-server
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - UI_ORIGIN=http://localhost:3001
+      # Add your Strava API credentials here or use .env file
+      # - STRAVA_CLIENT_ID=${STRAVA_CLIENT_ID}
+      # - STRAVA_CLIENT_SECRET=${STRAVA_CLIENT_SECRET}
+      # - STRAVA_REDIRECT_URI=${STRAVA_REDIRECT_URI}
+    env_file:
+      - .env
+    networks:
+      - pace-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/strava/auth/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend UI service
+  ui:
+    build:
+      context: .
+      target: ui-runtime
+    container_name: pace-ui
+    ports:
+      - "3001:80"
+    depends_on:
+      - server
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    networks:
+      - pace-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  pace-network:
+    driver: bridge

@@ -6,6 +6,22 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2026-02-17
+
+### Added Docker Configuration for Local Development and Production Deployment
+
+### Added
+- Multi-stage Dockerfile with optimized builds for both UI and server components using Node.js 24
+- Production `docker-compose.yml` for orchestrating UI (Nginx) and server containers
+- Development `docker-compose.dev.yml` with hot reloading support for both UI and server
+- Helper script `docker-run.sh` for simplified Docker operations (build, start, stop, dev mode)
+- Comprehensive `.dockerignore` file to exclude unnecessary files from Docker builds
+- Docker environment configuration template `.env.example` with all required variables
+- Complete Docker documentation in `DOCKER.md` with setup instructions and troubleshooting guide
+
+### Changed
+- Environment configuration now includes Docker-specific variables for container networking
+
 ## [1.11.0] - 2026-02-16
 
 ### [27 Added Strava Activity Signals View in Image Generation Interface](https://github.com/mrbalov/pace/issues/27)
