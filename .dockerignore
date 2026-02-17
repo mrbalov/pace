@@ -1,0 +1,77 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# Development files
+.git/
+.gitignore
+.github/
+.husky/
+.eslintrc*
+.prettierrc*
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+README.md
+CHANGELOG.md
+docs/
+*.md
+
+# Test files
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+**/__tests__/
+**/tests/
+coverage/
+.nyc_output/
+
+# Docker files (prevent recursion)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Temporary files
+tmp/
+temp/
+*.log
+*.pid
+*.seed
+
+# OpenSpec files (not needed for runtime)
+openspec/
+.claude/
+
+# Bun specific
+bun.lockb.lock
+
+# Development configuration
+*.local.json
+*.development.json
+
+# Scripts and tools
+scripts/
+tools/
+
+# Netlify specific (if not needed for Docker deployment)
+netlify/
+netlify.toml
