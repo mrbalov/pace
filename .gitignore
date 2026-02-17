@@ -7,3 +7,5 @@ actions-runner
 .env
 .env.local
 .env.*.local
+.DS_Store
+packages/\*

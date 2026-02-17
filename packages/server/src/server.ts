@@ -184,7 +184,7 @@ const matchesActivityRoute = (pathname: string): boolean => {
 };
 
 /**
- * Checks if pathname matches /strava/activity/:id/signals pattern.
+ * Checks if pathname matches /strava/activities/:id/signals pattern.
  *
  * @param {string} pathname - Request pathname
  * @returns {boolean} True if pathname matches the pattern
@@ -195,7 +195,7 @@ const matchesActivitySignalsRoute = (pathname: string): boolean => {
   return (
     pathParts.length === 4 &&
     pathParts[0] === 'strava' &&
-    pathParts[1] === 'activity' &&
+    pathParts[1] === 'activities' &&
     pathParts[3] === 'signals'
   );
 };
@@ -230,12 +230,12 @@ const handleRoute = async (request: Request): Promise<Response> => {
     return Promise.resolve(stravaAuthStatus(request, config));
   } else if (pathname === '/strava/logout') {
     return Promise.resolve(stravaLogout(request, config));
+  } else if (matchesActivitySignalsRoute(pathname)) {
+    return stravaActivitySignals(request, config);
   } else if (pathname === '/strava/activities') {
     return stravaActivities(request, config);
   } else if (matchesActivityRoute(pathname)) {
     return stravaActivity(request, config);
-  } else if (matchesActivitySignalsRoute(pathname)) {
-    return stravaActivitySignals(request, config);
   } else if (matchesActivityImageGeneratorRoute(pathname)) {
     return activityImageGenerator(request, config);
   } else {

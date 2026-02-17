@@ -55,7 +55,6 @@ const Preloader = ({ message = undefined, withFullHeight = true }: PreloaderProp
               alignItems: 'center',
               justifyContent: 'center',
               gap: '1.5rem',
-              padding: '3rem 2rem',
               width: '100%',
             }}
           >

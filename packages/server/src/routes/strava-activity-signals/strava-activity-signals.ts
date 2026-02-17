@@ -1,30 +1,12 @@
-import { fetchStravaActivity, type StravaApiConfig } from '@pace/strava-api';
-import { getTokens } from '../../cookies';
-import type { ServerConfig, ServerTokenResult } from '../../types';
+import { fetchStravaActivity } from '@pace/strava-api';
 import getStravaActivitySignals from '@pace/get-strava-activity-signals';
 import checkForbiddenContent from '@pace/check-forbidden-content';
 
-/**
- * Creates StravaApiConfig from server tokens and config.
- *
- * @param {ServerTokenResult} tokens - OAuth tokens from cookies
- * @param {ServerConfig} config - Server configuration
- * @returns {StravaApiConfig} Strava API configuration
- * @internal
- */
-const createActivityConfig = (
-  tokens: ServerTokenResult,
-  config: ServerConfig,
-): StravaApiConfig => ({
-  accessToken: tokens.accessToken,
-  refreshToken: tokens.refreshToken,
-  clientId: config.strava.clientId,
-  clientSecret: config.strava.clientSecret,
-});
+import { getTokens } from '../../cookies';
+import type { ServerConfig } from '../../types';
 
 /**
  * Creates error response for unauthorized requests.
- *
  * @returns {Response} 401 Unauthorized response
  * @internal
  */
@@ -44,7 +26,6 @@ const createUnauthorizedResponse = (): Response =>
 
 /**
  * Creates bad request response for missing activity ID.
- *
  * @returns {Response} 400 Bad Request response
  * @internal
  */
@@ -63,7 +44,7 @@ const createBadRequestResponse = (): Response =>
   );
 
 /**
- * Handles GET /strava/activity/:id - Fetches Strava activity data.
+ * Handles GET /strava/activities/:id/signals - Fetches Strava activity signals.
  *
  * Retrieves activity data from Strava API using the activity ID from the URL path.
  * Requires authentication via cookies containing Strava OAuth tokens.
@@ -72,11 +53,11 @@ const createBadRequestResponse = (): Response =>
  * @param {ServerConfig} config - Server configuration
  * @returns {Promise<Response>} JSON response with activity data or error
  */
-const stravaActivity = async (request: Request, config: ServerConfig): Promise<Response> => {
+const stravaActivitySignals = async (request: Request, config: ServerConfig): Promise<Response> => {
   const url = new URL(request.url);
   const pathname = url.pathname;
   const pathParts = pathname.split('/').filter((part) => part !== '');
-  const activityIdIndex = pathParts.indexOf('activity');
+  const activityIdIndex = pathParts.indexOf('activities');
   const hasActivityId = activityIdIndex !== -1 && activityIdIndex < pathParts.length - 1;
 
   if (!hasActivityId) {
@@ -89,8 +70,12 @@ const stravaActivity = async (request: Request, config: ServerConfig): Promise<R
     if (!hasTokens) {
       return createUnauthorizedResponse();
     } else {
-      const activityConfig = createActivityConfig(tokens, config);
-      const activity = await fetchStravaActivity(activityId, activityConfig);
+      const activity = await fetchStravaActivity(activityId, {
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        clientId: config.strava.clientId,
+        clientSecret: config.strava.clientSecret,
+      });
       const signals = activity
         ? await getStravaActivitySignals(activity, checkForbiddenContent)
         : null;
@@ -120,4 +105,4 @@ const stravaActivity = async (request: Request, config: ServerConfig): Promise<R
   }
 };
 
-export default stravaActivity;
+export default stravaActivitySignals;

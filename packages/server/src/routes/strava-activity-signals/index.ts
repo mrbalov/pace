@@ -1,1 +1,1 @@
-export { default } from './strava-activity';
+export { default } from './strava-activity-signals';

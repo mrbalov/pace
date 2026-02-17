@@ -6,6 +6,22 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.1] - 2026-02-17
+
+### [27 Fixed Activity Signals API Route Consistency and Enhanced Image Display](https://github.com/mrbalov/pace/issues/27)
+
+### Added
+- Image display component with download functionality in the image generation drawer
+- Prettify signals utility for better formatting of activity signals in the UI display
+
+### Changed
+- Updated activity signals API endpoint from `/strava/activity/:id/signals` to `/strava/activities/:id/signals` for consistency with other activity endpoints
+- Renamed server route handler file from `strava-activity.ts` to `strava-activity-signals.ts` for better semantic clarity
+- Adjusted route matching priority in server to process activity signals before the generic activities route
+
+### Fixed
+- API route inconsistency that used singular "activity" instead of plural "activities" in the signals endpoint path
+
 ## [1.12.0] - 2026-02-17
 
 ### [27 Added Docker Configuration for Local Development and Production Deployment]](https://github.com/mrbalov/pace/issues/27)

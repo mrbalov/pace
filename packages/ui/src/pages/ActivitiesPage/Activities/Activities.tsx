@@ -83,33 +83,6 @@ const Activities = ({ activities }: ActivitiesProps) => {
   }, []);
 
   /**
-   * Downloads the generated image.
-   * Converts base64 data URL to blob and triggers a download.
-   * @param {string} imageData - Base64-encoded image data URL.
-   * @returns {Promise<void>} Promise that resolves when download is triggered.
-   */
-  const downloadImage = useCallback(async (imageData: string): Promise<void> => {
-    try {
-      // Convert data URL to blob
-      const response = await fetch(imageData);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-
-      link.href = url;
-      link.download = 'activity-image.png';
-
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Failed to download image:', error);
-      setGenerationError('Failed to download image. Please try again.');
-    }
-  }, []);
-
-  /**
    * Handles retry of image generation.
    */
   const handleRetry = useCallback((): void => {
@@ -141,7 +114,6 @@ const Activities = ({ activities }: ActivitiesProps) => {
         onClose={handleCloseImageGenerationDrawer}
         onRetry={handleRetry}
         setError={setGenerationError}
-        downloadImage={downloadImage}
       />
     </Grid.Container>
   );

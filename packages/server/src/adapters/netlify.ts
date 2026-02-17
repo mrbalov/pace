@@ -89,7 +89,7 @@ const normalizePath = (path: string): string => {
       'strava-logout': '/strava/logout',
       'strava-activities': '/strava/activities',
       'strava-activity': '/strava/activity',
-      'strava-activity-signals': '/strava/activity',
+      'strava-activity-signals': '/strava/activities',
     };
 
     // Map function names to path suffixes
@@ -611,7 +611,7 @@ const stravaActivitySignalsError = (error: unknown): NetlifyResponse => {
 };
 
 /**
- * Netlify Function handler for /strava/activity/:id/signals endpoint.
+ * Netlify Function handler for /strava/activities/:id/signals endpoint.
  *
  * @param {NetlifyEvent} event - Netlify function event
  * @returns {Promise<NetlifyResponse>} Netlify function response

@@ -1,10 +1,10 @@
-import { Button, Text, Spacer, Note, Drawer, Card, Grid } from '@geist-ui/core';
-import { X, Download } from '@geist-ui/icons';
-
-import Preloader from '../../../../components/Preloader';
 import { useMemo } from 'react';
+import { X } from '@geist-ui/icons';
+import { Button, Text, Drawer, Card, Grid } from '@geist-ui/core';
+
 import { useStravaActivitySignalsData } from '../../../../api';
 import Signals from './Signals';
+import Image from './Image';
 
 interface ImageGenerationDrawerProps {
   visible: boolean;
@@ -15,7 +15,6 @@ interface ImageGenerationDrawerProps {
   setError: (error: string) => void;
   onClose: () => void;
   onRetry: () => void;
-  downloadImage: (imageData: string) => Promise<void>;
 }
 
 interface TitleProps {
@@ -31,18 +30,6 @@ interface ContentProps {
   activityId?: string;
   onRetry: () => void;
   setError: (error: string) => void;
-  downloadImage: (imageData: string) => Promise<void>;
-}
-
-interface ImageGenerationErrorProps {
-  error: string;
-  onRetry: () => void;
-}
-
-interface ImageGenerationResultProps {
-  imageData: string;
-  setError: (error: string) => void;
-  downloadImage: (imageData: string) => Promise<void>;
 }
 
 /**
@@ -87,94 +74,6 @@ const Title = ({ generatingImage, generatedImageData, onClose }: TitleProps) => 
 };
 
 /**
- * Image generation preloader component.
- * @returns {JSX.Element} Image generation preloader component.
- */
-const ImageGenerationPreloader = () => (
-  <Grid xs={24}>
-    <Preloader message="Creating your activity image..." withFullHeight={false} />
-  </Grid>
-);
-
-/**
- * Image generation error component.
- * @param {ImageGenerationErrorProps} props - Component props.
- * @param {string} props.error - Error message to display.
- * @param {Function} props.onRetry - Function to retry image generation.
- * @returns {JSX.Element} Image generation error component.
- */
-const ImageGenerationError = ({ error, onRetry }: ImageGenerationErrorProps) => (
-  <Grid xs={24}>
-    <Note type="error" label="Error">
-      <Text>{error}</Text>
-      <Spacer h={1} />
-      <Button
-        onClick={onRetry}
-        type="success"
-        width="100%"
-        placeholder="Try Again"
-        onPointerEnterCapture={() => undefined}
-        onPointerLeaveCapture={() => undefined}
-      >
-        Try Again
-      </Button>
-    </Note>
-  </Grid>
-);
-
-/**
- * Image generation result component.
- * @param {ImageGenerationResultProps} props - Component props.
- * @param {string} props.imageData - Generated image data URL.
- * @param {Function} props.setError - Function to set error message.
- * @param {Function} props.downloadImage - Function to download the generated image.
- * @returns {JSX.Element} Image generation result component.
- */
-const ImageGenerationResult = ({
-  imageData,
-  setError,
-  downloadImage,
-}: ImageGenerationResultProps) => (
-  <>
-    <Grid xs={24}>
-      <img
-        src={imageData}
-        alt="Generated activity image"
-        style={{
-          width: '100%',
-          height: 'auto',
-          maxWidth: '100%',
-          borderRadius: '8px',
-          display: 'block',
-        }}
-        onLoad={() => {
-          console.info('Image loaded successfully');
-        }}
-        onError={(e) => {
-          console.error('Image load error:', e);
-          setError('Failed to load the generated image. Please try again.');
-        }}
-      />
-    </Grid>
-    <Grid xs={24}>
-      <Button
-        onClick={() => {
-          downloadImage(imageData).catch(console.error);
-        }}
-        type="default"
-        width="100%"
-        icon={<Download />}
-        placeholder="Download Image"
-        onPointerEnterCapture={() => undefined}
-        onPointerLeaveCapture={() => undefined}
-      >
-        Download Image
-      </Button>
-    </Grid>
-  </>
-);
-
-/**
  * Drawer content component.
  * @param {ContentProps} props - Component props.
  * @param {boolean} props.generatingImage - Whether the image is being generated.
@@ -183,7 +82,6 @@ const ImageGenerationResult = ({
  * @param {string} [props.activityId] - ID of the activity for which the image is being generated.
  * @param {Function} props.onRetry - Function to retry image generation.
  * @param {Function} props.setError - Function to set error message.
- * @param {Function} props.downloadImage - Function to download the generated image.
  * @returns {JSX.Element} Drawer content component.
  */
 const Content = ({
@@ -192,7 +90,6 @@ const Content = ({
   error,
   onRetry,
   setError,
-  downloadImage,
   activityId,
 }: ContentProps) => {
   const signalsData = useStravaActivitySignalsData(activityId);
@@ -210,23 +107,21 @@ const Content = ({
           </Card>
         </Grid>
         <Grid xs={24}>
+          <Image
+            isLoading={generatingImage}
+            error={error}
+            onRetry={onRetry}
+            imageData={imageData}
+            setError={setError}
+          />
+        </Grid>
+        <Grid xs={24}>
           <Signals
             isLoading={signalsData.isLoading}
             isLoaded={signalsData.isLoaded}
             signals={signalsData.data}
           />
         </Grid>
-        {generatingImage ? (
-          <ImageGenerationPreloader />
-        ) : error ? (
-          <ImageGenerationError error={error} onRetry={onRetry} />
-        ) : imageData ? (
-          <ImageGenerationResult
-            imageData={imageData}
-            setError={setError}
-            downloadImage={downloadImage}
-          />
-        ) : null}
       </Grid.Container>
     </Drawer.Content>
   );
@@ -243,7 +138,6 @@ const Content = ({
  * @param {Function} props.setError Function to set error message.
  * @param {Function} props.onClose Function to handle drawer close.
  * @param {Function} props.onRetry Function to retry image generation.
- * @param {Function} props.downloadImage Function to download the generated image.
  * @returns {JSX.Element} Image generation drawer.
  */
 const ImageGenerationDrawer = ({
@@ -255,7 +149,6 @@ const ImageGenerationDrawer = ({
   onClose,
   onRetry,
   setError,
-  downloadImage,
 }: ImageGenerationDrawerProps) => (
   <Drawer visible={visible} onClose={onClose} placement="right" width="500px">
     <Title
@@ -270,7 +163,6 @@ const ImageGenerationDrawer = ({
       onRetry={onRetry}
       setError={setError}
       activityId={activityId}
-      downloadImage={downloadImage}
     />
   </Drawer>
 );

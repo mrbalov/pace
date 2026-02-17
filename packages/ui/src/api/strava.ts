@@ -45,5 +45,5 @@ export async function fetchActivity(id: number): Promise<Activity> {
  * @returns {Promise<Activity>} Activity signals.
  */
 export async function fetchActivitySignals(id: number): Promise<Activity> {
-  return apiRequest<Activity>(`/strava/activity/${id}/signals`);
+  return apiRequest<Activity>(`/strava/activities/${id}/signals`);
 }
