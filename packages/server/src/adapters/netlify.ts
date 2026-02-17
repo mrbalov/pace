@@ -92,12 +92,14 @@ const normalizePath = (path: string): string => {
       'strava-activity': '/strava/activity',
       'strava-activity-signals': '/strava/activities',
       'strava-activity-image-generation-prompt': '/strava/activities',
+      'activity-image-generator': '/strava/activities',
     };
 
     // Map function names to path suffixes
     const suffixMap: Record<string, string> = {
       'strava-activity-signals': '/signals',
       'strava-activity-image-generation-prompt': '/image-generator/prompt',
+      'activity-image-generator': '/image-generator',
     };
 
     const baseRoute = routeMap[functionName] || path;

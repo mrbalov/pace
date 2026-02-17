@@ -73,7 +73,7 @@ status = 200
 force = true
 
 [[redirects]]
-from = "/activity-image-generator/*"
+from = "/strava/activities/*/image-generator"
 to = "/.netlify/functions/activity-image-generator/:splat"
 status = 200
 force = true

@@ -6,6 +6,14 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] - 2026-02-17
+
+### [27 Fixed Netlify Adapter Routing for Activity Image Generator](https://github.com/mrbalov/pace/issues/27)
+
+### Fixed
+- Netlify redirect pattern for activity image generator endpoint to correctly handle the `/strava/activities/*/image-generator` path structure
+- Missing route mappings in Netlify adapter for the `activity-image-generator` function to properly normalize request paths
+
 ## [2.2.0] - 2026-02-17
 
 ### [27 Added Custom Prompt Support for AI Image Generation](https://github.com/mrbalov/pace/issues/27)
