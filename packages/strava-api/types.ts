@@ -43,7 +43,7 @@ export interface StravaApiConfig {
      * @param {object} input - The entity to validate
      * @returns {StravaApiConfigGuardrailsValidationResult} Validation result
      */
-    validate: (input: Record<string, unknown>) => StravaApiConfigGuardrailsValidationResult;
+    validate: (input: StravaActivity) => StravaApiConfigGuardrailsValidationResult;
   };
 }
 

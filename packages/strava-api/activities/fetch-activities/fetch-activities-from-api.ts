@@ -1,4 +1,4 @@
-import { StravaApiConfig, StravaActivityApiResponse, StravaApiError } from '../../types';
+import { StravaApiConfig, StravaActivity, StravaApiError } from '../../types';
 import { STRAVA_API_BASE_URL, STRAVA_API_ENDPOINTS } from '../../constants';
 import getAuthHeaders from '../../activity/get-auth-headers';
 
@@ -66,11 +66,11 @@ const parseErrorFromMessage = (error: Error): StravaApiError | null => {
  * Parses JSON data from the API response.
  *
  * @param {Response} response - Response object to parse
- * @returns {Promise<StravaActivityApiResponse[]>} Promise resolving to parsed API response array
+ * @returns {Promise<StravaActivity[]>} Promise resolving to parsed API response array
  * @throws {Error} Throws StravaApiError with 'MALFORMED_RESPONSE' code if JSON parsing fails
  * @internal
  */
-const parseApiJsonData = async (response: Response): Promise<StravaActivityApiResponse[]> => {
+const parseApiJsonData = async (response: Response): Promise<StravaActivity[]> => {
   try {
     const data = (await response.json()) as unknown;
     if (!Array.isArray(data)) {
@@ -80,7 +80,7 @@ const parseApiJsonData = async (response: Response): Promise<StravaActivityApiRe
         false,
       );
     }
-    return data as StravaActivityApiResponse[];
+    return data as StravaActivity[];
   } catch (error) {
     const parsedError = parseErrorFromMessage(error as Error);
     if (parsedError !== null) {
@@ -102,7 +102,7 @@ const parseApiJsonData = async (response: Response): Promise<StravaActivityApiRe
  * error responses and maps them to appropriate StravaApiError codes.
  *
  * @param {StravaApiConfig} config - Strava API configuration with access token and optional base URL
- * @returns {Promise<StravaActivityApiResponse[]>} Promise resolving to the raw Strava API response data array
+ * @returns {Promise<StravaActivity[]>} Promise resolving to the raw Strava API response data array
  * @throws {Error} Throws an error with StravaApiError structure for various failure scenarios:
  *   - 'NETWORK_ERROR' (retryable): Network connection failure
  *   - 'UNAUTHORIZED' (not retryable): Invalid or expired token (401)
@@ -123,7 +123,7 @@ const parseApiJsonData = async (response: Response): Promise<StravaActivityApiRe
  */
 const fetchActivitiesFromApi = async (
   config: StravaApiConfig,
-): Promise<StravaActivityApiResponse[]> => {
+): Promise<StravaActivity[]> => {
   const baseUrl = config.baseUrl ?? STRAVA_API_BASE_URL;
   const url = `${baseUrl}${STRAVA_API_ENDPOINTS.ACTIVITIES}`;
   const headers = getAuthHeaders(config);
