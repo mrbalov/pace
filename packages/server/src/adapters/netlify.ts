@@ -12,6 +12,7 @@ import {
   stravaActivities,
   stravaActivity,
   stravaActivitySignals,
+  stravaActivityImageGenerationPrompt,
   activityImageGenerator,
 } from '../routes';
 import { getConfig } from '../config';
@@ -90,11 +91,13 @@ const normalizePath = (path: string): string => {
       'strava-activities': '/strava/activities',
       'strava-activity': '/strava/activity',
       'strava-activity-signals': '/strava/activities',
+      'strava-activity-image-generation-prompt': '/strava/activities',
     };
 
     // Map function names to path suffixes
     const suffixMap: Record<string, string> = {
       'strava-activity-signals': '/signals',
+      'strava-activity-image-generation-prompt': '/image-generator/prompt',
     };
 
     const baseRoute = routeMap[functionName] || path;
@@ -678,6 +681,65 @@ export const activityImageGeneratorHandler = async (
 ): Promise<NetlifyResponse> => {
   const result = await activityImageGeneratorSuccess(event).catch((error) =>
     activityImageGeneratorError(error),
+  );
+  return result;
+};
+
+/**
+ * Handles successful strava activity image generation prompt request.
+ *
+ * @param {NetlifyEvent} event - Netlify function event
+ * @returns {Promise<NetlifyResponse>} Netlify function response
+ * @internal
+ */
+const stravaActivityImageGenerationPromptSuccess = async (
+  event: NetlifyEvent,
+): Promise<NetlifyResponse> => {
+  // Handle OPTIONS preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return handleOptionsRequest(event);
+  }
+
+  const config = getConfig();
+  const request = netlifyEventToRequest(event);
+  const response = await stravaActivityImageGenerationPrompt(request, config);
+  return await webResponseToNetlify(response);
+};
+
+/**
+ * Handles strava activity image generation prompt error.
+ *
+ * @param {unknown} error - Error object
+ * @returns {NetlifyResponse} Error response
+ * @internal
+ */
+const stravaActivityImageGenerationPromptError = (error: unknown): NetlifyResponse => {
+  console.error('Error in strava-activity-image-generation-prompt function:', error);
+  const allowedOrigin = getAllowedOrigin();
+  return {
+    statusCode: 500,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': allowedOrigin,
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+    body: JSON.stringify({ error: 'Internal server error' }),
+  };
+};
+
+/**
+ * Netlify Function handler for /strava/activities/:id/image-generator/prompt endpoint.
+ *
+ * @param {NetlifyEvent} event - Netlify function event
+ * @returns {Promise<NetlifyResponse>} Netlify function response
+ */
+export const stravaActivityImageGenerationPromptHandler = async (
+  event: NetlifyEvent,
+): Promise<NetlifyResponse> => {
+  const result = await stravaActivityImageGenerationPromptSuccess(event).catch((error) =>
+    stravaActivityImageGenerationPromptError(error),
   );
   return result;
 };

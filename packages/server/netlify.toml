@@ -61,6 +61,12 @@ status = 200
 force = true
 
 [[redirects]]
+from = "/strava/activities/*/image-generator/prompt"
+to = "/.netlify/functions/strava-activity-image-generation-prompt/:splat"
+status = 200
+force = true
+
+[[redirects]]
 from = "/strava/activity/*"
 to = "/.netlify/functions/strava-activity/:splat"
 status = 200
