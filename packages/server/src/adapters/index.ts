@@ -5,6 +5,8 @@ export {
   stravaLogoutHandler,
   stravaActivitiesHandler,
   stravaActivityHandler,
+  stravaActivitySignalsHandler,
+  stravaActivityImageGenerationPromptHandler,
   activityImageGeneratorHandler,
   type NetlifyEvent,
   type NetlifyResponse,

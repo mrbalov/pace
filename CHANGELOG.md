@@ -6,7 +6,7 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - 2026-02-17
+## [2.2.0] - 2026-02-17
 
 ### [27 Added Custom Prompt Support for AI Image Generation](https://github.com/mrbalov/pace/issues/27)
 
@@ -25,6 +25,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Authentication requirement for image generation endpoint
 - Automatic activity fetching and signal extraction from the image generation flow
 - Dependency on Strava API credentials for basic image generation
+
+## [2.1.0] - 2026-02-17
+
+### [27 Added Public API Endpoint for AI Image Generation Prompts](https://github.com/mrbalov/pace/issues/27)
+
+### Added
+- New `/strava/activities/*/image-generator/prompt` endpoint for generating AI image prompts from activity signals without authentication
+- Base64-encoded signals support as query parameter for self-contained prompt generation
+- Netlify function handler for the new prompt generation endpoint
+- Signal validation and decoding with proper error responses for invalid inputs
 
 ## [2.0.0] - 2026-02-17
 
