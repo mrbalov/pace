@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { fetchActivities, type Activity } from './strava';
+import { StravaActivity } from '@pace/strava-api';
+
+import { fetchActivities } from './strava';
 import { APIError } from './client';
 
 export interface UseActivitiesResult {
-  activities: Activity[] | null;
+  activities: StravaActivity[] | null;
   loading: boolean;
   error: string | null;
   isUnauthorized: boolean;
@@ -15,7 +17,7 @@ export interface UseActivitiesResult {
  * @returns {UseActivitiesResult} Object containing activities, loading state, error, and refetch function
  */
 export function useActivities(): UseActivitiesResult {
-  const [activities, setActivities] = useState<Activity[] | null>(null);
+  const [activities, setActivities] = useState<StravaActivity[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isUnauthorized, setIsUnauthorized] = useState(false);

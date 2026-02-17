@@ -6,6 +6,16 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-02-17
+
+### [27 Improved Type Safety for Strava API Guardrails Validation](https://github.com/mrbalov/pace/issues/27)
+
+### Changed
+- **BREAKING**: Modified guardrails validation function signature in `StravaApiConfig` to accept strongly-typed `StravaActivity` instead of generic `Record<string, unknown>`, improving type safety and preventing runtime errors
+
+### Removed
+- Test file for fetch-activity module as part of testing strategy refactoring
+
 ## [1.12.1] - 2026-02-17
 
 ### [27 Fixed Activity Signals API Route Consistency and Enhanced Image Display](https://github.com/mrbalov/pace/issues/27)
