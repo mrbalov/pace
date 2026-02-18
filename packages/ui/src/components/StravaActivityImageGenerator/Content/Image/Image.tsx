@@ -1,66 +1,11 @@
-import { Download } from '@geist-ui/icons';
-import { Button, Text, Note, Grid, Card } from '@geist-ui/core';
-
-import Preloader from '../../../Preloader';
-import downloadBase64Image from './downloadBase64Image';
+import Content from './Content';
+import ExpandableCard from '../ExpandableCard';
 
 interface ImageProps {
   isLoading: boolean;
   isLoaded: boolean;
   image?: string | null;
 }
-
-interface ImageContentProps {
-  image: string;
-}
-
-/**
- * Image generation result.
- * @param {ImageContentProps} props - Component props.
- * @param {string} props.image - Generated image data URL.
- * @param {Function} props.downloadImage - Function to download the generated image.
- * @returns {JSX.Element} Image generation result component.
- */
-const ImageContent = ({
-  image,
-}: ImageContentProps) => (
-  <>
-    <Grid xs={24}>
-      <img
-        src={image}
-        alt="Generated activity image"
-        style={{
-          width: '100%',
-          height: 'auto',
-          maxWidth: '100%',
-          borderRadius: '8px',
-          display: 'block',
-        }}
-        onLoad={() => {
-          console.info('Image loaded successfully');
-        }}
-        onError={(error) => {
-          console.error('Image load error:', error);
-        }}
-      />
-    </Grid>
-    <Grid xs={24}>
-      <Button
-        onClick={() => {
-          downloadBase64Image(image).catch(console.error);
-        }}
-        type="default"
-        width="100%"
-        icon={<Download />}
-        placeholder="Download Image"
-        onPointerEnterCapture={() => undefined}
-        onPointerLeaveCapture={() => undefined}
-      >
-        Download Image
-      </Button>
-    </Grid>
-  </>
-);
 
 /**
  * Image generation progress.
@@ -78,26 +23,18 @@ const Image = ({
   isLoaded,
   image,
 }: ImageProps) => (
-  <Card style={{ width: '100%' }}>
-    {isLoading ? (
-      <Preloader
-        message="🤖 Creating your activity image with AI..."
-        withFullHeight={false}
-      />
-    ) : (isLoaded && image) ? (
-      <ImageContent image={image} />
-    ) : isLoaded ? (
-      <Grid xs={24}>
-        <Note type="error" label="Error">
-          <Text>Failed to generate image for your activity... Let's cry together.</Text>
-        </Note>
-      </Grid>
-    ) : (
-      <Preloader
-        message="⏳ Pending AI image generation for your activity..."
-        withFullHeight={false} />
-    )}
-  </Card>
+  <ExpandableCard
+    isLoading={isLoading}
+    isLoaded={isLoaded}
+    hasContent={Boolean(image)}
+    minHeight="auto"
+    title="Step 3: Creating your activity image with AI"
+    pendingMessage="Pending AI image generation for your activity..."
+    loadingMessage="Creating your activity image with AI..."
+    errorMessage="Failed to generate image for your activity... Let's cry together."
+  >
+    <Content image={image} />
+  </ExpandableCard>
 );
 
 export default Image;

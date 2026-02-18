@@ -110,7 +110,7 @@ export default defineConfig([
   {
     ignores: [
       'node_modules/**',
-      'dist/**',
+      '**/dist/**',
       '*.config.js',
       'actions-runner/**',
       '.claude/**',

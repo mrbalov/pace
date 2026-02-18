@@ -22,7 +22,7 @@ const prettifySignals = (signals: StravaActivitySignals): Output => {
           .join(' ');
         const valueJoined = Array.isArray(value) ? value.join(', ') : value;
 
-        return [keyPretty, valueJoined];
+        return valueJoined ? [keyPretty, valueJoined] : null;
       } else {
         return null;
       }
