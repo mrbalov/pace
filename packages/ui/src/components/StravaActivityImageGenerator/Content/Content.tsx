@@ -54,10 +54,10 @@ const Content = ({
         </Card>
       </Grid>
       <Grid xs={24}>
-        <Image
-          isLoading={isImageLoading}
-          isLoaded={isImageLoaded}
-          image={image}
+        <Signals
+          isLoading={isSignalsLoading}
+          isLoaded={isSignalsLoaded}
+          signals={signals}
         />
       </Grid>
       <Grid xs={24}>
@@ -68,10 +68,10 @@ const Content = ({
         />
       </Grid>
       <Grid xs={24}>
-        <Signals
-          isLoading={isSignalsLoading}
-          isLoaded={isSignalsLoaded}
-          signals={signals}
+        <Image
+          isLoading={isImageLoading}
+          isLoaded={isImageLoaded}
+          image={image}
         />
       </Grid>
     </Grid.Container>

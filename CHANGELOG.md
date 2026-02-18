@@ -6,6 +6,21 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.1] - 2026-02-18
+
+### [27 Improved UI Polish for ExpandableCard Components](https://github.com/mrbalov/pace/issues/27)
+
+### Changed
+- Reordered UI layout to display Signals component before Image component for improved user flow
+- Removed visual divider from ExpandableCard components for cleaner appearance
+- Reduced default minimum height from 100px to 60px in ExpandableCard for more compact display
+- Enhanced States component with Card styling, hover effects, and improved interaction feedback
+- Updated Expander padding from bottom-only to vertical for better spacing consistency
+- Made States container expandable with single status (previously required multiple statuses)
+
+### Fixed
+- Status array order in States component to maintain chronological sequence
+
 ## [2.3.0] - 2026-02-18
 
 ### [27 Enhanced UI with Expandable Card Components and Improved Status Indicators](https://github.com/mrbalov/pace/issues/27)

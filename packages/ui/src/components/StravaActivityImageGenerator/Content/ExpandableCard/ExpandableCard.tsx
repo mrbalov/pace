@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Card, Divider } from '@geist-ui/core';
+import { Card } from '@geist-ui/core';
 
 import getStatus from './getStatus';
 import State from './States';
@@ -43,7 +43,7 @@ const ExpandableCard = ({
   pendingMessage = 'Pending...',
   errorMessage = 'Someting went wrong...',
   title = 'Content',
-  minHeight = '100px',
+  minHeight = '60px',
   withExpander = false,
 }: ExpandableCardProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -83,7 +83,6 @@ const ExpandableCard = ({
           loadingMessage={loadingMessage}
           errorMessage={errorMessage}
         />
-        <Divider />
         {children}
       </Card.Content>
       {withExpander && (

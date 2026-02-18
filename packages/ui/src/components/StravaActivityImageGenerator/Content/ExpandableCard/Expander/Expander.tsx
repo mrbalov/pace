@@ -34,7 +34,7 @@ const Expander = ({
       display: 'flex',
       alignItems: 'flex-end',
       justifyContent: 'center',
-      paddingBottom: '4px',
+      padding: '4px 0',
     }}
   >
     {withButton && (

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Card } from '@geist-ui/core';
 
 import { Status } from '../types';
 import getUniqueArray from './getUniqueArray';
@@ -10,6 +11,7 @@ interface StatesProps {
   loadingMessage: string;
   pendingMessage: string;
   errorMessage: string;
+  minHeight?: string;
 }
 
 /**
@@ -19,6 +21,7 @@ interface StatesProps {
  * @param {string} props.loadingMessage - Message to display when loading.
  * @param {string} props.pendingMessage - Message to display when pending.
  * @param {string} props.errorMessage - Message to display when there's an error.
+ * @param {string} [props.minHeight] - Minimum height of the states container.
  * @returns {JSX.Element} States component.
  */
 const States = ({
@@ -26,6 +29,7 @@ const States = ({
   loadingMessage,
   pendingMessage,
   errorMessage,
+  minHeight = '50px',
 }: StatesProps) => {
   const [statuses, setStatuses] = useState<Status[]>([]);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -39,23 +43,24 @@ const States = ({
     const isUniqueStatus = !statuses.includes(status);
 
     if (isUniqueStatus) {
-      setStatuses((value) => (
-        getUniqueArray<Status>([...value, status]).reverse()
-      ));
+      setStatuses((value) => getUniqueArray<Status>([...value, status]));
     }
   }, [status]);
 
   return (
-    <div
+    <Card
       style={{
         position: 'relative',
         width: '100%',
-        minHeight: '50px',
-        maxHeight: isExpanded ? '500px' : '60px',
+        minHeight: minHeight,
+        maxHeight: isExpanded ? '500px' : minHeight,
         overflow: 'hidden',
         transition: 'max-height 0.3s ease',
+        cursor: statuses.length > 0 ? 'pointer' : 'default',
+        margin: '16px 0',
       }}
       onClick={handleToggleExpand}
+      hoverable={statuses.length > 0}
     >
       <Items
         statuses={statuses}
@@ -66,9 +71,9 @@ const States = ({
       <Expander
         isExpanded={isExpanded}
         handleToggleExpand={handleToggleExpand}
-        withButton={statuses.length > 1}
+        withButton={statuses.length > 0}
       />
-    </div>
+    </Card>
   );
 };
 
