@@ -12,7 +12,6 @@ const generateStravaActivityImage = async ({
   activityId,
   prompt,
 }: Input): Promise<ResponseImage | null> => {
-  return null;
   const { image } = await apiRequest<Response>(
     `/strava/activities/${activityId}/image-generator?prompt=${encodeURIComponent(prompt)}`,
   );
