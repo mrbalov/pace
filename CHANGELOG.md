@@ -6,6 +6,27 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-02-18
+
+### [27 Enhanced UI with Expandable Card Components and Improved Status Indicators](https://github.com/mrbalov/pace/issues/27)
+
+### Added
+- New `ExpandableCard` component system with smooth expand/collapse animations and configurable minimum heights
+- Animated status emoji indicators showing loading (🌀), pending (⏳), error (😵), and success (✅) states
+- Status history tracking with expandable list showing all state transitions during processing
+- Comprehensive test suite for `prettifySignals` utility function with 540+ lines of test coverage
+- Enhanced image download functionality with improved error handling and validation
+
+### Changed
+- Refactored Image, Prompt, and Signals components to use the new ExpandableCard system for consistent UX
+- Renamed `prettify-signals` directory to `prettifySignals` following camelCase naming conventions
+- Improved component organization by extracting image content into separate Content component
+- Updated ESLint configuration to properly ignore all dist directories with `**/dist/**` pattern
+- Enhanced visual feedback with step-by-step progress indicators for the three-phase generation process
+
+### Fixed
+- Empty value filtering in prettifySignals utility to properly handle undefined and empty arrays
+
 ## [2.2.1] - 2026-02-17
 
 ### [27 Fixed Netlify Adapter Routing for Activity Image Generator](https://github.com/mrbalov/pace/issues/27)
