@@ -255,4 +255,4 @@ services:
 For issues or questions about the Docker setup, please check:
 - Project documentation
 - Docker logs: `docker-compose logs`
-- GitHub issues: https://github.com/TORQ-AI/torq/issues
+- GitHub issues: https://github.com/torqlab/torq/issues

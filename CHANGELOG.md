@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BREAKING:** Updated acronym expansion: "Personal Activity Canvas Engine" → "Training Orbit Research Qernel"
 - **BREAKING:** Updated production CORS origin to `torq.club`
 - **BREAKING:** Updated Docker container names: `torq-server`, `torq-ui`, `torq-network`
-- **BREAKING:** Updated all GitHub repository URLs to `TORQ-AI/torq`
+- **BREAKING:** Updated all GitHub repository URLs to `torqlab/torq`
 - **BREAKING:** Updated all documentation, server JSDoc, and infrastructure references
 
 ## [2.3.2] - 2026-02-19

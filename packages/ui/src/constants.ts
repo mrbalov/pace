@@ -1,5 +1,5 @@
 export const LINKS = {
-  PROJECT_GITHUB: 'https://github.com/TORQ-AI/torq',
+  PROJECT_GITHUB: 'https://github.com/torqlab/torq',
   AUTHOR_BLOG: 'https://balov.dev',
   POLLINATIONS_AI: 'https://pollinations.ai/',
   NETLIFY: 'https://www.netlify.com/',

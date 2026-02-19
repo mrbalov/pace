@@ -4,11 +4,11 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c1078a73-683e-4313-8e7c-2911d555c7f0/deploy-status)](https://app.netlify.com/projects/torqapi/deploys)
 
-[![Verify (All Packages)](https://github.com/TORQ-AI/torq/actions/workflows/verify.yml/badge.svg)](https://github.com/TORQ-AI/torq/actions/workflows/verify.yml)
+[![Verify (All Packages)](https://github.com/torqlab/torq/actions/workflows/verify.yml/badge.svg)](https://github.com/torqlab/torq/actions/workflows/verify.yml)
 
-[![Validate All Specs with OpenSpec (Static Validation)](https://github.com/TORQ-AI/torq/actions/workflows/specs-validate-with-openspec.yml/badge.svg)](https://github.com/TORQ-AI/torq/actions/workflows/specs-validate-with-openspec.yml)
+[![Validate All Specs with OpenSpec (Static Validation)](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-openspec.yml/badge.svg)](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-openspec.yml)
 
-[![Validate Specs with AI](https://github.com/TORQ-AI/torq/actions/workflows/specs-validate-with-ai.yml/badge.svg)](https://github.com/TORQ-AI/torq/actions/workflows/specs-validate-with-ai.yml)
+[![Validate Specs with AI](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-ai.yml/badge.svg)](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-ai.yml)
 
 # TORQ (Strava Activity Image Generator)
 

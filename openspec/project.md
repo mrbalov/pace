@@ -44,7 +44,7 @@ Follow [LINTING.md](./LINTING.md).
 Follow [TESTING.md](./TESTING.md).
 
 ### Git Workflow
-- **Repository**: GitHub (github.com/TORQ-AI/torq)
+- **Repository**: GitHub (github.com/torqlab/torq)
 - **Branch Strategy**: Feature branches with descriptive names
 - **Commit Conventions**: Clear, descriptive commit messages
 - **Code Review**: Required before merging to main
