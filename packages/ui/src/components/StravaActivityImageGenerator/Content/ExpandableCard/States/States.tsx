@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Card } from '@geist-ui/core';
 
 import { Status } from '../types';
 import getUniqueArray from './getUniqueArray';
@@ -48,7 +47,7 @@ const States = ({
   }, [status]);
 
   return (
-    <Card
+    <div
       style={{
         position: 'relative',
         width: '100%',
@@ -57,10 +56,8 @@ const States = ({
         overflow: 'hidden',
         transition: 'max-height 0.3s ease',
         cursor: statuses.length > 0 ? 'pointer' : 'default',
-        margin: '16px 0',
       }}
       onClick={handleToggleExpand}
-      hoverable={statuses.length > 0}
     >
       <Items
         statuses={statuses}
@@ -73,7 +70,7 @@ const States = ({
         handleToggleExpand={handleToggleExpand}
         withButton={statuses.length > 0}
       />
-    </Card>
+    </div>
   );
 };
 
