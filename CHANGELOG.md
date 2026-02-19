@@ -6,6 +6,15 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.2] - 2026-02-19
+
+### [27 Replaced Card Component with Divider for Cleaner Visual Separation](https://github.com/mrbalov/pace/issues/27)
+
+### Changed
+- Replaced Card wrapper in States component with a plain div element for simpler DOM structure
+- Added Divider component between State and content sections in ExpandableCard for improved visual separation
+- Removed hoverable styling and margin from States container for cleaner appearance
+
 ## [2.3.1] - 2026-02-18
 
 ### [27 Improved UI Polish for ExpandableCard Components](https://github.com/mrbalov/pace/issues/27)
