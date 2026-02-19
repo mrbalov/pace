@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 /**
- * Standalone HTTP server for PACE backend
+ * Standalone HTTP server for TORQ backend
  *
  * Provides web endpoints for Strava OAuth authorization and token management.
  * Can be deployed to any Node.js hosting platform.
@@ -341,7 +341,7 @@ const createHttpServer = (): ReturnType<typeof createServer> => {
   const hostname = config.hostname ?? '0.0.0.0';
 
   server.listen(port, hostname, () => {
-    console.info(`🚀 PACE Server is running on http://${hostname}:${port}`);
+    console.info(`🚀 TORQ Server is running on http://${hostname}:${port}`);
   });
 
   return server;

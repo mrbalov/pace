@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define architectural requirements for the PACE system's modular architecture to ensure robust, deterministic, and safe image generation from Strava activity data.
+Define architectural requirements for the TORQ system's modular architecture to ensure robust, deterministic, and safe image generation from Strava activity data.
 
 ## Requirements
 

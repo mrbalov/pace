@@ -1,4 +1,4 @@
-import { getStravaAuthUrl } from '@pace/strava-api';
+import { getStravaAuthUrl } from '@torq/strava-api';
 
 import type { ServerConfig } from '../../types';
 

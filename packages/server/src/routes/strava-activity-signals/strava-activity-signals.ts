@@ -1,6 +1,6 @@
-import { fetchStravaActivity } from '@pace/strava-api';
-import getStravaActivitySignals from '@pace/get-strava-activity-signals';
-import checkForbiddenContent from '@pace/check-forbidden-content';
+import { fetchStravaActivity } from '@torq/strava-api';
+import getStravaActivitySignals from '@torq/get-strava-activity-signals';
+import checkForbiddenContent from '@torq/check-forbidden-content';
 
 import { getTokens } from '../../cookies';
 import type { ServerConfig } from '../../types';

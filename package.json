@@ -1,10 +1,10 @@
 {
-  "name": "pace",
-  "version": "2.3.2",
+  "name": "torq",
+  "version": "3.0.0",
   "description": "Generates AI images based on Strava activity data.",
   "type": "module",
   "private": true,
-  "homepage": "https://github.com/mrbalov/pace#readme",
+  "homepage": "https://github.com/torqlab/torq#readme",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -15,14 +15,14 @@
     "lint:fix": "eslint packages --fix",
     "format": "prettier --write packages",
     "format:check": "prettier --check packages",
-    "validate-specs:ai": "bun run --filter @pace/specs-guardrails validate-specs:ai -- --rootDir $(pwd) --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md",
-    "validate-specs:openspec": "bun run --filter @pace/specs-guardrails validate-specs:openspec -- --rootDir $(pwd)",
-    "ui:dev": "bun run --filter @pace/ui dev",
-    "server:dev": "bun run --filter @pace/server dev"
+    "validate-specs:ai": "bun run --filter @torq/specs-guardrails validate-specs:ai -- --rootDir $(pwd) --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md",
+    "validate-specs:openspec": "bun run --filter @torq/specs-guardrails validate-specs:openspec -- --rootDir $(pwd)",
+    "ui:dev": "bun run --filter @torq/ui dev",
+    "server:dev": "bun run --filter @torq/server dev"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mrbalov/pace.git"
+    "url": "git+https://github.com/torqlab/torq.git"
   },
   "keywords": [
     "strava",
@@ -35,7 +35,7 @@
     "url": "https://balov.dev"
   },
   "bugs": {
-    "url": "https://github.com/mrbalov/pace/issues"
+    "url": "https://github.com/torqlab/torq/issues"
   },
   "engines": {
     "node": "24.x"

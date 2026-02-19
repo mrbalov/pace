@@ -1,23 +1,23 @@
 {
-  "name": "@pace/server",
+  "name": "@torq/server",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "dist/server.js",
   "types": "src/index.ts",
   "scripts": {
-    "build": "bun build src/server.ts --outdir dist --target node --format esm --minify --external @pace/strava-api",
-    "build:watch": "bun build src/server.ts --outdir dist --target node --format esm --watch --external @pace/strava-api",
-    "build:netlify": "bun build netlify/functions/*.ts --outdir netlify/functions --target node --format esm --external @pace/strava-api",
+    "build": "bun build src/server.ts --outdir dist --target node --format esm --minify --external @torq/strava-api",
+    "build:watch": "bun build src/server.ts --outdir dist --target node --format esm --watch --external @torq/strava-api",
+    "build:netlify": "bun build netlify/functions/*.ts --outdir netlify/functions --target node --format esm --external @torq/strava-api",
     "dev": "bun --watch src/server.ts",
     "start": "node dist/server.js",
     "test": "bun test"
   },
   "dependencies": {
-    "@pace/generate-strava-activity-image": "workspace:*",
-    "@pace/get-strava-activity-signals": "workspace:*",
-    "@pace/check-forbidden-content": "workspace:*",
-    "@pace/strava-api": "workspace:*",
+    "@torq/generate-strava-activity-image": "workspace:*",
+    "@torq/get-strava-activity-signals": "workspace:*",
+    "@torq/check-forbidden-content": "workspace:*",
+    "@torq/strava-api": "workspace:*",
     "@netlify/blobs": "^8.1.0",
     "@netlify/functions": "^2.8.2"
   }

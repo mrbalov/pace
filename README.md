@@ -1,18 +1,18 @@
 ![One athlete is running. Another athlete is riding a road bicycle. Minimalistic style with dark colour tones.](./banner-thin.webp)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7b8eb9b4-63e0-43e5-87d4-473958dd27ae/deploy-status)](https://app.netlify.com/projects/pace-ui/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7b8eb9b4-63e0-43e5-87d4-473958dd27ae/deploy-status)](https://app.netlify.com/projects/torq-ui/deploys)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c1078a73-683e-4313-8e7c-2911d555c7f0/deploy-status)](https://app.netlify.com/projects/paceapi/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c1078a73-683e-4313-8e7c-2911d555c7f0/deploy-status)](https://app.netlify.com/projects/torqapi/deploys)
 
-[![Verify (All Packages)](https://github.com/mrbalov/pace/actions/workflows/verify.yml/badge.svg)](https://github.com/mrbalov/pace/actions/workflows/verify.yml)
+[![Verify (All Packages)](https://github.com/torqlab/torq/actions/workflows/verify.yml/badge.svg)](https://github.com/torqlab/torq/actions/workflows/verify.yml)
 
-[![Validate All Specs with OpenSpec (Static Validation)](https://github.com/mrbalov/pace/actions/workflows/specs-validate-with-openspec.yml/badge.svg)](https://github.com/mrbalov/pace/actions/workflows/specs-validate-with-openspec.yml)
+[![Validate All Specs with OpenSpec (Static Validation)](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-openspec.yml/badge.svg)](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-openspec.yml)
 
-[![Validate Specs with AI](https://github.com/mrbalov/pace/actions/workflows/specs-validate-with-ai.yml/badge.svg)](https://github.com/mrbalov/pace/actions/workflows/specs-validate-with-ai.yml)
+[![Validate Specs with AI](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-ai.yml/badge.svg)](https://github.com/torqlab/torq/actions/workflows/specs-validate-with-ai.yml)
 
-# PACE (Strava Activity Image Generator)
+# TORQ (Strava Activity Image Generator)
 
-**PACE** (**P**ersonal **A**ctivity **C**anvas **E**ngine) is an AI-powered [Strava](https://www.strava.com/) activity image generator that automatically turns your workouts into visually compelling images. It analyzes activity data and context to create shareable, expressive visuals for each Strava activity, helping athletes present their performance and stories in a more engaging and personalized way.
+**TORQ** (**T**raining **O**rbit **R**esearch **Q**ernel) is an AI-powered [Strava](https://www.strava.com/) activity image generator that automatically turns your workouts into visually compelling images. It analyzes activity data and context to create shareable, expressive visuals for each Strava activity, helping athletes present their performance and stories in a more engaging and personalized way.
 
 > **Note:** This project is being developed and supported in collaboration with AIs.
 

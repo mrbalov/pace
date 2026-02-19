@@ -6,6 +6,20 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-02-19
+
+### [52 Rebranding: PACE → TORQ (Training Orbit Research Qernel)](https://github.com/mrbalov/pace/issues/52)
+
+### Changed
+- **BREAKING:** Renamed project from **PACE** (Personal Activity Canvas Engine) to **TORQ** (Training Orbit Research Qernel)
+- **BREAKING:** Renamed all `@pace/*` workspace package scopes to `@torq/*`
+- **BREAKING:** Updated application title, header logo, footer copyright, and welcome pages to display **TORQ**
+- **BREAKING:** Updated acronym expansion: "Personal Activity Canvas Engine" → "Training Orbit Research Qernel"
+- **BREAKING:** Updated production CORS origin to `torq.club`
+- **BREAKING:** Updated Docker container names: `torq-server`, `torq-ui`, `torq-network`
+- **BREAKING:** Updated all GitHub repository URLs to `torqlab/torq`
+- **BREAKING:** Updated all documentation, server JSDoc, and infrastructure references
+
 ## [2.3.2] - 2026-02-19
 
 ### [27 Replaced Card Component with Divider for Cleaner Visual Separation](https://github.com/mrbalov/pace/issues/27)

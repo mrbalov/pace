@@ -1,5 +1,5 @@
 /**
- * Netlify Functions adapter for PACE server routes
+ * Netlify Functions adapter for TORQ server routes
  *
  * Provides Netlify-compatible handler functions that wrap the server route handlers.
  */

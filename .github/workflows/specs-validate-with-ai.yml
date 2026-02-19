@@ -129,7 +129,7 @@ jobs:
           
           if [ "${{ steps.changed-specs.outputs.has_changed_specs }}" = "true" ]; then
             echo "Validating only changed spec files..."
-            bun run --filter @pace/specs-guardrails validate-specs:ai -- --specFilePaths "${{ steps.changed-specs.outputs.spec_paths }}" --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/raw-output.txt 2>&1 || {
+            bun run --filter @torq/specs-guardrails validate-specs:ai -- --specFilePaths "${{ steps.changed-specs.outputs.spec_paths }}" --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/raw-output.txt 2>&1 || {
               echo "Validation script failed. Raw output:"
               cat .specs-validation/ai/raw-output.txt
               # Create a valid error JSON response
@@ -137,7 +137,7 @@ jobs:
             }
           else
             echo "No changed spec files detected, validating all specs..."
-            bun run --filter @pace/specs-guardrails validate-specs:ai -- --rootDir $(pwd)/openspec/specs --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/raw-output.txt 2>&1 || {
+            bun run --filter @torq/specs-guardrails validate-specs:ai -- --rootDir $(pwd)/openspec/specs --systemPrompt $(pwd)/prompts/validate-specs.system.md --userPrompt $(pwd)/prompts/validate-specs.user.md > .specs-validation/ai/raw-output.txt 2>&1 || {
               echo "Validation script failed. Raw output:"
               cat .specs-validation/ai/raw-output.txt
               # Create a valid error JSON response
@@ -154,7 +154,7 @@ jobs:
             echo ""
             
             # Strip the Bun prefix and filter out non-JSON lines
-            sed 's/^@pace\/specs-guardrails validate-specs:ai: //' .specs-validation/ai/raw-output.txt | \
+            sed 's/^@torq\/specs-guardrails validate-specs:ai: //' .specs-validation/ai/raw-output.txt | \
               grep -v '^Exited with code' | \
               grep -v '^$' > .specs-validation/ai/result.json || {
               echo "Failed to sanitize output. Creating error response."

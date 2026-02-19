@@ -1,5 +1,5 @@
 {
-  "name": "@pace/get-strava-activity-signals",
+  "name": "@torq/get-strava-activity-signals",
   "private": true,
   "type": "module",
   "main": "index.ts"

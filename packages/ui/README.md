@@ -1,6 +1,6 @@
-# @pace/ui
+# @torq/ui
 
-Single Page Application (SPA) UI package for PACE built with React, Vite, and Geist UI. This package provides a pure client-side application that communicates with the `/packages/server` backend API.
+Single Page Application (SPA) UI package for TORQ built with React, Vite, and Geist UI. This package provides a pure client-side application that communicates with the `/packages/server` backend API.
 
 ## Features
 
@@ -36,7 +36,7 @@ The UI package is a pure static site that:
 
 ## Installation
 
-This package is part of the PACE monorepo and is automatically available.
+This package is part of the TORQ monorepo and is automatically available.
 
 ## Development
 
@@ -401,7 +401,7 @@ Add routes in `src/App.tsx`:
 
 ## See Also
 
-- [@pace/server](../server/README.md) - Backend API server
+- [@torq/server](../server/README.md) - Backend API server
 - [Geist UI Documentation](https://geist-ui.dev/) - UI component library
 - [Vite Documentation](https://vitejs.dev/) - Build tool and dev server
 - [React Documentation](https://react.dev/) - React framework

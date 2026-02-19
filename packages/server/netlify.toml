@@ -23,7 +23,7 @@ node_bundler = "esbuild"
 [[headers]]
 for = "/.netlify/functions/*"
 [headers.values]
-Access-Control-Allow-Origin = "https://pace.balov.dev"
+Access-Control-Allow-Origin = "https://torq.club"
 Access-Control-Allow-Methods = "GET, POST, OPTIONS, DELETE"
 Access-Control-Allow-Headers = "Content-Type"
 Access-Control-Allow-Credentials = "true"

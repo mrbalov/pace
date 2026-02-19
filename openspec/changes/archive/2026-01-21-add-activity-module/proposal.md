@@ -2,7 +2,7 @@
 
 ## Why
 
-The Activity module is a core component of the PACE system architecture, responsible for Strava API integration and activity data retrieval. While the module is defined in the system architecture specification, it currently lacks a formal OpenSpec specification that defines its detailed requirements, behaviors, and integration patterns.
+The Activity module is a core component of the TORQ system architecture, responsible for Strava API integration and activity data retrieval. While the module is defined in the system architecture specification, it currently lacks a formal OpenSpec specification that defines its detailed requirements, behaviors, and integration patterns.
 
 The system operates on a webhook-based trigger model: when a user uploads a new activity to Strava, Strava sends a webhook notification to the system containing the activity ID. The Activity module then receives this activity ID and fetches the complete activity details from the Strava API. This webhook-to-fetch flow is the entry point for all activity processing in the system.
 

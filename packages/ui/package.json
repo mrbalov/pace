@@ -1,5 +1,5 @@
 {
-  "name": "@pace/ui",
+  "name": "@torq/ui",
   "private": true,
   "type": "module",
   "scripts": {

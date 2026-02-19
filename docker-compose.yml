@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: server-runtime
-    container_name: pace-server
+    container_name: torq-server
     ports:
       - "3000:3000"
     environment:
@@ -18,7 +18,7 @@ services:
     env_file:
       - .env
     networks:
-      - pace-network
+      - torq-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/strava/auth/status"]
       interval: 30s
@@ -31,7 +31,7 @@ services:
     build:
       context: .
       target: ui-runtime
-    container_name: pace-ui
+    container_name: torq-ui
     ports:
       - "3001:80"
     depends_on:
@@ -39,7 +39,7 @@ services:
     environment:
       - VITE_API_URL=http://localhost:3000
     networks:
-      - pace-network
+      - torq-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]
       interval: 30s
@@ -47,5 +47,5 @@ services:
       retries: 3
 
 networks:
-  pace-network:
+  torq-network:
     driver: bridge

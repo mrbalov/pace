@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for PACE application
+# Multi-stage Dockerfile for TORQ application
 # Builds both UI and server in optimized layers
 
 # Stage 1: Base dependencies

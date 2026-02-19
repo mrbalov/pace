@@ -1,5 +1,5 @@
 {
-  "name": "@pace/generate-strava-activity-image",
+  "name": "@torq/generate-strava-activity-image",
   "version": "0.1.0",
   "private": true,
   "type": "module",

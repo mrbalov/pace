@@ -10,7 +10,7 @@ const Member = () => (
   <Grid.Container gap={2} justify="center" alignItems="center" direction="column">
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Text h1 style={{ color: '#d8a0c7' }}>
-        Welcome to PACE!
+        Welcome to TORQ!
       </Text>
     </Grid>
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>

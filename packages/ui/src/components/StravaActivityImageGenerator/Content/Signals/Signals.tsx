@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from 'react';
 import { Text } from '@geist-ui/core';
-import { StravaActivitySignals } from '@pace/get-strava-activity-signals';
+import { StravaActivitySignals } from '@torq/get-strava-activity-signals';
 
 import prettifySignals from './prettifySignals';
 import ExpandableCard from '../ExpandableCard';

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Text, Grid, Note } from '@geist-ui/core';
-import { StravaActivity } from '@pace/strava-api';
+import { StravaActivity } from '@torq/strava-api';
 
 import ImageGenerationDrawer from './ImageGenerationDrawer';
 import ActivitiesList from './ActivitiesList';
