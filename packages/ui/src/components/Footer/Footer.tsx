@@ -32,7 +32,7 @@ const Footer = () => {
           }}
         >
           <Text span type="secondary">
-            © {new Date().getFullYear()} PACE by Mr.B.
+            © {new Date().getFullYear()} TORQ by Mr.B.Lab. All rights reserved.
           </Text>
           <div style={{ display: 'flex', gap: '8px' }}>
             <Link
@@ -41,16 +41,16 @@ const Footer = () => {
               target="_blank"
               onPointerEnterCapture={() => undefined}
               onPointerLeaveCapture={() => undefined}
-              placeholder="Go to PACE GitHub"
+              placeholder="Go to TORQ GitHub"
             >
               <Button
                 auto
                 type="default"
                 scale={0.6}
                 icon={<Github />}
-                aria-label="Go to PACE GitHub"
-                title="Go to PACE GitHub"
-                placeholder="Go to PACE GitHub"
+                aria-label="Go to TORQ GitHub"
+                title="Go to TORQ GitHub"
+                placeholder="Go to TORQ GitHub"
                 onPointerEnterCapture={() => undefined}
                 onPointerLeaveCapture={() => undefined}
               />

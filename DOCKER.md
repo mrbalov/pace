@@ -1,4 +1,4 @@
-# Docker Setup for PACE
+# Docker Setup for TORQ
 
 This project includes a complete Docker configuration for easy deployment and development.
 
@@ -139,15 +139,15 @@ docker-compose logs -f ui
 docker ps
 
 # Execute command in container
-docker exec -it pace-server sh
-docker exec -it pace-ui sh
+docker exec -it torq-server sh
+docker exec -it torq-ui sh
 
 # View container logs
-docker logs pace-server
-docker logs pace-ui
+docker logs torq-server
+docker logs torq-ui
 
 # Inspect container
-docker inspect pace-server
+docker inspect torq-server
 ```
 
 ### Cleanup
@@ -255,4 +255,4 @@ services:
 For issues or questions about the Docker setup, please check:
 - Project documentation
 - Docker logs: `docker-compose logs`
-- GitHub issues: https://github.com/mrbalov/pace/issues
+- GitHub issues: https://github.com/torqlab/torq/issues

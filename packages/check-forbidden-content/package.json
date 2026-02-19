@@ -1,5 +1,5 @@
 {
-  "name": "@pace/check-forbidden-content",
+  "name": "@torq/check-forbidden-content",
   "private": true,
   "type": "module",
   "main": "index.ts"

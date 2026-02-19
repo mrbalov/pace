@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StravaActivitySignals } from '@pace/get-strava-activity-signals';
+import { StravaActivitySignals } from '@torq/get-strava-activity-signals';
 import fetchStravaActivitySignals from './fetchStravaActivitySignals';
 
 /**

@@ -1,7 +1,7 @@
-import generateStravaActivityImage from '@pace/generate-strava-activity-image';
-import type { GenerateImageOutput } from '@pace/generate-strava-activity-image/types';
-import checkForbiddenContent from '@pace/check-forbidden-content';
-import { STRAVA_ACTIVITY_IMAGE_GENERATION_PROMPT_DEFAULT } from '@pace/get-strava-activity-image-generation-prompt';
+import generateStravaActivityImage from '@torq/generate-strava-activity-image';
+import type { GenerateImageOutput } from '@torq/generate-strava-activity-image/types';
+import checkForbiddenContent from '@torq/check-forbidden-content';
+import { STRAVA_ACTIVITY_IMAGE_GENERATION_PROMPT_DEFAULT } from '@torq/get-strava-activity-image-generation-prompt';
 
 import env from '../../env';
 import { ERROR_MESSAGES, STATUS_CODES } from './constants';

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Docker helper script for PACE application
+# Docker helper script for TORQ application
 # Provides easy commands to build and run the application
 
 set -e
@@ -20,7 +20,7 @@ print_message() {
 
 # Show usage information
 show_help() {
-    echo "PACE Docker Helper Script"
+    echo "TORQ Docker Helper Script"
     echo ""
     echo "Usage: ./docker-run.sh [command]"
     echo ""

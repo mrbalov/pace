@@ -36,7 +36,7 @@ const Logo = () => (
     >
       <ActivityEmoji />
       {'\u00A0'}
-      PACE
+      TORQ
     </Text>
   </Link>
 );

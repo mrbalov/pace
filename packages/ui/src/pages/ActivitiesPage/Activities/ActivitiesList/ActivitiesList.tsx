@@ -1,6 +1,6 @@
 import { Card, Button, Text, Grid, Spacer } from '@geist-ui/core';
 import { Activity as ActivityIcon, Navigation, Clock, TrendingUp, Zap } from '@geist-ui/icons';
-import { StravaActivity } from '@pace/strava-api';
+import { StravaActivity } from '@torq/strava-api';
 
 import formatActivityType from './formatActivityType';
 

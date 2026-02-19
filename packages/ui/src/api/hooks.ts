@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StravaActivity } from '@pace/strava-api';
+import { StravaActivity } from '@torq/strava-api';
 
 import { fetchActivities } from './strava';
 import { APIError } from './client';

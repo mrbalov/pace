@@ -1,4 +1,4 @@
-import { StravaActivity } from '@pace/strava-api';
+import { StravaActivity } from '@torq/strava-api';
 
 import { apiRequest } from './client';
 

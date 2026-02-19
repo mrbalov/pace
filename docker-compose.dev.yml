@@ -5,7 +5,7 @@ services:
   # Backend server with hot reloading
   server-dev:
     image: oven/bun:latest
-    container_name: pace-server-dev
+    container_name: torq-server-dev
     working_dir: /app
     command: sh -c "bun install && cd packages/server && bun --watch src/server.ts"
     ports:
@@ -21,12 +21,12 @@ services:
     env_file:
       - .env
     networks:
-      - pace-network-dev
+      - torq-network-dev
 
   # Frontend UI with hot reloading
   ui-dev:
     image: oven/bun:latest
-    container_name: pace-ui-dev
+    container_name: torq-ui-dev
     working_dir: /app
     command: sh -c "bun install && cd packages/ui && bun run dev --host 0.0.0.0"
     ports:
@@ -41,8 +41,8 @@ services:
     depends_on:
       - server-dev
     networks:
-      - pace-network-dev
+      - torq-network-dev
 
 networks:
-  pace-network-dev:
+  torq-network-dev:
     driver: bridge

@@ -1,5 +1,5 @@
 import { Text, Drawer, Card, Grid } from '@geist-ui/core';
-import { StravaActivitySignals } from '@pace/get-strava-activity-signals';
+import { StravaActivitySignals } from '@torq/get-strava-activity-signals';
 
 import Prompt from './Prompt';
 import Signals from './Signals';

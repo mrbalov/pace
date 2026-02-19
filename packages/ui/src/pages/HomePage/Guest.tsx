@@ -11,7 +11,7 @@ const Guest = () => (
   <Grid.Container gap={2} justify="center" alignItems="center" direction="column">
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
       <Text h1 style={{ color: '#d8a0c7' }}>
-        Welcome to PACE!
+        Welcome to TORQ!
       </Text>
     </Grid>
     <Grid xs={24} md={18} lg={12} style={{ textAlign: 'center' }}>
@@ -24,9 +24,9 @@ const Guest = () => (
           lineHeight: '1.7',
         }}
       >
-        <strong>PACE</strong> is a{' '}
+        <strong>TORQ</strong> is a{' '}
         <span style={{ fontWeight: 'bold', color: '#d8a0c7', letterSpacing: '0.3px' }}>
-          Personal Activity Canvas Engine
+          Training Orbit Research Qernel
         </span>
         . It helps you create beautiful visualizations of your athletic activities. Connect your
         Strava account to get started and transform your workout data into stunning images!
