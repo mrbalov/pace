@@ -1,6 +1,6 @@
 {
   "name": "torq",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Generates AI images based on Strava activity data.",
   "type": "module",
   "private": true,

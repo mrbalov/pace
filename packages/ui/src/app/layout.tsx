@@ -10,6 +10,56 @@ import Providers from './providers';
 
 export const metadata: Metadata = {
   title: 'TORQ - Strava Activity Image Generator',
+  description:
+    'Generate stunning AI-powered images for your Strava activities. Transform your workout data into beautiful visual stories.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'),
+  openGraph: {
+    title: 'TORQ - Strava Activity Image Generator',
+    description:
+      'Generate stunning AI-powered images for your Strava activities. Transform your workout data into beautiful visual stories.',
+    url: '/',
+    siteName: 'TORQ',
+    images: [
+      {
+        url: '/banner.webp',
+        width: 1200,
+        height: 630,
+        alt: 'TORQ - Strava Activity Image Generator',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TORQ - Strava Activity Image Generator',
+    description:
+      'Generate stunning AI-powered images for your Strava activities. Transform your workout data into beautiful visual stories.',
+    images: ['/banner.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+    other: [
+      {
+        rel: 'android-chrome-192x192',
+        url: '/android-chrome-192x192.png',
+      },
+      {
+        rel: 'android-chrome-512x512',
+        url: '/android-chrome-512x512.png',
+      },
+    ],
+  },
+  manifest: '/site.webmanifest',
 };
 
 interface RootLayoutProps {

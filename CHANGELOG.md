@@ -6,6 +6,22 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.3] - 2026-02-20
+
+### Added Favicon and Enhanced SEO Metadata Support
+
+### Added
+- Complete favicon set for all platforms (16x16, 32x32, Apple Touch Icon, Android Chrome icons)
+- PWA manifest file (`site.webmanifest`) with app name "TORQ" and icon configurations
+- Comprehensive SEO metadata including Open Graph tags for social media sharing
+- Twitter Card metadata with large image preview support
+- `NEXT_PUBLIC_BASE_URL` environment variable for configurable metadata base URL
+- Robots meta tags for proper search engine indexing
+
+### Changed
+- Enhanced metadata configuration in `layout.tsx` with multi-size icon support
+- Improved favicon setup with proper paths pointing to `/public/` directory
+
 ## [5.0.2] - 2026-02-20
 
 ### [22 Code Quality Improvements and Component Refactoring](https://github.com/mrbalov/pace/issues/22)
