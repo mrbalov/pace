@@ -7,7 +7,7 @@ import { ENDPOINTS } from '../constants';
  * @returns {Promise<void>} Promise that resolves when logout is complete.
  */
 const logout = async (): Promise<void> => {
-  await apiRequest(ENDPOINTS.STRAVA_LOGOUT, {
+  await apiRequest<void>(ENDPOINTS.STRAVA_LOGOUT, {
     method: 'POST',
     credentials: 'include', // Include cookies.
     headers: {
