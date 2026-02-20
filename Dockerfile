@@ -47,8 +47,9 @@ FROM deps AS ui-builder
 # Copy UI source code
 COPY packages/ui ./packages/ui
 
-# Build UI for production
+# Build UI for production (standalone output for Docker)
 WORKDIR /app/packages/ui
+ENV NEXT_OUTPUT=standalone
 RUN bun run build
 
 # Stage 5: Production server runtime
@@ -85,38 +86,22 @@ ENV PORT=3000
 # Run server
 CMD ["node", "packages/server/dist/server.js"]
 
-# Stage 6: UI static files server (nginx)
-FROM nginx:alpine AS ui-runtime
+# Stage 6: UI Next.js server
+FROM node:24-alpine AS ui-runtime
 
-# Copy built UI files to nginx
-COPY --from=ui-builder /app/packages/ui/dist /usr/share/nginx/html
+WORKDIR /app
 
-# Create nginx configuration for React app
-RUN echo 'server { \
-    listen 80; \
-    location / { \
-        root /usr/share/nginx/html; \
-        index index.html; \
-        try_files $uri $uri/ /index.html; \
-    } \
-    location /strava { \
-        proxy_pass http://server:3000; \
-        proxy_http_version 1.1; \
-        proxy_set_header Upgrade $http_upgrade; \
-        proxy_set_header Connection "upgrade"; \
-        proxy_set_header Host $host; \
-        proxy_set_header X-Real-IP $remote_addr; \
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \
-        proxy_set_header X-Forwarded-Proto $scheme; \
-    } \
-    location /activity-image-generator { \
-        proxy_pass http://server:3000; \
-        proxy_http_version 1.1; \
-        proxy_set_header Host $host; \
-        proxy_set_header X-Real-IP $remote_addr; \
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \
-        proxy_set_header X-Forwarded-Proto $scheme; \
-    } \
-}' > /etc/nginx/conf.d/default.conf
+# Copy built Next.js output and required files
+COPY --from=ui-builder /app/packages/ui/.next/standalone ./
+COPY --from=ui-builder /app/packages/ui/.next/static ./packages/ui/.next/static
+COPY --from=ui-builder /app/packages/ui/public ./packages/ui/public
 
-EXPOSE 80
+# Expose Next.js port
+EXPOSE 3001
+
+ENV NODE_ENV=production
+ENV PORT=3001
+ENV HOSTNAME=0.0.0.0
+
+# Run Next.js standalone server
+CMD ["node", "packages/ui/server.js"]

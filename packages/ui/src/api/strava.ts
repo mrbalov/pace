@@ -8,8 +8,7 @@ import { apiRequest } from './client';
  * @returns {void}
  */
 export function authorizeStrava(): void {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-  window.location.href = `${apiUrl}/strava/auth`;
+  window.location.href = '/strava/auth';
 }
 
 /**

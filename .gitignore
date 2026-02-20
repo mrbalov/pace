@@ -2,6 +2,7 @@ tmp
 dist
 node_modules
 actions-runner
+.next
 .codemie
 .specification-validation
 .env

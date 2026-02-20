@@ -1,6 +1,9 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { apiRequest } from '../api/client';
-import { APIError } from '../api/client';
+
+import { apiRequest } from '@/api/client';
+import { APIError } from '@/api/client';
 
 export interface UseAuthStatusResult {
   isAuthenticated: boolean;
@@ -8,10 +11,9 @@ export interface UseAuthStatusResult {
 }
 
 /**
- * Hook to check authentication status without loading activities.
- * Uses the /strava/auth/status endpoint to check if user is authenticated.
- *
- * @returns {UseAuthStatusResult} Authentication status and loading state
+ * Checks authentication status without loading activities.
+ * Uses the `/strava/auth/status` endpoint to check if user is authenticated.
+ * @returns {UseAuthStatusResult} Authentication status and loading state.
  */
 export const useAuthStatus = (): UseAuthStatusResult => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

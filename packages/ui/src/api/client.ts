@@ -2,11 +2,11 @@
  * Base API client with cookie-based authentication.
  * Communicates with /packages/server backend.
  *
- * In development, uses relative URLs to leverage Vite proxy.
- * In production, uses VITE_API_URL if set, otherwise defaults to relative URLs.
+ * Requests to /strava/* are proxied to the backend via next.config.mjs rewrites.
+ * NEXT_PUBLIC_API_URL is only needed when running without the Next.js server proxy.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 /**
  * Custom error class for API request failures.

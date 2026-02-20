@@ -33,15 +33,19 @@ services:
       target: ui-runtime
     container_name: torq-ui
     ports:
-      - "3001:80"
+      - "3001:3001"
     depends_on:
       - server
     environment:
-      - VITE_API_URL=http://localhost:3000
+      - NODE_ENV=production
+      - PORT=3001
+      - HOSTNAME=0.0.0.0
+      # Routes /strava/* and /activity-image-generator/* to internal backend
+      - API_URL=http://server:3000
     networks:
       - torq-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost:3001/"]
       interval: 30s
       timeout: 10s
       retries: 3

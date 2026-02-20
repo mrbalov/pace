@@ -1,7 +1,6 @@
-# Vite build output
-dist
-dist-ssr
-*.local
+# Next.js build output
+.next
+out
 
 # Dependencies
 node_modules

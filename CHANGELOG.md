@@ -6,6 +6,36 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2026-02-20
+
+### [22 UI Architecture Migration: Vite → Next.js, GeistUI → shadcn/ui with Enhanced SSR](https://github.com/mrbalov/pace/issues/22)
+
+### Changed
+- **BREAKING:** Migrated from `@geist-ui/core` and `@geist-ui/icons` to shadcn/ui component system with Tailwind CSS v4
+- **BREAKING:** Replaced custom theme management with `next-themes` for SSR-safe theme switching without hydration flash
+- **BREAKING:** Converted multiple components to Server Components for improved performance: Footer, Header (shell), Preloader, loading pages, HomePage/Member, ActivitiesPage/Guest
+- **BREAKING:** Restructured layout architecture to push client boundaries down from top-level app to only components requiring browser APIs
+- **BREAKING:** Replaced `@geist-ui/icons` with `lucide-react` icon library
+- **BREAKING:** Updated all UI components to use Tailwind CSS classes instead of inline styles
+- **BREAKING:** Replaced Geist Drawer components with shadcn Sheet components for slide-in panels
+- Improved bundle size by eliminating ~40 unnecessary `'use client'` directives, reducing client-side JavaScript
+- Enhanced SEO and performance through maximum Server-Side Rendering implementation
+- Adopted shadcn/ui "New York" style variant for consistent, compact design closest to previous Geist aesthetic
+
+### Added
+- shadcn/ui component library with Radix UI primitives for enhanced accessibility
+- Tailwind CSS v4 with CSS-first configuration and shadcn CSS variables for light/dark themes
+- next-themes integration for seamless theme management in Next.js App Router
+- New utility functions: `cn()` helper for conditional class merging
+- Enhanced build performance with reduced client-side bundle
+
+### Removed
+- `@geist-ui/core` dependency and GeistProvider wrapper
+- `@geist-ui/icons` icon library
+- Custom theme hooks and management (~60 lines of theme logic)
+- `wouter` routing dependency
+- Inline style objects throughout component tree
+
 ## [3.0.0] - 2026-02-19
 
 ### [52 Rebranding: PACE → TORQ (Training Orbit Research Qernel)](https://github.com/mrbalov/pace/issues/52)

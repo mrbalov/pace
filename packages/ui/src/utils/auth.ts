@@ -42,8 +42,7 @@ export async function logout(): Promise<void> {
 
   try {
     // Call backend logout endpoint to clear HTTP-only cookies
-    const apiUrl = import.meta.env.VITE_API_URL || '';
-    await fetch(`${apiUrl}/strava/logout`, {
+    await fetch('/strava/logout', {
       method: 'POST',
       credentials: 'include', // Include cookies
       headers: {

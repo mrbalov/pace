@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { StravaActivitySignals } from '@torq/get-strava-activity-signals';
 import fetchStravaActivitySignals from './fetchStravaActivitySignals';
