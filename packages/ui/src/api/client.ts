@@ -1,12 +1,9 @@
 /**
  * Base API client with cookie-based authentication.
  * Communicates with /packages/server backend.
- *
- * Requests to /strava/* are proxied to the backend via next.config.mjs rewrites.
- * NEXT_PUBLIC_API_URL is only needed when running without the Next.js server proxy.
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
 
 /**
  * Custom error class for API request failures.

@@ -6,6 +6,25 @@ Please, document here only changes visible to the client app.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2026-02-20
+
+### [22 UI Removed Next.js Server Overwrites](https://github.com/mrbalov/pace/issues/22)
+
+### Changed
+- **BREAKING:** Removed Next.js proxy rewrites for API endpoints, UI now makes direct calls to backend server
+- **BREAKING:** Consolidated API URL configuration to use `NEXT_PUBLIC_API_URL` environment variable exclusively
+- Updated API client to use full backend URLs with fallback to `http://localhost:3000`
+- Updated Docker configurations to use `NEXT_PUBLIC_API_URL` instead of `API_URL` for consistency
+
+### Removed
+- Next.js rewrites configuration from `next.config.mjs` that proxied `/strava/*` requests
+- `API_URL` environment variable usage in Docker compose files
+
+### Technical Notes
+- Backend server must now have CORS configured to allow requests from UI origin
+- All API requests use explicit URLs instead of relying on proxy routing
+- Simplified deployment configuration with single environment variable for API URLs
+
 ## [4.0.0] - 2026-02-20
 
 ### [22 UI Architecture Migration: Vite → Next.js, GeistUI → shadcn/ui with Enhanced SSR](https://github.com/mrbalov/pace/issues/22)

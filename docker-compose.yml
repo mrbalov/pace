@@ -40,8 +40,8 @@ services:
       - NODE_ENV=production
       - PORT=3001
       - HOSTNAME=0.0.0.0
-      # Routes /strava/* and /activity-image-generator/* to internal backend
-      - API_URL=http://server:3000
+      # Direct API calls to backend server
+      - NEXT_PUBLIC_API_URL=http://server:3000
     networks:
       - torq-network
     healthcheck:
